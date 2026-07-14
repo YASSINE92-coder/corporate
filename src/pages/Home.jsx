@@ -7,15 +7,10 @@ import ContentBlock from "../components/ContentBlock"
 import ImpactIcons from "../components/ImpactIcons"
 import CTASection from "../components/CTASection"
 import NewsletterSection from "../components/NewsletterSection"
-import { ThemeToggle } from "../components/theme-toggle"
 
 function Home() {
   return (
     <div className="min-h-screen">
-      <div className="fixed top-4 right-4 z-50">
-        <ThemeToggle />
-      </div>
-      
       <HeroSection />
       <ImpactSection />
       <TrustedSection />

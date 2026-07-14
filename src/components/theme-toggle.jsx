@@ -1,10 +1,10 @@
 import * as React from "react"
-import { Moon, Sun, Monitor } from "lucide-react"
-import { useTheme } from "next-themes"
+import { Moon, Sun } from "lucide-react"
 import { cn } from "../lib/utils"
+import { useTheme } from "../context/ThemeContext"
 
 export function ThemeToggle({ className }) {
-  const { theme, setTheme } = useTheme()
+  const { theme, toggleTheme } = useTheme()
   const [mounted, setMounted] = React.useState(false)
 
   React.useEffect(() => {
@@ -16,37 +16,15 @@ export function ThemeToggle({ className }) {
   }
 
   return (
-    <div className={cn("flex items-center gap-2", className)}>
-      <button
-        onClick={() => setTheme("light")}
-        className={cn(
-          "p-2 rounded-md transition-colors",
-          theme === "light" ? "bg-primary text-primary-foreground" : "hover:bg-muted"
-        )}
-        aria-label="Light mode"
-      >
-        <Sun className="h-5 w-5" />
-      </button>
-      <button
-        onClick={() => setTheme("dark")}
-        className={cn(
-          "p-2 rounded-md transition-colors",
-          theme === "dark" ? "bg-primary text-primary-foreground" : "hover:bg-muted"
-        )}
-        aria-label="Dark mode"
-      >
-        <Moon className="h-5 w-5" />
-      </button>
-      <button
-        onClick={() => setTheme("system")}
-        className={cn(
-          "p-2 rounded-md transition-colors",
-          theme === "system" ? "bg-primary text-primary-foreground" : "hover:bg-muted"
-        )}
-        aria-label="System mode"
-      >
-        <Monitor className="h-5 w-5" />
-      </button>
-    </div>
+    <button
+      onClick={toggleTheme}
+      className={cn(
+        "flex h-9 w-9 items-center justify-center rounded-full border border-slate-200/70 bg-white/80 text-slate-700 shadow-sm transition-all duration-300 hover:scale-105 hover:bg-white dark:border-slate-700/70 dark:bg-slate-900/80 dark:text-slate-100",
+        className
+      )}
+      aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+    >
+      {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+    </button>
   )
 }
