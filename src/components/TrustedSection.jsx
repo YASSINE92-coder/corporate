@@ -1,5 +1,5 @@
+import { useState } from "react"
 import { Card, CardContent } from "./ui/card"
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "./ui/carousel"
 import { motion } from "framer-motion"
 import { fadeInUp } from "../lib/animations"
 
@@ -13,11 +13,14 @@ export default function TrustedSection() {
     { name: "CloudMax", image: "https://placehold.co/150x80/06b6d4/ffffff?text=CloudMax" },
   ]
 
+  const duplicatedPartners = [...partners, ...partners]
+  const [isPaused, setIsPaused] = useState(false)
+
   return (
-    <section className="py-20 md:py-28 bg-muted/50 dark:bg-muted/20">
-      <div className="container max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
+    <section className="w-full py-16 sm:py-20 md:py-28 bg-muted/50 dark:bg-muted/20">
+      <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.h2 
-          className="text-3xl md:text-4xl font-semibold text-center mb-12 text-foreground"
+          className="text-2xl sm:text-3xl md:text-4xl font-semibold text-center mb-8 sm:mb-10 md:mb-12 text-foreground"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
@@ -25,26 +28,47 @@ export default function TrustedSection() {
         >
           Trusted By Industry Leaders
         </motion.h2>
-        <Carousel className="w-full max-w-5xl mx-auto">
-          <CarouselContent>
-            {partners.map((partner) => (
-              <CarouselItem key={partner.name} className="md:basis-1/3 lg:basis-1/3">
-                <Card className="hover:shadow-xl transition-all duration-300 hover:scale-105 rounded-2xl">
-                  <CardContent className="p-6 flex flex-col items-center justify-center">
+
+        <div 
+          className="w-full overflow-hidden"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+        >
+          <motion.div
+            className="flex gap-4 sm:gap-6 md:gap-8"
+            animate={{ x: "-50%" }}
+            transition={{
+              duration: 10,
+              repeat: Infinity,
+              ease: "linear",
+              repeatType: "loop",
+            }}
+            style={{ 
+              pointerEvents: isPaused ? "none" : "auto",
+              willChange: "transform",
+            }}
+          >
+            {duplicatedPartners.map((partner, index) => (
+              <div 
+                key={`${partner.name}-${index}`} 
+                className="flex-shrink-0 w-64 sm:w-72 md:w-80 lg:w-96"
+              >
+                <Card className="h-full hover:shadow-xl transition-all duration-300 hover:scale-105 rounded-xl sm:rounded-2xl overflow-hidden">
+                  <CardContent className="p-4 sm:p-5 md:p-6 flex flex-col items-center justify-center h-full min-h-24 sm:min-h-28 md:min-h-32">
                     <img
                       src={partner.image}
                       alt={partner.name}
-                      className="w-full h-20 object-contain mb-3"
+                      className="w-auto h-12 sm:h-16 md:h-20 object-contain mb-2 sm:mb-3"
                     />
-                    <span className="text-sm font-medium text-muted-foreground">{partner.name}</span>
+                    <span className="text-xs sm:text-sm font-medium text-muted-foreground text-center line-clamp-2">
+                      {partner.name}
+                    </span>
                   </CardContent>
                 </Card>
-              </CarouselItem>
+              </div>
             ))}
-          </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
-        </Carousel>
+          </motion.div>
+        </div>
       </div>
     </section>
   )
