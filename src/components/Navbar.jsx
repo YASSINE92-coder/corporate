@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { NavLink } from 'react-router-dom'
-import { motion, useMotionValueEvent, useScroll, useTransform } from 'framer-motion'
+import { AnimatePresence, motion, useMotionValueEvent, useScroll, useTransform } from 'framer-motion'
 import { useTheme } from 'next-themes'
 import { ThemeToggle } from './theme-toggle'
 
@@ -14,11 +14,48 @@ const navLinks = [
 function Navbar() {
   const { scrollY } = useScroll()
   const [isScrolled, setIsScrolled] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const menuRef = useRef(null)
+  const buttonRef = useRef(null)
   const { resolvedTheme } = useTheme()
 
   useMotionValueEvent(scrollY, 'change', (latest) => {
     setIsScrolled(latest > 50)
   })
+
+  useEffect(() => {
+    if (!isMenuOpen) {
+      document.body.style.overflow = ''
+      return
+    }
+
+    const handleClickOutside = (event) => {
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(event.target) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target)
+      ) {
+        setIsMenuOpen(false)
+      }
+    }
+
+    const handleEscape = (event) => {
+      if (event.key === 'Escape') {
+        setIsMenuOpen(false)
+      }
+    }
+
+    document.body.style.overflow = 'hidden'
+    document.addEventListener('mousedown', handleClickOutside)
+    document.addEventListener('keydown', handleEscape)
+
+    return () => {
+      document.body.style.overflow = ''
+      document.removeEventListener('mousedown', handleClickOutside)
+      document.removeEventListener('keydown', handleEscape)
+    }
+  }, [isMenuOpen])
 
   const backgroundColor = useTransform(
     scrollY,
@@ -28,6 +65,7 @@ function Navbar() {
   )
   const textColor = resolvedTheme === 'dark' ? '#f8fafc' : '#ffffff'
   const scrolledTextColor = resolvedTheme === 'dark' ? '#f8fafc' : '#0f172a'
+  const mobileTextColor = resolvedTheme === 'dark' ? '#f8fafc' : '#0f172a'
   const navTextColor = isScrolled ? scrolledTextColor : textColor
   const borderColor = useTransform(scrollY, [0, 60], ['rgba(255,255,255,0)', 'rgba(15, 23, 42, 0.08)'], { clamp: true })
 
@@ -48,7 +86,29 @@ function Navbar() {
           FM Education Services
         </NavLink>
 
-        <div className="hidden items-center gap-4 md:flex">
+        <div className="flex items-center gap-3 md:hidden">
+          <div className={`rounded-full border p-1 backdrop-blur-md ${resolvedTheme === 'dark' ? 'border-white/15 bg-white/10' : 'border-slate-900/10 bg-white/20'}`}>
+            <ThemeToggle />
+          </div>
+
+          <button
+            ref={buttonRef}
+            type="button"
+            onClick={() => setIsMenuOpen((prev) => !prev)}
+            className={`inline-flex h-10 w-10 items-center justify-center rounded-full border transition-colors ${resolvedTheme === 'dark' ? 'border-white/15 bg-white/10 text-slate-100' : 'border-slate-900/10 bg-white/20 text-slate-900'}`}
+            aria-label={isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+            aria-expanded={isMenuOpen}
+            aria-controls="mobile-navigation-menu"
+          >
+            <span className="flex flex-col gap-1.5">
+              <span className={`h-0.5 w-5 rounded-full transition-all duration-300 ${isMenuOpen ? 'translate-y-2 rotate-45' : ''}`} style={{ backgroundColor: navTextColor }} />
+              <span className={`h-0.5 w-5 rounded-full transition-all duration-300 ${isMenuOpen ? 'opacity-0' : 'opacity-100'}`} style={{ backgroundColor: navTextColor }} />
+              <span className={`h-0.5 w-5 rounded-full transition-all duration-300 ${isMenuOpen ? '-translate-y-2 -rotate-45' : ''}`} style={{ backgroundColor: navTextColor }} />
+            </span>
+          </button>
+        </div>
+
+        <div className="ml-auto hidden items-center gap-4 md:flex">
           {navLinks.map((link) => (
             <NavLink
               key={link.to}
@@ -65,6 +125,35 @@ function Navbar() {
           </div>
         </div>
       </div>
+
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            id="mobile-navigation-menu"
+            ref={menuRef}
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
+            className={`mx-4 mt-2 rounded-2xl border px-4 py-4 shadow-lg backdrop-blur-md md:hidden ${resolvedTheme === 'dark' ? 'border-white/10 bg-slate-950/95' : 'border-slate-900/10 bg-white/95'}`}
+          >
+            <div className="flex flex-col gap-2">
+              {navLinks.map((link) => (
+                <NavLink
+                  key={link.to}
+                  to={link.to}
+                  end={link.to === '/'}
+                  onClick={() => setIsMenuOpen(false)}
+                  className="rounded-lg px-3 py-2 text-base font-medium transition-colors duration-300"
+                  style={{ color: mobileTextColor }}
+                >
+                  {link.label}
+                </NavLink>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.nav>
   )
 }
