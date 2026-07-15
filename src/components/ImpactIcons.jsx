@@ -1,65 +1,50 @@
 import { Target, Users, TrendingUp, Award } from "lucide-react"
 import { motion } from "framer-motion"
 import { staggerContainer, scaleIn } from "../lib/animations"
+import { Container, Section } from "./ui/Container"
 
 export default function ImpactIcons() {
   const impacts = [
     {
       icon: Target,
       title: "Strategic Focus",
-      description: "Clear direction and measurable goals that drive success"
+      description: "Clear direction and measurable goals that guide every engagement"
     },
     {
       icon: Users,
       title: "Team Excellence",
-      description: "Empowering people to achieve their full potential"
+      description: "Empowering leaders and practitioners to deliver with confidence"
     },
     {
       icon: TrendingUp,
       title: "Growth Mindset",
-      description: "Continuous improvement and sustainable development"
+      description: "Continuous improvement rooted in evidence and reflection"
     },
     {
       icon: Award,
       title: "Quality Results",
-      description: "Delivering excellence in every engagement"
+      description: "Delivering clarity, consistency, and stronger outcomes"
     }
   ]
 
   return (
-    <section className="py-20 md:py-28 bg-muted/50 dark:bg-muted/20">
-      <div className="container max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
-        <motion.div 
-          className="grid md:grid-cols-4 gap-6 md:gap-10"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={staggerContainer}
-        >
+    <Section background="muted">
+      <Container>
+        <motion.div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
           {impacts.map((impact) => {
             const Icon = impact.icon
             return (
-              <motion.div 
-                key={impact.title} 
-                className="text-center"
-                variants={scaleIn}
-                whileHover={{ y: -5 }}
-                transition={{ duration: 0.3 }}
-              >
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 dark:bg-primary/20 mb-4 group-hover:bg-primary/20 transition-colors">
-                  <Icon className="h-8 w-8 text-primary" />
+              <motion.div key={impact.title} className="rounded-[28px] border border-slate-200 bg-white p-8 text-center shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:border-slate-800 dark:bg-slate-950" variants={scaleIn} whileHover={{ y: -5, scale: 1.02 }}>
+                <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-blue-50 text-blue-600 dark:bg-blue-900/40 dark:text-blue-300">
+                  <Icon className="h-8 w-8" />
                 </div>
-                <h3 className="text-xl font-semibold mb-3 text-foreground">
-                  {impact.title}
-                </h3>
-                <p className="text-gray-600 dark:text-gray-300">
-                  {impact.description}
-                </p>
+                <h3 className="mb-3 text-xl font-semibold text-slate-900 dark:text-white">{impact.title}</h3>
+                <p className="text-slate-600 dark:text-slate-300">{impact.description}</p>
               </motion.div>
             )
           })}
         </motion.div>
-      </div>
-    </section>
+      </Container>
+    </Section>
   )
 }

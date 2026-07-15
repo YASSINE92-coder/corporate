@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { motion, useMotionValueEvent, useScroll, useTransform } from 'framer-motion'
+import { useTheme } from 'next-themes'
 import { ThemeToggle } from './theme-toggle'
 
 const navLinks = [
@@ -13,6 +14,7 @@ const navLinks = [
 function Navbar() {
   const { scrollY } = useScroll()
   const [isScrolled, setIsScrolled] = useState(false)
+  const { resolvedTheme } = useTheme()
 
   useMotionValueEvent(scrollY, 'change', (latest) => {
     setIsScrolled(latest > 50)
@@ -24,7 +26,9 @@ function Navbar() {
     ['rgba(255,255,255,0)', 'rgba(255,255,255,0.96)'],
     { clamp: true }
   )
-  const textColor = useTransform(scrollY, [0, 60], ['#ffffff', '#0f172a'], { clamp: true })
+  const textColor = resolvedTheme === 'dark' ? '#f8fafc' : '#ffffff'
+  const scrolledTextColor = resolvedTheme === 'dark' ? '#f8fafc' : '#0f172a'
+  const navTextColor = isScrolled ? scrolledTextColor : textColor
   const borderColor = useTransform(scrollY, [0, 60], ['rgba(255,255,255,0)', 'rgba(15, 23, 42, 0.08)'], { clamp: true })
 
   return (
@@ -40,8 +44,8 @@ function Navbar() {
       }}
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8 md:h-20">
-        <NavLink to="/" className="text-xl font-semibold tracking-tight" style={{ color: textColor }}>
-          Corporate
+        <NavLink to="/" className="text-xl font-semibold tracking-tight" style={{ color: navTextColor }}>
+          FM Education Services
         </NavLink>
 
         <div className="hidden items-center gap-4 md:flex">
@@ -51,12 +55,12 @@ function Navbar() {
               to={link.to}
               end={link.to === '/'}
               className="text-sm font-medium transition-colors duration-300"
-              style={{ color: textColor }}
+              style={{ color: navTextColor }}
             >
               {link.label}
             </NavLink>
           ))}
-          <div className="ml-2 rounded-full border border-white/20 bg-white/10 p-1 backdrop-blur-md">
+          <div className={`ml-2 rounded-full border p-1 backdrop-blur-md ${resolvedTheme === 'dark' ? 'border-white/15 bg-white/10' : 'border-slate-900/10 bg-white/20'}`}>
             <ThemeToggle />
           </div>
         </div>

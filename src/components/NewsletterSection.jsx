@@ -2,64 +2,37 @@ import { Mail } from "lucide-react"
 import { useState } from "react"
 import { motion } from "framer-motion"
 import { fadeInUp, scaleIn } from "../lib/animations"
+import { Container, Section } from "./ui/Container"
+import { Button } from "./ui/button"
 
 export default function NewsletterSection() {
   const [email, setEmail] = useState("")
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    // Handle newsletter subscription
     console.log("Subscribed:", email)
     setEmail("")
   }
 
   return (
-    <section className="py-20 md:py-28 bg-background">
-      <div className="container max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
-        <motion.div 
-          className="max-w-2xl mx-auto text-center"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeInUp}
-        >
-          <motion.div 
-            className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 dark:bg-primary/20 mb-6"
-            variants={scaleIn}
-          >
-            <Mail className="h-8 w-8 text-primary" />
+    <Section>
+      <Container>
+        <motion.div className="mx-auto max-w-2xl rounded-[32px] border border-slate-200 bg-slate-50 p-8 text-center shadow-sm dark:border-slate-800 dark:bg-slate-900 md:p-10" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
+          <motion.div className="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-blue-50 text-blue-600 dark:bg-blue-900/40 dark:text-blue-300" variants={scaleIn}>
+            <Mail className="h-8 w-8" />
           </motion.div>
-          <h2 className="text-3xl md:text-4xl font-semibold text-foreground mb-4">
-            Stay Informed
-          </h2>
-          <p className="text-gray-600 dark:text-gray-300 mb-8">
-            Subscribe to our newsletter for insights, industry trends, and expert advice.
+          <h2 className="mb-4 text-3xl font-semibold tracking-tight text-slate-900 dark:text-white md:text-4xl">Stay informed</h2>
+          <p className="mb-8 text-lg leading-8 text-slate-600 dark:text-slate-300">
+            Subscribe for practical insights, sector updates, and expert guidance that supports your next improvement step.
           </p>
-          <motion.form 
-            onSubmit={handleSubmit} 
-            className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto"
-            variants={fadeInUp}
-          >
-            <motion.input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
-              className="flex-1 px-6 py-4 rounded-2xl border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-all duration-300"
-              required
-              whileFocus={{ scale: 1.02 }}
-            />
-            <motion.button
-              type="submit"
-              className="px-8 py-4 bg-primary text-primary-foreground rounded-2xl font-semibold hover:bg-primary/90 transition-all duration-300 shadow-lg hover:shadow-xl"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
+          <motion.form onSubmit={handleSubmit} className="mx-auto flex max-w-md flex-col gap-4 sm:flex-row" variants={fadeInUp}>
+            <motion.input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter your email" className="flex-1 rounded-2xl border border-slate-300 bg-white px-5 py-4 text-slate-900 outline-none ring-0 transition-all duration-300 placeholder:text-slate-400 focus:border-blue-500 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100" required whileFocus={{ scale: 1.02 }} />
+            <Button type="submit" variant="primary" className="shadow-sm">
               Subscribe
-            </motion.button>
+            </Button>
           </motion.form>
         </motion.div>
-      </div>
-    </section>
+      </Container>
+    </Section>
   )
 }

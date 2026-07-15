@@ -1,88 +1,61 @@
 import { ChevronLeft, ChevronRight, Quote } from "lucide-react"
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { fadeIn, slideInLeft, slideInRight } from "../lib/animations"
+import { fadeIn } from "../lib/animations"
+import { Container, Section } from "./ui/Container"
 
 export default function TestimonialSection() {
   const [currentIndex, setCurrentIndex] = useState(0)
 
   const testimonials = [
     {
-      quote: "Working with this consulting firm transformed our business strategy. Their insights helped us increase revenue by 40% within six months.",
+      quote: "Their guidance made our safeguarding review feel structured, supportive, and genuinely useful. The recommendations were practical and immediately actionable.",
       author: "Sarah Johnson",
-      role: "CEO, TechStart Inc."
+      role: "Headteacher, St. Anne's School"
     },
     {
-      quote: "The team's expertise in digital transformation was invaluable. They guided us through a complete modernization of our systems.",
+      quote: "The support was thoughtful, professional, and tailored to our setting. We left the process feeling more confident and better equipped.",
       author: "Michael Chen",
-      role: "CTO, Global Solutions"
+      role: "Deputy Head, Northfield Academy"
     },
     {
-      quote: "Professional, knowledgeable, and results-driven. They delivered beyond our expectations and continue to be trusted advisors.",
+      quote: "The consultation added real clarity to our improvement planning. It brought calm, confidence, and focus to a challenging period.",
       author: "Emily Rodriguez",
-      role: "Director, Innovate Corp"
+      role: "SENDCO, Meadow Grove School"
     }
   ]
 
-  const handlePrevious = () => {
-    setCurrentIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1))
-  }
-
-  const handleNext = () => {
-    setCurrentIndex((prev) => (prev === testimonials.length - 1 ? 0 : prev + 1))
-  }
+  const handlePrevious = () => setCurrentIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1))
+  const handleNext = () => setCurrentIndex((prev) => (prev === testimonials.length - 1 ? 0 : prev + 1))
 
   return (
-    <section className="py-20 md:py-28 bg-primary">
-      <div className="container max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto text-center">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeIn}
-          >
-            <Quote className="h-12 w-12 mx-auto mb-6 text-primary-foreground opacity-50" />
+    <Section background="accent">
+      <Container>
+        <div className="mx-auto max-w-4xl text-center">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
+            <Quote className="mx-auto mb-6 h-12 w-12 text-blue-200" />
           </motion.div>
           <AnimatePresence mode="wait">
-            <motion.div
-              key={currentIndex}
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              transition={{ duration: 0.5 }}
-            >
-              <blockquote className="text-2xl md:text-3xl font-medium text-primary-foreground mb-8 leading-relaxed">
-                "{testimonials[currentIndex].quote}"
+            <motion.div key={currentIndex} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.5 }}>
+              <blockquote className="mb-8 text-2xl font-medium leading-relaxed text-white md:text-3xl">
+                “{testimonials[currentIndex].quote}”
               </blockquote>
-              <div className="text-primary-foreground mb-8">
-                <p className="font-semibold text-lg">{testimonials[currentIndex].author}</p>
+              <div className="mb-8 text-white">
+                <p className="text-lg font-semibold">{testimonials[currentIndex].author}</p>
                 <p className="opacity-80">{testimonials[currentIndex].role}</p>
               </div>
             </motion.div>
           </AnimatePresence>
           <div className="flex justify-center gap-4">
-            <motion.button
-              onClick={handlePrevious}
-              className="p-3 rounded-full bg-primary-foreground/10 hover:bg-primary-foreground/20 transition-all duration-300 hover:scale-110"
-              aria-label="Previous testimonial"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <ChevronLeft className="h-6 w-6 text-primary-foreground" />
+            <motion.button onClick={handlePrevious} className="rounded-full border border-white/20 bg-white/10 p-3 transition-all duration-300 hover:scale-110 hover:bg-white/20" aria-label="Previous testimonial" whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+              <ChevronLeft className="h-6 w-6 text-white" />
             </motion.button>
-            <motion.button
-              onClick={handleNext}
-              className="p-3 rounded-full bg-primary-foreground/10 hover:bg-primary-foreground/20 transition-all duration-300 hover:scale-110"
-              aria-label="Next testimonial"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <ChevronRight className="h-6 w-6 text-primary-foreground" />
+            <motion.button onClick={handleNext} className="rounded-full border border-white/20 bg-white/10 p-3 transition-all duration-300 hover:scale-110 hover:bg-white/20" aria-label="Next testimonial" whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+              <ChevronRight className="h-6 w-6 text-white" />
             </motion.button>
           </div>
         </div>
-      </div>
-    </section>
+      </Container>
+    </Section>
   )
 }

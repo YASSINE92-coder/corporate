@@ -1,34 +1,25 @@
 import { ArrowRight } from "lucide-react"
 import { motion } from "framer-motion"
 import { fadeInUp } from "../lib/animations"
+import { Button } from "./ui/button"
+import { Container, Section } from "./ui/Container"
 
 export default function CTASection() {
   return (
-    <section className="py-20 md:py-28 bg-gradient-to-r from-primary to-primary/90 dark:from-blue-900 dark:to-blue-800">
-      <div className="container max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
-        <motion.div 
-          className="max-w-3xl mx-auto text-center"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeInUp}
-        >
-          <h2 className="text-3xl md:text-4xl font-semibold text-primary-foreground mb-6">
-            Ready to Transform Your Business?
+    <Section background="accent">
+      <Container>
+        <motion.div className="mx-auto max-w-3xl rounded-[32px] border border-white/10 bg-white/10 p-10 text-center shadow-2xl backdrop-blur-md md:p-14" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
+          <h2 className="mb-6 text-3xl font-semibold text-white md:text-4xl">
+            Ready to strengthen your setting?
           </h2>
-          <p className="text-lg text-primary-foreground/90 mb-8">
-            Let's discuss how our consulting services can help you achieve your goals and drive sustainable growth.
+          <p className="mb-8 text-lg leading-8 text-blue-100">
+            Let’s discuss how our education support can help you improve safeguarding, inclusion, and leadership practice with confidence.
           </p>
-          <motion.button 
-            className="inline-flex items-center gap-2 bg-white text-primary dark:bg-primary-foreground dark:text-primary px-8 py-4 rounded-2xl font-semibold hover:bg-gray-100 dark:hover:bg-gray-100 dark:hover:text-primary transition-all duration-300 shadow-lg hover:shadow-xl"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Get Started Today
-            <ArrowRight className="h-5 w-5" />
-          </motion.button>
+          <Button as="a" href="/contact" variant="secondary" className="bg-white text-slate-900 hover:bg-slate-100" icon>
+            Get started today
+          </Button>
         </motion.div>
-      </div>
-    </section>
+      </Container>
+    </Section>
   )
 }
