@@ -8,9 +8,9 @@ import Contact from './pages/Contact'
 
 function App() {
   return (
-    <div className="app">
+    <div className="min-h-screen bg-white text-slate-900 transition-colors duration-300 dark:bg-slate-950 dark:text-slate-50">
       <Navbar />
-      <main className="main-content">
+      <main className="min-h-screen">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
