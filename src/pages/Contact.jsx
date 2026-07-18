@@ -1,10 +1,14 @@
-import { ArrowRight, Mail, Phone, Clock3 } from "lucide-react"
+import { useState } from "react"
+import { Mail, Phone, Clock3, CheckCircle2 } from "lucide-react"
 import { motion } from "framer-motion"
 import PageHero from "../components/PageHero"
 import CTASection from "../components/CTASection"
 import { fadeInUp } from "../lib/animations"
 import { Container, Section } from "../components/ui/Container"
 import { Button } from "../components/ui/button"
+import { Input } from "../components/ui/input"
+import { Textarea } from "../components/ui/textarea"
+import { Label } from "../components/ui/label"
 
 const contactDetails = [
   {
@@ -12,51 +16,73 @@ const contactDetails = [
     value: "fatiha.maitland1@gmail.com",
     subtitle: "For enquiries and consultations",
     icon: Mail,
+    href: "mailto:fatiha.maitland1@gmail.com",
   },
   {
-    title: "Phone",
+    title: "Telephone",
     value: "+44 (0) 770 426 7745",
-    subtitle: "Available for urgent support and scheduling",
+    subtitle: "Call us whenever you need support",
     icon: Phone,
+    href: "tel:+447704267745",
   },
   {
     title: "Response time",
     value: "Same day",
-    subtitle: "We aim to reply promptly whenever possible",
+    subtitle: "If we are not immediately available, we will get back to you within the same day",
     icon: Clock3,
   },
 ]
 
 function Contact() {
+  const [submitted, setSubmitted] = useState(false)
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    setSubmitted(true)
+  }
+
   return (
-    <div className="min-h-screen bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-50">
+    <div className="min-h-screen bg-background text-foreground">
       <PageHero
         eyebrow="Contact us"
-        title="Let’s talk about the support your setting needs"
-        description="Whether you are planning an improvement project or looking for expert guidance, our team is ready to help you take the next step."
-        image="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1600&q=80"
+        title="Get in touch at any time of day"
+        description="You can contact us at any time of your day and if we are not immediately available we will get back to you as soon as possible — usually within the same day."
+        image="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1600&q=80"
       />
 
       <Section>
         <Container>
           <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr]">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
-              <p className="mb-4 text-sm font-semibold uppercase tracking-[0.35em] text-blue-600">Get in touch</p>
-              <h2 className="mb-6 text-3xl font-semibold tracking-tight md:text-4xl">We are here to support your next step</h2>
-              <p className="mb-8 text-lg leading-8 text-slate-600 dark:text-slate-300">Reach out for safeguarding support, SEND and inclusion reviews, or leadership development. We offer thoughtful, responsive guidance that fits your circumstances.</p>
+              <p className="mb-4 text-sm font-semibold uppercase tracking-[0.28em] text-primary">Get in touch</p>
+              <h2 className="mb-6 font-display text-3xl font-semibold tracking-tight md:text-4xl">
+                We are here to support your next step
+              </h2>
+              <p className="mb-8 text-lg leading-8 text-muted-foreground">
+                Reach out for safeguarding support, SEND and inclusion reviews, or school improvement guidance.
+              </p>
 
               <div className="space-y-4">
                 {contactDetails.map((detail) => {
                   const Icon = detail.icon
+                  const ValueTag = detail.href ? "a" : "p"
                   return (
-                    <div key={detail.title} className="flex items-start gap-4 rounded-[24px] border border-slate-200 bg-slate-50 p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-                      <div className="rounded-2xl bg-blue-50 p-3 text-blue-600 dark:bg-blue-900/40 dark:text-blue-300">
+                    <div
+                      key={detail.title}
+                      className="flex items-start gap-4 rounded-3xl border border-border bg-muted/40 p-5 shadow-sm transition hover:shadow-md"
+                    >
+                      <div className="rounded-2xl bg-accent p-3 text-accent-foreground">
                         <Icon className="h-5 w-5" />
                       </div>
                       <div>
                         <h3 className="text-lg font-semibold">{detail.title}</h3>
-                        <p className="font-medium text-slate-900 dark:text-slate-100">{detail.value}</p>
-                        <p className="text-sm text-slate-600 dark:text-slate-300">{detail.subtitle}</p>
+                        <ValueTag
+                          {...(detail.href ? { href: detail.href } : {})}
+                          className="font-medium text-foreground"
+                        >
+                          {detail.value}
+                        </ValueTag>
+                        <p className="text-sm text-muted-foreground">{detail.subtitle}</p>
                       </div>
                     </div>
                   )
@@ -64,19 +90,52 @@ function Contact() {
               </div>
             </motion.div>
 
-            <motion.div className="rounded-[32px] border border-slate-200 bg-slate-50 p-8 shadow-sm dark:border-slate-800 dark:bg-slate-900" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
-              <h3 className="mb-6 text-2xl font-semibold">Send a message</h3>
-              <form className="space-y-5">
-                <div className="grid gap-5 md:grid-cols-2">
-                  <input className="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none ring-0 transition-colors focus:border-blue-500 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100" placeholder="Name" />
-                  <input className="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none ring-0 transition-colors focus:border-blue-500 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100" placeholder="Email" />
+            <motion.div
+              className="rounded-3xl border border-border bg-card p-8 shadow-sm"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeInUp}
+            >
+              {submitted ? (
+                <div className="flex min-h-[320px] flex-col items-center justify-center text-center">
+                  <CheckCircle2 className="mb-4 h-12 w-12 text-primary" />
+                  <h3 className="mb-2 font-display text-2xl font-semibold">Thank you</h3>
+                  <p className="max-w-sm text-muted-foreground">
+                    Your message has been noted. We aim to respond within the same day.
+                  </p>
+                  <Button className="mt-6" variant="secondary" onClick={() => setSubmitted(false)}>
+                    Send another message
+                  </Button>
                 </div>
-                <input className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none ring-0 transition-colors focus:border-blue-500 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100" placeholder="Organisation" />
-                <textarea rows="5" className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none ring-0 transition-colors focus:border-blue-500 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100" placeholder="How can we help?" />
-                <Button type="submit" variant="primary" className="shadow-sm" icon>
-                  Send message
-                </Button>
-              </form>
+              ) : (
+                <>
+                  <h3 className="mb-6 font-display text-2xl font-semibold">Send a message</h3>
+                  <form className="space-y-5" onSubmit={handleSubmit}>
+                    <div className="grid gap-5 md:grid-cols-2">
+                      <div className="space-y-2">
+                        <Label htmlFor="name">Name</Label>
+                        <Input id="name" name="name" placeholder="Your name" required />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="email">Email</Label>
+                        <Input id="email" name="email" type="email" placeholder="you@school.org" required />
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="organisation">Organisation</Label>
+                      <Input id="organisation" name="organisation" placeholder="School or setting" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="message">How can we help?</Label>
+                      <Textarea id="message" name="message" rows={5} placeholder="Tell us about your needs" required />
+                    </div>
+                    <Button type="submit" variant="primary" icon>
+                      Send message
+                    </Button>
+                  </form>
+                </>
+              )}
             </motion.div>
           </div>
         </Container>

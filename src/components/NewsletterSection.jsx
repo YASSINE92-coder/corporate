@@ -18,7 +18,7 @@ export default function NewsletterSection() {
     <Section>
       <Container>
         <motion.div className="mx-auto max-w-2xl rounded-[32px] border border-slate-200 bg-slate-50 p-8 text-center shadow-sm dark:border-slate-800 dark:bg-slate-900 md:p-10" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
-          <motion.div className="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-blue-50 text-blue-600 dark:bg-blue-900/40 dark:text-blue-300" variants={scaleIn}>
+          <motion.div className="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-accent text-primary dark:bg-accent dark:text-accent-foreground" variants={scaleIn}>
             <Mail className="h-8 w-8" />
           </motion.div>
           <h2 className="mb-4 text-3xl font-semibold tracking-tight text-slate-900 dark:text-white md:text-4xl">Stay informed</h2>

@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
+import FloatingContact from './components/FloatingContact'
 import Home from './pages/Home'
 import About from './pages/About'
 import Services from './pages/Services'
@@ -9,7 +10,7 @@ import ScrollToTop from './ScrollToTop'
 
 function App() {
   return (
-    <div className="min-h-screen bg-white text-slate-900 transition-colors duration-300 dark:bg-slate-950 dark:text-slate-50">
+    <div className="min-h-screen bg-background text-foreground transition-colors duration-300">
       <Navbar />
       <main className="min-h-screen">
         <ScrollToTop />
@@ -21,6 +22,7 @@ function App() {
         </Routes>
       </main>
       <Footer />
+      <FloatingContact />
     </div>
   )
 }

@@ -10,9 +10,9 @@ export function Container({ children, className, as: Component = "div" }) {
 
 export function Section({ children, className, id, background = "default" }) {
   const backgrounds = {
-    default: "bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-50",
-    muted: "bg-slate-50 text-slate-900 dark:bg-slate-900/70 dark:text-slate-50",
-    accent: "bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 text-white",
+    default: "bg-background text-foreground",
+    muted: "bg-muted/60 text-foreground dark:bg-muted/40",
+    accent: "hero-gradient text-white",
   }
 
   return (
@@ -24,17 +24,17 @@ export function Section({ children, className, id, background = "default" }) {
 
 export function SectionHeading({ eyebrow, title, description, align = "center" }) {
   return (
-    <div className={cn("mx-auto mb-14 max-w-3xl", align === "left" ? "ml-0" : "text-center") }>
+    <div className={cn("mx-auto mb-14 max-w-3xl", align === "left" ? "ml-0 text-left" : "text-center")}>
       {eyebrow ? (
-        <p className="mb-4 text-sm font-semibold uppercase tracking-[0.35em] text-blue-600">
+        <p className="mb-4 text-sm font-semibold uppercase tracking-[0.28em] text-primary">
           {eyebrow}
         </p>
       ) : null}
-      <h2 className="text-3xl font-semibold tracking-tight text-slate-900 dark:text-white md:text-4xl">
+      <h2 className="font-display text-3xl font-semibold tracking-tight text-foreground md:text-4xl text-balance">
         {title}
       </h2>
       {description ? (
-        <p className="mx-auto mt-5 text-lg leading-8 text-slate-600 dark:text-slate-300">
+        <p className={cn("mt-5 text-lg leading-8 text-muted-foreground", align === "center" && "mx-auto")}>
           {description}
         </p>
       ) : null}

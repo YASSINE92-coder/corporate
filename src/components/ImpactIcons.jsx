@@ -7,23 +7,23 @@ export default function ImpactIcons() {
   const impacts = [
     {
       icon: Target,
-      title: "Strategic Focus",
-      description: "Clear direction and measurable goals that guide every engagement"
+      title: "Safeguarding first",
+      description: "Committed to KCSIE and Working Together to Safeguard Children"
     },
     {
       icon: Users,
-      title: "Team Excellence",
-      description: "Empowering leaders and practitioners to deliver with confidence"
+      title: "Whole-school SEND",
+      description: "Reviews that strengthen provision and support SENCos in their role"
     },
     {
       icon: TrendingUp,
-      title: "Growth Mindset",
-      description: "Continuous improvement rooted in evidence and reflection"
+      title: "Inspection readiness",
+      description: "Mock reviews using UK, UAE, and BSO inspection frameworks"
     },
     {
       icon: Award,
-      title: "Quality Results",
-      description: "Delivering clarity, consistency, and stronger outcomes"
+      title: "Raising achievement",
+      description: "Helping every child and young person achieve their very best"
     }
   ]
 
@@ -35,7 +35,7 @@ export default function ImpactIcons() {
             const Icon = impact.icon
             return (
               <motion.div key={impact.title} className="rounded-[28px] border border-slate-200 bg-white p-8 text-center shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:border-slate-800 dark:bg-slate-950" variants={scaleIn} whileHover={{ y: -5, scale: 1.02 }}>
-                <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-blue-50 text-blue-600 dark:bg-blue-900/40 dark:text-blue-300">
+                <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-accent text-primary dark:bg-accent dark:text-accent-foreground">
                   <Icon className="h-8 w-8" />
                 </div>
                 <h3 className="mb-3 text-xl font-semibold text-slate-900 dark:text-white">{impact.title}</h3>
