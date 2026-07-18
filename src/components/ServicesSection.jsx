@@ -1,56 +1,93 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card"
+import { Link } from "react-router-dom"
 import { motion } from "framer-motion"
+import { ArrowUpRight, GraduationCap, SearchCheck, ShieldCheck } from "lucide-react"
 import { fadeInUp, staggerContainer, fadeInUpStagger } from "../lib/animations"
 import { Container, Section, SectionHeading } from "./ui/Container"
-import { ShieldCheck, SearchCheck, GraduationCap } from "lucide-react"
+import { Badge } from "./ui/badge"
+
+const services = [
+  {
+    title: "Safeguarding Support",
+    description: "Bespoke advice, face-to-face training, and auditing — including Ofsted pre-registration preparation for schools and Early Years settings.",
+    image: "https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=900&q=80",
+    icon: ShieldCheck,
+    span: "md:col-span-2 md:row-span-2",
+    featured: true,
+  },
+  {
+    title: "SEND & Inclusion Reviews",
+    description: "One-to-two-day reviews that empower leaders, support SENCos, and raise achievement for all pupils.",
+    image: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=800&q=80",
+    icon: SearchCheck,
+    span: "md:col-span-1",
+  },
+  {
+    title: "School Improvement Advisory",
+    description: "Coaching and mock reviews using UK, UAE, and BSO frameworks.",
+    image: "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&w=800&q=80",
+    icon: GraduationCap,
+    span: "md:col-span-1",
+  },
+]
 
 export default function ServicesSection() {
-  const services = [
-    {
-      title: "Safeguarding Support",
-      description: "Tailored safeguarding advice, auditing, and training designed to help settings meet expectations with confidence.",
-      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80",
-      icon: ShieldCheck,
-    },
-    {
-      title: "SEND & Inclusion Reviews",
-      description: "Focused reviews that evaluate provision, support leaders, and strengthen outcomes for every child and young person.",
-      image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=600&q=80",
-      icon: SearchCheck,
-    },
-    {
-      title: "Leadership Development",
-      description: "Practical coaching and mentoring that helps teams improve quality, consistency, and long-term improvement capability.",
-      image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=600&q=80",
-      icon: GraduationCap,
-    }
-  ]
-
   return (
     <Section>
       <Container>
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
-          <SectionHeading eyebrow="Services" title="Expert support built around your setting" description="A sharp, practical consultancy service covering safeguarding, SEND, and school improvement." />
+          <SectionHeading
+            eyebrow="Services"
+            title="Expert support built around your setting"
+            description="Safeguarding, SEND, and school improvement — tailored to your context and inspection frameworks."
+          />
         </motion.div>
-        <motion.div className="grid gap-6 md:grid-cols-3" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
+
+        <motion.div
+          className="grid gap-4 md:grid-cols-3 md:grid-rows-2 md:gap-5"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={staggerContainer}
+        >
           {services.map((service) => {
             const Icon = service.icon
             return (
-              <motion.div key={service.title} variants={fadeInUpStagger} whileHover={{ y: -8, scale: 1.02 }} transition={{ duration: 0.2 }}>
-                <Card className="h-full overflow-hidden rounded-[28px] border-slate-200 bg-white shadow-sm transition-all duration-300 hover:shadow-xl dark:border-slate-800 dark:bg-slate-950">
-                  <div className="h-48 overflow-hidden">
-                    <motion.img src={service.image} alt={service.title} className="h-full w-full object-cover" whileHover={{ scale: 1.08 }} transition={{ duration: 0.3 }} />
-                  </div>
-                  <CardHeader>
-                    <div className="mb-3 inline-flex rounded-2xl bg-blue-50 p-3 text-blue-600 dark:bg-blue-900/40 dark:text-blue-300">
+              <motion.div
+                key={service.title}
+                variants={fadeInUpStagger}
+                className={service.span}
+              >
+                <Link
+                  to="/services"
+                  className={`group relative flex h-full min-h-[220px] overflow-hidden rounded-3xl border border-border bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${
+                    service.featured ? "md:min-h-full" : ""
+                  }`}
+                >
+                  <img
+                    src={service.image}
+                    alt=""
+                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/50 to-slate-950/20" />
+
+                  <div className="relative z-10 flex h-full flex-col justify-end p-6 md:p-8">
+                    <div className="mb-4 inline-flex w-fit rounded-2xl bg-white/15 p-3 text-white backdrop-blur">
                       <Icon className="h-5 w-5" />
                     </div>
-                    <CardTitle>{service.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <CardDescription className="text-base leading-7 text-slate-600 dark:text-slate-300">{service.description}</CardDescription>
-                  </CardContent>
-                </Card>
+                    {service.featured ? (
+                      <Badge className="mb-3 w-fit bg-primary text-primary-foreground">Core service</Badge>
+                    ) : null}
+                    <h3 className="mb-2 font-display text-2xl font-semibold text-white md:text-3xl">
+                      {service.title}
+                    </h3>
+                    <p className={`text-sm leading-7 text-white/80 md:text-base ${service.featured ? "max-w-md" : ""}`}>
+                      {service.description}
+                    </p>
+                    <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-white/90 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                      Learn more <ArrowUpRight className="h-4 w-4" />
+                    </span>
+                  </div>
+                </Link>
               </motion.div>
             )
           })}

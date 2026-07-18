@@ -4,9 +4,8 @@ import TrustedSection from "../components/TrustedSection"
 import ServicesSection from "../components/ServicesSection"
 import TestimonialSection from "../components/TestimonialSection"
 import ContentBlock from "../components/ContentBlock"
-import ImpactIcons from "../components/ImpactIcons"
+import FAQSection from "../components/FAQSection"
 import CTASection from "../components/CTASection"
-import NewsletterSection from "../components/NewsletterSection"
 
 function Home() {
   return (
@@ -17,19 +16,20 @@ function Home() {
       <ServicesSection />
       <TestimonialSection />
       <ContentBlock
-        title="Excellence in Awards"
-        description="Our commitment to excellence has been recognized through numerous industry awards and accolades. We take pride in delivering outstanding results that consistently exceed client expectations and set new standards in the consulting industry."
-        image="https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?auto=format&fit=crop&w=800&q=80"
+        eyebrow="Leadership"
+        title="35+ years of education expertise"
+        description="Fatiha Maitland, Director of FM Education Services, is a senior inspector and education consultant with extensive experience across the UK, UAE, GCC, and British Schools Overseas. Her coaching style helps schools accelerate performance with clarity and confidence."
+        image="https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1000&q=80"
       />
       <ContentBlock
-        title="High Quality Consultants"
-        description="Our team consists of highly experienced consultants with deep expertise across various industries. Each consultant brings unique insights and proven methodologies to help your organization navigate complex challenges and seize new opportunities."
-        image="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80"
+        eyebrow="Impact"
+        title="Safeguarding and SEND that make a difference"
+        description="From face-to-face safeguarding training and auditing to one-to-two-day SEND and inclusion reviews, we provide bespoke support that strengthens provision, meets statutory obligations, and raises achievement for all pupils."
+        image="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1000&q=80"
         reverse
       />
-      <ImpactIcons />
+      <FAQSection />
       <CTASection />
-      <NewsletterSection />
     </div>
   )
 }
