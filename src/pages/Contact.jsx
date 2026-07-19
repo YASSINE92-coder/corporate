@@ -1,6 +1,7 @@
 import { useState } from "react"
-import { Mail, Phone, Clock3, CheckCircle2 } from "lucide-react"
+import { Mail, Phone, Clock3, CheckCircle2, AlertCircle, Loader2 } from "lucide-react"
 import { motion } from "framer-motion"
+import { toast } from "sonner"
 import PageHero from "../components/PageHero"
 import CTASection from "../components/CTASection"
 import { fadeInUp } from "../lib/animations"
@@ -9,6 +10,8 @@ import { Button } from "../components/ui/button"
 import { Input } from "../components/ui/input"
 import { Textarea } from "../components/ui/textarea"
 import { Label } from "../components/ui/label"
+import { Alert, AlertDescription, AlertTitle } from "../components/ui/alert"
+import { sendContactEmail } from "../lib/emailjs"
 
 const contactDetails = [
   {
@@ -33,12 +36,48 @@ const contactDetails = [
   },
 ]
 
-function Contact() {
-  const [submitted, setSubmitted] = useState(false)
+const initialForm = {
+  name: "",
+  email: "",
+  organisation: "",
+  message: "",
+}
 
-  const handleSubmit = (event) => {
+function Contact() {
+  const [form, setForm] = useState(initialForm)
+  const [status, setStatus] = useState("idle") // idle | loading | success | error
+  const [errorMessage, setErrorMessage] = useState("")
+
+  const handleChange = (event) => {
+    const { name, value } = event.target
+    setForm((prev) => ({ ...prev, [name]: value }))
+  }
+
+  const handleSubmit = async (event) => {
     event.preventDefault()
-    setSubmitted(true)
+    setStatus("loading")
+    setErrorMessage("")
+
+    try {
+      await sendContactEmail(form)
+      setStatus("success")
+      setForm(initialForm)
+      toast.success("Message sent successfully", {
+        description: "We aim to respond within the same day.",
+      })
+    } catch (error) {
+      const message = error?.text || error?.message || "Something went wrong. Please try again."
+      setStatus("error")
+      setErrorMessage(message)
+      toast.error("Could not send message", {
+        description: message,
+      })
+    }
+  }
+
+  const resetForm = () => {
+    setStatus("idle")
+    setErrorMessage("")
   }
 
   return (
@@ -97,16 +136,20 @@ function Contact() {
               viewport={{ once: true }}
               variants={fadeInUp}
             >
-              {submitted ? (
-                <div className="flex min-h-[320px] flex-col items-center justify-center text-center">
-                  <CheckCircle2 className="mb-4 h-12 w-12 text-primary" />
-                  <h3 className="mb-2 font-display text-2xl font-semibold">Thank you</h3>
-                  <p className="max-w-sm text-muted-foreground">
-                    Your message has been noted. We aim to respond within the same day.
-                  </p>
-                  <Button className="mt-6" variant="secondary" onClick={() => setSubmitted(false)}>
-                    Send another message
-                  </Button>
+              {status === "success" ? (
+                <div className="flex min-h-[320px] flex-col justify-center gap-6">
+                  <Alert variant="success">
+                    <CheckCircle2 className="h-4 w-4" />
+                    <AlertTitle>Message sent</AlertTitle>
+                    <AlertDescription>
+                      Your email was delivered successfully. We aim to respond within the same day.
+                    </AlertDescription>
+                  </Alert>
+                  <div className="text-center">
+                    <Button variant="secondary" onClick={resetForm}>
+                      Send another message
+                    </Button>
+                  </div>
                 </div>
               ) : (
                 <>
@@ -115,23 +158,72 @@ function Contact() {
                     <div className="grid gap-5 md:grid-cols-2">
                       <div className="space-y-2">
                         <Label htmlFor="name">Name</Label>
-                        <Input id="name" name="name" placeholder="Your name" required />
+                        <Input
+                          id="name"
+                          name="name"
+                          value={form.name}
+                          onChange={handleChange}
+                          placeholder="Your name"
+                          required
+                          disabled={status === "loading"}
+                        />
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="email">Email</Label>
-                        <Input id="email" name="email" type="email" placeholder="you@school.org" required />
+                        <Input
+                          id="email"
+                          name="email"
+                          type="email"
+                          value={form.email}
+                          onChange={handleChange}
+                          placeholder="you@school.org"
+                          required
+                          disabled={status === "loading"}
+                        />
                       </div>
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="organisation">Organisation</Label>
-                      <Input id="organisation" name="organisation" placeholder="School or setting" />
+                      <Input
+                        id="organisation"
+                        name="organisation"
+                        value={form.organisation}
+                        onChange={handleChange}
+                        placeholder="School or setting"
+                        disabled={status === "loading"}
+                      />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="message">How can we help?</Label>
-                      <Textarea id="message" name="message" rows={5} placeholder="Tell us about your needs" required />
+                      <Textarea
+                        id="message"
+                        name="message"
+                        rows={5}
+                        value={form.message}
+                        onChange={handleChange}
+                        placeholder="Tell us about your needs"
+                        required
+                        disabled={status === "loading"}
+                      />
                     </div>
-                    <Button type="submit" variant="primary" icon>
-                      Send message
+
+                    {status === "error" ? (
+                      <Alert variant="destructive">
+                        <AlertCircle className="h-4 w-4" />
+                        <AlertTitle>Sending failed</AlertTitle>
+                        <AlertDescription>{errorMessage}</AlertDescription>
+                      </Alert>
+                    ) : null}
+
+                    <Button type="submit" variant="primary" icon={status !== "loading"} disabled={status === "loading"}>
+                      {status === "loading" ? (
+                        <>
+                          <Loader2 className="h-4 w-4 animate-spin" />
+                          Sending...
+                        </>
+                      ) : (
+                        "Send message"
+                      )}
                     </Button>
                   </form>
                 </>
