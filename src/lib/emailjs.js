@@ -3,8 +3,6 @@ import emailjs from "@emailjs/browser"
 const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID
 const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID
 const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-/** Optional: only needed if linked Auto-Reply still fails — send the auto-reply template explicitly */
-const AUTO_REPLY_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_AUTO_REPLY_TEMPLATE_ID
 
 let initialized = false
 
@@ -23,65 +21,45 @@ export function isEmailJsConfigured() {
 }
 
 /**
- * Build params that satisfy both the main template AND the linked auto-reply template.
- *
- * EmailJS auto-reply "To Email" is usually one of:
- * {{email}}, {{user_email}}, {{from_email}}, {{reply_to}}
- *
- * Dashboard tests fill every variable manually — the site must send the same keys.
+ * Params for the main contact template.
+ * Linked Auto-Reply in the EmailJS dashboard reuses these automatically
+ * (do not send the auto-reply template a second time from code).
  */
-function buildTemplateParams({ name, email, organisation, message }) {
+function buildTemplateParams({ name, email, message }) {
   const safeName = name.trim()
   const safeEmail = email.trim()
-  const safeOrganisation = (organisation || "Not provided").trim()
   const safeMessage = message.trim()
 
   return {
-    // Name aliases
     name: safeName,
     from_name: safeName,
     user_name: safeName,
     to_name: safeName,
 
-    // Email aliases — critical for auto-reply "To Email"
     email: safeEmail,
     from_email: safeEmail,
     user_email: safeEmail,
     reply_to: safeEmail,
     to_email: safeEmail,
 
-    // Content
-    organisation: safeOrganisation,
     message: safeMessage,
   }
 }
 
 /**
- * Sends the contact notification. If Auto-Reply is linked in the EmailJS dashboard
- * to this template, EmailJS will also send the auto-reply using the same params.
- *
- * If VITE_EMAILJS_AUTO_REPLY_TEMPLATE_ID is set, we also send that template
- * explicitly (extra quota use) as a reliable fallback.
+ * Sends once via the main template.
+ * Auto-reply must be configured only in EmailJS (template → Auto-Reply tab).
  */
-export async function sendContactEmail({ name, email, organisation, message }) {
+export async function sendContactEmail({ name, email, message }) {
   if (!isEmailJsConfigured()) {
     throw new Error("EmailJS is not configured. Add your keys to the .env file.")
   }
 
   ensureInit()
 
-  const templateParams = buildTemplateParams({ name, email, organisation, message })
-
-  const mainResult = await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams)
-
-  if (AUTO_REPLY_TEMPLATE_ID && !String(AUTO_REPLY_TEMPLATE_ID).startsWith("your_")) {
-    try {
-      await emailjs.send(SERVICE_ID, AUTO_REPLY_TEMPLATE_ID, templateParams)
-    } catch (autoReplyError) {
-      // Main mail succeeded — surface auto-reply failure without blocking the user
-      console.error("EmailJS auto-reply failed:", autoReplyError)
-    }
-  }
-
-  return mainResult
+  return emailjs.send(
+    SERVICE_ID,
+    TEMPLATE_ID,
+    buildTemplateParams({ name, email, message })
+  )
 }

@@ -27,19 +27,12 @@ const contactDetails = [
     subtitle: "Call us whenever you need support",
     icon: Phone,
     href: "tel:+447704267745",
-  },
-  {
-    title: "Response time",
-    value: "Same day",
-    subtitle: "If we are not immediately available, we will get back to you within the same day",
-    icon: Clock3,
-  },
+  }
 ]
 
 const initialForm = {
   name: "",
   email: "",
-  organisation: "",
   message: "",
 }
 
@@ -154,8 +147,8 @@ function Contact() {
               ) : (
                 <>
                   <h3 className="mb-6 font-display text-2xl font-semibold">Send a message</h3>
-                  <form className="space-y-5" onSubmit={handleSubmit}>
-                    <div className="grid gap-5 md:grid-cols-2">
+                  <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
+                    <div className="grid gap-5 sm:grid-cols-2">
                       <div className="space-y-2">
                         <Label htmlFor="name">Name</Label>
                         <Input
@@ -182,28 +175,19 @@ function Contact() {
                         />
                       </div>
                     </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="organisation">Organisation</Label>
-                      <Input
-                        id="organisation"
-                        name="organisation"
-                        value={form.organisation}
-                        onChange={handleChange}
-                        placeholder="School or setting"
-                        disabled={status === "loading"}
-                      />
-                    </div>
+
                     <div className="space-y-2">
                       <Label htmlFor="message">How can we help?</Label>
                       <Textarea
                         id="message"
                         name="message"
-                        rows={5}
+                        rows={7}
                         value={form.message}
                         onChange={handleChange}
                         placeholder="Tell us about your needs"
                         required
                         disabled={status === "loading"}
+                        className="min-h-[160px] resize-y"
                       />
                     </div>
 
@@ -215,16 +199,18 @@ function Contact() {
                       </Alert>
                     ) : null}
 
-                    <Button type="submit" variant="primary" icon={status !== "loading"} disabled={status === "loading"}>
-                      {status === "loading" ? (
-                        <>
-                          <Loader2 className="h-4 w-4 animate-spin" />
-                          Sending...
-                        </>
-                      ) : (
-                        "Send message"
-                      )}
-                    </Button>
+                    <div className="pt-1">
+                      <Button type="submit" variant="primary" icon={status !== "loading"} disabled={status === "loading"}>
+                        {status === "loading" ? (
+                          <>
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                            Sending...
+                          </>
+                        ) : (
+                          "Send message"
+                        )}
+                      </Button>
+                    </div>
                   </form>
                 </>
               )}
