@@ -65,6 +65,7 @@ function Navbar() {
 
   return (
     <motion.nav
+      aria-label="Primary"
       className={`fixed inset-x-0 top-0 z-50 border-b backdrop-blur-md transition-all duration-300 ${
         isScrolled
           ? isDark
@@ -77,7 +78,12 @@ function Navbar() {
       transition={{ duration: 0.4, ease: 'easeOut' }}
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8 md:h-20">
-        <NavLink to="/" className="font-display text-xl font-semibold tracking-tight" style={{ color: navTextColor }}>
+        <NavLink
+          to="/"
+          className="font-display text-xl font-semibold tracking-tight"
+          style={{ color: navTextColor }}
+          aria-label="FM Education Services home"
+        >
           FM Education Services
         </NavLink>
 

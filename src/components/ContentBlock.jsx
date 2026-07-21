@@ -1,8 +1,16 @@
 import { motion } from "framer-motion"
-import { fadeInUp, slideInLeft, slideInRight } from "../lib/animations"
+import { slideInLeft, slideInRight } from "../lib/animations"
 import { Container, Section } from "./ui/Container"
+import OptimizedImage from "./OptimizedImage"
 
-export default function ContentBlock({ eyebrow = "Professional delivery", title, description, image, reverse = false }) {
+export default function ContentBlock({
+  eyebrow = "Professional delivery",
+  title,
+  description,
+  image,
+  imageAlt = "FM Education Services education consultancy",
+  reverse = false,
+}) {
   return (
     <Section>
       <Container>
@@ -14,13 +22,15 @@ export default function ContentBlock({ eyebrow = "Professional delivery", title,
             viewport={{ once: true }}
             variants={reverse ? slideInRight : slideInLeft}
           >
-            <motion.img
-              src={image}
-              alt=""
-              className="h-80 w-full rounded-3xl object-cover shadow-lg transition-shadow duration-300 hover:shadow-2xl"
-              whileHover={{ scale: 1.02 }}
-              transition={{ duration: 0.3 }}
-            />
+            <motion.div whileHover={{ scale: 1.02 }} transition={{ duration: 0.3 }}>
+              <OptimizedImage
+                src={image}
+                alt={imageAlt}
+                width={1000}
+                height={640}
+                className="h-80 w-full rounded-3xl object-cover shadow-lg transition-shadow duration-300 hover:shadow-2xl"
+              />
+            </motion.div>
           </motion.div>
           <motion.div
             className="w-full md:w-1/2"

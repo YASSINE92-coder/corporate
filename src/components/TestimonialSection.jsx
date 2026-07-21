@@ -34,11 +34,14 @@ export default function TestimonialSection() {
   const handleNext = () => setCurrentIndex((prev) => (prev === testimonials.length - 1 ? 0 : prev + 1))
 
   return (
-    <Section background="accent">
+    <Section background="accent" aria-labelledby="testimonials-heading">
       <Container>
         <div className="mx-auto max-w-4xl text-center">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
-            <Quote className="mx-auto mb-6 h-10 w-10 text-primary/80" />
+            <Quote className="mx-auto mb-6 h-10 w-10 text-primary/80" aria-hidden="true" />
+            <h2 id="testimonials-heading" className="sr-only">
+              Client testimonials
+            </h2>
           </motion.div>
 
           <div aria-live="polite" aria-atomic="true">

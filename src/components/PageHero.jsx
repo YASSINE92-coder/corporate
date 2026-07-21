@@ -1,24 +1,52 @@
-import { ArrowRight } from "lucide-react"
 import { motion } from "framer-motion"
 import { Link } from "react-router-dom"
 import { fadeInUp } from "../lib/animations"
 import { Button } from "./ui/button"
+import OptimizedImage from "./OptimizedImage"
+
+function isAppRoute(href) {
+  return typeof href === "string" && href.startsWith("/") && !href.startsWith("//")
+}
+
+function HeroAction({ href, children, variant, className, icon = false }) {
+  if (isAppRoute(href)) {
+    return (
+      <Button as={Link} to={href} variant={variant} className={className} icon={icon}>
+        {children}
+      </Button>
+    )
+  }
+
+  return (
+    <Button as="a" href={href} variant={variant} className={className} icon={icon}>
+      {children}
+    </Button>
+  )
+}
 
 export default function PageHero({
   eyebrow,
   title,
   description,
   image,
+  imageAlt = "FM Education Services — education consultancy",
   primaryLabel = "Contact us",
   primaryHref = "/contact",
+  primaryIcon = true,
   secondaryLabel = "Explore services",
   secondaryHref = "/services",
+  secondaryIcon = false,
 }) {
   return (
-    <section className="relative isolate overflow-hidden pt-24 md:pt-32">
-      <div className="absolute inset-0">
+    <header className="relative isolate overflow-hidden pt-24 md:pt-32">
+      <div className="absolute inset-0" aria-hidden="true">
         <div className="absolute inset-0 hero-gradient" />
-        <img src={image} alt="" className="absolute inset-0 h-full w-full object-cover opacity-35" />
+        <OptimizedImage
+          src={image}
+          alt={imageAlt}
+          priority
+          className="absolute inset-0 h-full w-full object-cover opacity-35"
+        />
         <div className="absolute inset-0 bg-slate-950/65" />
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
       </div>
@@ -41,16 +69,25 @@ export default function PageHero({
             {description}
           </p>
           <div className="flex flex-wrap gap-4">
-            <Button as={Link} to={primaryHref} variant="secondary" className="bg-white text-slate-900 hover:bg-white/90" icon>
+            <HeroAction
+              href={primaryHref}
+              variant="secondary"
+              className="bg-white text-slate-900 hover:bg-white/90"
+              icon={primaryIcon}
+            >
               {primaryLabel}
-            </Button>
-            <Button as={Link} to={secondaryHref} variant="ghost" className="border border-white/20 bg-white/10 text-white hover:bg-white/20 hover:text-white">
+            </HeroAction>
+            <HeroAction
+              href={secondaryHref}
+              variant="ghost"
+              className="border border-white/20 bg-white/10 text-white hover:bg-white/20 hover:text-white"
+              icon={secondaryIcon}
+            >
               {secondaryLabel}
-            </Button>
+            </HeroAction>
           </div>
         </motion.div>
       </div>
-    </section>
+    </header>
   )
 }
-

@@ -1,4 +1,5 @@
 import emailjs from "@emailjs/browser"
+import { getServiceById } from "./enquiry"
 
 const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID
 const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID
@@ -24,11 +25,14 @@ export function isEmailJsConfigured() {
  * Params for the main contact template.
  * Linked Auto-Reply in the EmailJS dashboard reuses these automatically
  * (do not send the auto-reply template a second time from code).
+ *
+ * service / school / role are separate variables for the email layout —
+ * do not prepend them into message (avoids duplicate content).
  */
-function buildTemplateParams({ name, email, message }) {
+function buildTemplateParams({ name, email, message, service, school, role }) {
   const safeName = name.trim()
   const safeEmail = email.trim()
-  const safeMessage = message.trim()
+  const serviceLabel = getServiceById(service)?.label || "General enquiry"
 
   return {
     name: safeName,
@@ -42,7 +46,10 @@ function buildTemplateParams({ name, email, message }) {
     reply_to: safeEmail,
     to_email: safeEmail,
 
-    message: safeMessage,
+    service: serviceLabel,
+    school: school?.trim() || "Not provided",
+    role: role?.trim() || "Not provided",
+    message: message.trim(),
   }
 }
 
@@ -50,16 +57,12 @@ function buildTemplateParams({ name, email, message }) {
  * Sends once via the main template.
  * Auto-reply must be configured only in EmailJS (template → Auto-Reply tab).
  */
-export async function sendContactEmail({ name, email, message }) {
+export async function sendContactEmail(payload) {
   if (!isEmailJsConfigured()) {
     throw new Error("EmailJS is not configured. Add your keys to the .env file.")
   }
 
   ensureInit()
 
-  return emailjs.send(
-    SERVICE_ID,
-    TEMPLATE_ID,
-    buildTemplateParams({ name, email, message })
-  )
+  return emailjs.send(SERVICE_ID, TEMPLATE_ID, buildTemplateParams(payload))
 }

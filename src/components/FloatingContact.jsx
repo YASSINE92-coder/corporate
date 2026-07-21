@@ -2,6 +2,7 @@ import { useState } from "react"
 import { Link } from "react-router-dom"
 import { MessageCircle, X, Mail, Phone } from "lucide-react"
 import { AnimatePresence, motion } from "framer-motion"
+import { CONTACT_EMAIL, CONTACT_PHONE, contactPath } from "../lib/enquiry"
 
 export default function FloatingContact() {
   const [open, setOpen] = useState(false)
@@ -23,25 +24,25 @@ export default function FloatingContact() {
             </p>
             <div className="space-y-2">
               <a
-                href="mailto:fatiha.maitland1@gmail.com"
+                href={`mailto:${CONTACT_EMAIL}`}
                 className="flex items-center gap-3 rounded-2xl border border-border bg-muted/50 px-4 py-3 text-sm font-medium text-foreground transition hover:bg-muted"
               >
                 <Mail className="h-4 w-4 text-primary" />
                 Email us
               </a>
               <a
-                href="tel:+447704267745"
+                href={`tel:${CONTACT_PHONE}`}
                 className="flex items-center gap-3 rounded-2xl border border-border bg-muted/50 px-4 py-3 text-sm font-medium text-foreground transition hover:bg-muted"
               >
                 <Phone className="h-4 w-4 text-primary" />
                 Call now
               </a>
               <Link
-                to="/contact"
+                to={contactPath()}
                 onClick={() => setOpen(false)}
                 className="flex items-center justify-center rounded-2xl bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground transition hover:brightness-110"
               >
-                Send a message
+                Request a consultation
               </Link>
             </div>
           </motion.div>

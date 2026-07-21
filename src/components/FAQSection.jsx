@@ -28,13 +28,14 @@ const faqs = [
 
 export default function FAQSection() {
   return (
-    <Section background="muted">
+    <Section background="muted" aria-labelledby="faq-heading">
       <Container>
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
           <SectionHeading
+            id="faq-heading"
             eyebrow="FAQ"
             title="Answers before you reach out"
-            description="Clear answers to the questions school leaders ask most often."
+            description="Clear answers on safeguarding consultancy, SEND support services, and school improvement."
           />
         </motion.div>
 

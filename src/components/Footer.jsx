@@ -11,6 +11,8 @@ export default function Footer() {
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
       className="relative border-t border-slate-800 bg-slate-950 text-slate-400"
+      role="contentinfo"
+      aria-label="Site footer"
     >
       <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary to-transparent" />
 
@@ -29,6 +31,7 @@ export default function Footer() {
             <h3 className="text-sm font-semibold text-white">Navigation</h3>
             <ul className="space-y-2">
               {[
+                { label: "Home", to: "/" },
                 { label: "About", to: "/about" },
                 { label: "Services", to: "/services" },
                 { label: "Contact", to: "/contact" },

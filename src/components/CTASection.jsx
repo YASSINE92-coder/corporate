@@ -1,10 +1,19 @@
 import { motion } from "framer-motion"
 import { Link } from "react-router-dom"
+import { Phone } from "lucide-react"
 import { fadeInUp } from "../lib/animations"
 import { Button } from "./ui/button"
 import { Container, Section } from "./ui/Container"
+import { CONTACT_PHONE, contactPath } from "../lib/enquiry"
 
-export default function CTASection() {
+/**
+ * Closing CTA with dual actions:
+ * - Primary → contact form (optional ?service= prefill)
+ * - Secondary → phone call
+ */
+export default function CTASection({ service } = {}) {
+  const consultationHref = contactPath(service)
+
   return (
     <Section background="accent">
       <Container>
@@ -19,11 +28,29 @@ export default function CTASection() {
             Ready to strengthen your setting?
           </h2>
           <p className="mb-8 text-lg leading-8 text-white/80">
-            Contact us for safeguarding support, SEND and inclusion reviews, or school improvement guidance. We aim to reply within the same day.
+            Request a consultation for safeguarding support, SEND and inclusion reviews, or school improvement guidance. We aim to reply within the same day.
           </p>
-          <Button as={Link} to="/contact" variant="secondary" className="bg-white text-slate-900 hover:bg-white/90" icon>
-            Get started today
-          </Button>
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            <Button
+              as={Link}
+              to={consultationHref}
+              variant="secondary"
+              className="bg-white text-slate-900 hover:bg-white/90"
+              icon
+            >
+              Request a consultation
+            </Button>
+            <Button
+              as="a"
+              href={`tel:${CONTACT_PHONE}`}
+              variant="ghost"
+              className="border border-white/25 bg-white/10 text-white hover:bg-white/20 hover:text-white"
+              aria-label="Call FM Education Services now"
+            >
+              <Phone className="h-4 w-4" aria-hidden="true" />
+              Call now
+            </Button>
+          </div>
         </motion.div>
       </Container>
     </Section>
