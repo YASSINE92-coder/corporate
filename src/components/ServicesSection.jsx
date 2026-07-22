@@ -1,7 +1,7 @@
 import { useMemo } from "react"
 import { Link } from "react-router-dom"
 import { motion } from "framer-motion"
-import { ArrowUpRight, GraduationCap, SearchCheck, ShieldCheck } from "lucide-react"
+import { ArrowUpRight } from "lucide-react"
 import { fadeInUp, staggerContainer, fadeInUpStagger } from "../lib/animations"
 import { Container, Section, SectionHeading } from "./ui/Container"
 import { Badge } from "./ui/badge"
@@ -9,9 +9,10 @@ import OptimizedImage from "./OptimizedImage"
 import { contactPath } from "../lib/enquiry"
 import { siteImages } from "../lib/images"
 import { useTranslation } from "../context/LanguageContext"
+import { getServiceIcon } from "../lib/serviceIcons"
 
 export default function ServicesSection() {
-  const { t, locale } = useTranslation()
+  const { t, localizePath } = useTranslation()
 
   const services = useMemo(
     () => [
@@ -23,10 +24,10 @@ export default function ServicesSection() {
         imageAlt: siteImages.serviceSafeguarding.alt,
         imageWidth: siteImages.serviceSafeguarding.width,
         imageHeight: siteImages.serviceSafeguarding.height,
-        icon: ShieldCheck,
+        icon: getServiceIcon("safeguarding"),
         span: "md:col-span-2 md:row-span-2",
         featured: true,
-        href: contactPath("safeguarding", { lang: locale }),
+        href: localizePath(contactPath("safeguarding")),
       },
       {
         id: "send",
@@ -36,9 +37,9 @@ export default function ServicesSection() {
         imageAlt: siteImages.serviceSend.alt,
         imageWidth: siteImages.serviceSend.width,
         imageHeight: siteImages.serviceSend.height,
-        icon: SearchCheck,
+        icon: getServiceIcon("send"),
         span: "md:col-span-1",
-        href: contactPath("send", { lang: locale }),
+        href: localizePath(contactPath("send")),
       },
       {
         id: "school-improvement",
@@ -48,12 +49,12 @@ export default function ServicesSection() {
         imageAlt: siteImages.serviceSchoolImprovement.alt,
         imageWidth: siteImages.serviceSchoolImprovement.width,
         imageHeight: siteImages.serviceSchoolImprovement.height,
-        icon: GraduationCap,
+        icon: getServiceIcon("school-improvement"),
         span: "md:col-span-1",
-        href: contactPath("school-improvement", { lang: locale }),
+        href: localizePath(contactPath("school-improvement")),
       },
     ],
-    [t, locale]
+    [t, localizePath]
   )
 
   return (

@@ -16,8 +16,6 @@ export default defineConfig({
             '@radix-ui/react-accordion',
             '@radix-ui/react-label',
             '@radix-ui/react-slot',
-            'embla-carousel-react',
-            'embla-carousel-autoplay',
           ],
         },
       },

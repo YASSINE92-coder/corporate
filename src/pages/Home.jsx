@@ -1,3 +1,4 @@
+import { useMemo } from "react"
 import Seo from "../components/Seo"
 import HeroSection from "../components/HeroSection"
 import CompanyOverview from "../components/CompanyOverview"
@@ -16,29 +17,12 @@ import {
 } from "../lib/seo"
 import { siteImages } from "../lib/images"
 import { useTranslation } from "../context/LanguageContext"
+import { getFaqs } from "../data/faq"
 
 function Home() {
   const meta = pages.home
   const { t } = useTranslation()
-
-  const homeFaqs = [
-    {
-      question: t("faq.items.safeguarding.q"),
-      answer: t("faq.items.safeguarding.a"),
-    },
-    {
-      question: t("faq.items.send.q"),
-      answer: t("faq.items.send.a"),
-    },
-    {
-      question: t("faq.items.international.q"),
-      answer: t("faq.items.international.a"),
-    },
-    {
-      question: t("faq.items.response.q"),
-      answer: t("faq.items.response.a"),
-    },
-  ]
+  const homeFaqs = useMemo(() => getFaqs(t), [t])
 
   return (
     <>

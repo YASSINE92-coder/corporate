@@ -14,7 +14,7 @@ import { useTranslation } from "../context/LanguageContext"
 
 function Services() {
   const meta = pages.services
-  const { t, locale } = useTranslation()
+  const { t, localizePath } = useTranslation()
 
   const sendOutcomes = useMemo(() => {
     const items = t("servicesPage.sendOutcomes")
@@ -54,7 +54,7 @@ function Services() {
           description={t("servicesPage.heroDescription")}
           image={siteImages.servicesHero.src}
           imageAlt={siteImages.servicesHero.alt}
-          primaryHref={contactPath(undefined, { lang: locale })}
+          primaryHref={contactPath()}
         />
 
         <Section aria-labelledby="services-safeguarding">
@@ -79,7 +79,7 @@ function Services() {
               <motion.div className="space-y-5 text-lg leading-8 text-muted-foreground" variants={fadeInUp}>
                 <p>{t("servicesPage.safeguardingP1")}</p>
                 <p>{t("servicesPage.safeguardingP2")}</p>
-                <Button as={Link} to={contactPath("safeguarding", { lang: locale })} variant="primary" icon>
+                <Button as={Link} to={localizePath(contactPath("safeguarding"))} variant="primary" icon>
                   {t("common.requestConsultation")}
                 </Button>
               </motion.div>
@@ -145,7 +145,7 @@ function Services() {
                   ))}
                 </ul>
                 <div className="mt-8">
-                  <Button as={Link} to={contactPath("send", { lang: locale })} variant="primary" icon>
+                  <Button as={Link} to={localizePath(contactPath("send"))} variant="primary" icon>
                     {t("common.requestConsultation")}
                   </Button>
                 </div>
@@ -173,7 +173,7 @@ function Services() {
                   </p>
                   <Button
                     as={Link}
-                    to={contactPath("school-improvement", { lang: locale })}
+                    to={localizePath(contactPath("school-improvement"))}
                     variant="primary"
                     icon
                   >

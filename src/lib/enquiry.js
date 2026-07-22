@@ -5,26 +5,10 @@ export const CONTACT_PHONE_DISPLAY = "+44 (0) 770 426 7745"
 export const CONTACT_EMAIL = "fatiha.maitland1@gmail.com"
 
 export const ENQUIRY_SERVICES = [
-  {
-    id: "safeguarding",
-    label: "Safeguarding consultancy",
-    shortLabel: "Safeguarding",
-  },
-  {
-    id: "send",
-    label: "SEND & inclusion reviews",
-    shortLabel: "SEND support",
-  },
-  {
-    id: "school-improvement",
-    label: "School improvement consultancy",
-    shortLabel: "School improvement",
-  },
-  {
-    id: "general",
-    label: "General enquiry",
-    shortLabel: "General",
-  },
+  { id: "safeguarding", label: "Safeguarding consultancy" },
+  { id: "send", label: "SEND & inclusion reviews" },
+  { id: "school-improvement", label: "School improvement consultancy" },
+  { id: "general", label: "General enquiry" },
 ]
 
 const SERVICE_IDS = new Set(ENQUIRY_SERVICES.map((service) => service.id))
@@ -44,18 +28,15 @@ export function parseServiceParam(value) {
 }
 
 /**
- * Build a contact path with optional service + lang query params.
- * Defaults to `#contact-form` so CTAs land on the enquiry form.
+ * Build a contact path with optional service query + form hash.
+ * Prefer wrapping with `localizePath()` so `lang` stays consistent.
  * @param {string} [service]
- * @param {{ lang?: string, hash?: boolean | string }} [options]
+ * @param {{ hash?: boolean | string }} [options]
  */
 export function contactPath(service, options = {}) {
   const params = new URLSearchParams()
   if (service && service !== "general" && isValidServiceId(service)) {
     params.set("service", service)
-  }
-  if (options.lang) {
-    params.set("lang", options.lang)
   }
   const qs = params.toString()
   const base = qs ? `/contact?${qs}` : "/contact"

@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { Card, CardContent } from "./ui/card"
 import { motion } from "framer-motion"
 import { fadeInUp } from "../lib/animations"
@@ -17,8 +17,7 @@ export default function TrustedSection() {
       })),
     [t]
   )
-  const duplicatedRegions = [...regions, ...regions]
-  const [isPaused, setIsPaused] = useState(false)
+  const duplicatedRegions = useMemo(() => [...regions, ...regions], [regions])
 
   return (
     <section className="w-full bg-muted/50 py-16 theme-surface dark:bg-muted/25 sm:py-20 md:py-28">
@@ -33,11 +32,7 @@ export default function TrustedSection() {
           {t("trusted.title")}
         </motion.h2>
 
-        <div
-          className="relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_12%,black_88%,transparent)] [-webkit-mask-image:linear-gradient(to_right,transparent,black_12%,black_88%,transparent)]"
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-        >
+        <div className="relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_12%,black_88%,transparent)] [-webkit-mask-image:linear-gradient(to_right,transparent,black_12%,black_88%,transparent)]">
           <motion.div
             className="flex gap-4 sm:gap-6 md:gap-8"
             animate={{ x: "-50%" }}
@@ -47,10 +42,7 @@ export default function TrustedSection() {
               ease: "linear",
               repeatType: "loop",
             }}
-            style={{
-              pointerEvents: isPaused ? "none" : "auto",
-              willChange: "transform",
-            }}
+            style={{ willChange: "transform" }}
           >
             {duplicatedRegions.map((region, index) => (
               <div

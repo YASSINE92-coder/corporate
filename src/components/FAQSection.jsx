@@ -4,21 +4,11 @@ import { motion } from "framer-motion"
 import { fadeInUp } from "../lib/animations"
 import { Container, Section, SectionHeading } from "./ui/Container"
 import { useTranslation } from "../context/LanguageContext"
-
-const FAQ_KEYS = ["safeguarding", "send", "international", "response"]
+import { getFaqs } from "../data/faq"
 
 export default function FAQSection() {
   const { t } = useTranslation()
-
-  const faqs = useMemo(
-    () =>
-      FAQ_KEYS.map((key) => ({
-        key,
-        question: t(`faq.items.${key}.q`),
-        answer: t(`faq.items.${key}.a`),
-      })),
-    [t]
-  )
+  const faqs = useMemo(() => getFaqs(t), [t])
 
   return (
     <Section background="muted" aria-labelledby="faq-heading">

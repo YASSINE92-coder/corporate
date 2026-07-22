@@ -2,10 +2,12 @@ import { Link } from "react-router-dom"
 import Seo from "../components/Seo"
 import { Container, Section } from "../components/ui/Container"
 import { pages, getBreadcrumbSchema } from "../lib/seo"
-import { CONTACT_EMAIL } from "../lib/enquiry"
+import { CONTACT_EMAIL, contactPath } from "../lib/enquiry"
+import { useTranslation } from "../context/LanguageContext"
 
 function Privacy() {
   const meta = pages.privacy
+  const { localizePath } = useTranslation()
 
   return (
     <>
@@ -137,7 +139,7 @@ function Privacy() {
                     {CONTACT_EMAIL}
                   </a>{" "}
                   or use our{" "}
-                  <Link to="/contact#contact-form" className="font-medium text-primary underline-offset-4 hover:underline">
+                  <Link to={localizePath(contactPath())} className="font-medium text-primary underline-offset-4 hover:underline">
                     contact form
                   </Link>
                   .

@@ -28,7 +28,6 @@
     --hero-from: 215 45% 10%;
     --hero-via: 215 40% 14%;
     --hero-to: 174 40% 16%;
-    --surface-elevated: 0 0% 100%;
     --footer: 210 20% 96%;
     --footer-foreground: 215 14% 40%;
     --scrollbar: 214 16% 78%;
@@ -58,7 +57,6 @@
     --hero-from: 215 45% 6%;
     --hero-via: 215 40% 10%;
     --hero-to: 174 35% 12%;
-    --surface-elevated: 215 32% 11%;
     --footer: 215 40% 5%;
     --footer-foreground: 215 12% 62%;
     --scrollbar: 215 18% 28%;
@@ -168,9 +166,5 @@
 
   .text-footer-foreground {
     color: hsl(var(--footer-foreground));
-  }
-
-  .bg-surface-elevated {
-    background-color: hsl(var(--surface-elevated));
   }
 }
