@@ -7,7 +7,7 @@ import { useTranslation } from "../context/LanguageContext"
 
 export default function FloatingContact() {
   const [open, setOpen] = useState(false)
-  const { t, locale } = useTranslation()
+  const { t, localizePath } = useTranslation()
 
   return (
     <div className="fixed bottom-5 end-5 z-50 flex flex-col items-end gap-3">
@@ -38,7 +38,7 @@ export default function FloatingContact() {
                 {t("floating.callNow")}
               </a>
               <Link
-                to={contactPath(undefined, { lang: locale })}
+                to={localizePath(contactPath())}
                 onClick={() => setOpen(false)}
                 className="flex items-center justify-center rounded-2xl bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground transition hover:brightness-110"
               >

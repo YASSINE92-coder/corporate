@@ -10,7 +10,7 @@ import { useTranslation } from "../context/LanguageContext"
 
 export default function HeroSection() {
   const prefersReducedMotion = useReducedMotion()
-  const { t, locale, localizePath } = useTranslation()
+  const { t, localizePath } = useTranslation()
   const { scrollYProgress } = useScroll()
   const smoothProgress = useSpring(scrollYProgress, {
     stiffness: 90,
@@ -80,7 +80,7 @@ export default function HeroSection() {
           <motion.div className="flex flex-wrap gap-4" variants={fadeInUp}>
             <Button
               as={Link}
-              to={contactPath(undefined, { lang: locale })}
+              to={localizePath(contactPath())}
               variant="secondary"
               className="bg-white text-slate-900 hover:bg-white/90"
               icon

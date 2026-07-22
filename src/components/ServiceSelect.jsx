@@ -1,14 +1,8 @@
 import { useId } from "react"
-import { Check, GraduationCap, MessageCircle, SearchCheck, ShieldCheck } from "lucide-react"
+import { Check } from "lucide-react"
 import { cn } from "../lib/utils"
 import { ENQUIRY_SERVICES } from "../lib/enquiry"
-
-const SERVICE_ICONS = {
-  safeguarding: ShieldCheck,
-  send: SearchCheck,
-  "school-improvement": GraduationCap,
-  general: MessageCircle,
-}
+import { getServiceIcon } from "../lib/serviceIcons"
 
 /**
  * Modern card-style service picker for the contact form.
@@ -32,7 +26,7 @@ export default function ServiceSelect({
       className="grid gap-3 sm:grid-cols-2"
     >
       {ENQUIRY_SERVICES.map((service) => {
-        const Icon = SERVICE_ICONS[service.id] ?? MessageCircle
+        const Icon = getServiceIcon(service.id)
         const selected = value === service.id
         const optionId = `${groupId}-${service.id}`
         const label = getLabel(service.id)

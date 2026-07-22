@@ -5,18 +5,12 @@ import { ThemeToggle } from "./theme-toggle";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useTranslation } from "../context/LanguageContext";
 import { CONTACT_EMAIL, CONTACT_PHONE, CONTACT_PHONE_DISPLAY } from "../lib/enquiry";
+import { getNavLinks } from "../data/navigation";
 
 export default function Footer() {
   const year = new Date().getFullYear();
   const { t, localizePath } = useTranslation();
-
-  const links = [
-    { label: t("nav.home"), to: "/" },
-    { label: t("nav.about"), to: "/about" },
-    { label: t("nav.services"), to: "/services" },
-    { label: t("nav.contact"), to: "/contact#contact-form" },
-    { label: t("nav.privacy"), to: "/privacy" },
-  ];
+  const links = getNavLinks(t, { includePrivacy: true });
 
   return (
     <motion.footer
@@ -45,7 +39,7 @@ export default function Footer() {
             <h3 className="text-sm font-semibold text-foreground">{t("common.navigation")}</h3>
             <ul className="space-y-2">
               {links.map((item) => (
-                <li key={item.to}>
+                <li key={item.key}>
                   <Link
                     to={localizePath(item.to)}
                     className="relative inline-block text-muted-foreground transition-colors hover:text-foreground after:absolute after:start-0 after:-bottom-1 after:h-[1px] after:w-0 after:bg-primary after:transition-all hover:after:w-full"

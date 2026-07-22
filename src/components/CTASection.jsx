@@ -13,8 +13,8 @@ import { useTranslation } from "../context/LanguageContext"
  * - Secondary → phone call
  */
 export default function CTASection({ service } = {}) {
-  const { t, locale } = useTranslation()
-  const consultationHref = contactPath(service, { lang: locale })
+  const { t, localizePath } = useTranslation()
+  const consultationHref = localizePath(contactPath(service))
 
   return (
     <Section background="accent">

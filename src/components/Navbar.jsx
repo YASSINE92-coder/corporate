@@ -7,6 +7,7 @@ import { ThemeToggle } from './theme-toggle'
 import BrandLogo from './BrandLogo'
 import LanguageSwitcher from './LanguageSwitcher'
 import { cn } from '../lib/utils'
+import { getNavLinks } from '../data/navigation'
 
 function Navbar() {
   const { scrollY } = useScroll()
@@ -16,13 +17,7 @@ function Navbar() {
   const buttonRef = useRef(null)
   const { isDark } = useTheme()
   const { t, localizePath } = useTranslation()
-
-  const navLinks = [
-    { label: t('nav.home'), to: '/' },
-    { label: t('nav.about'), to: '/about' },
-    { label: t('nav.services'), to: '/services' },
-    { label: t('nav.contact'), to: '/contact#contact-form' },
-  ]
+  const navLinks = getNavLinks(t)
 
   useMotionValueEvent(scrollY, 'change', (latest) => {
     setIsScrolled(latest > 50)
@@ -138,7 +133,7 @@ function Navbar() {
         <div className="ms-auto hidden items-center gap-4 md:flex">
           {navLinks.map((link) => (
             <NavLink
-              key={link.to}
+              key={link.key}
               to={localizePath(link.to)}
               end={link.to === '/'}
               className={({ isActive }) =>
@@ -173,7 +168,7 @@ function Navbar() {
             <div className="flex flex-col gap-2">
               {navLinks.map((link) => (
                 <NavLink
-                  key={link.to}
+                  key={link.key}
                   to={localizePath(link.to)}
                   end={link.to === '/'}
                   onClick={() => setIsMenuOpen(false)}
