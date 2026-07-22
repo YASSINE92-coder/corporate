@@ -1,4 +1,12 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react"
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react"
 import { useSearchParams } from "react-router-dom"
 import {
   DEFAULT_LOCALE,
@@ -11,6 +19,9 @@ import { createT } from "../i18n"
 const LanguageContext = createContext(null)
 
 const LOCALE_CODES = new Set(LOCALES.map((locale) => locale.code))
+
+/** Fade-out before locale swap; keep in sync with LocaleFade. */
+export const LOCALE_FADE_MS = 420
 
 export function isValidLocale(code) {
   return typeof code === "string" && LOCALE_CODES.has(code)
@@ -40,6 +51,11 @@ function persistLocale(localeCode) {
   }
 }
 
+function prefersReducedMotion() {
+  if (typeof window === "undefined") return false
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches
+}
+
 export function LanguageProvider({ children }) {
   const [searchParams, setSearchParams] = useSearchParams()
   const queryLang = searchParams.get("lang")
@@ -47,6 +63,14 @@ export function LanguageProvider({ children }) {
   const [locale, setLocaleState] = useState(() =>
     isValidLocale(queryLang) ? queryLang : readStoredLocale()
   )
+  const [isLocaleFading, setIsLocaleFading] = useState(false)
+  const fadeTimerRef = useRef(null)
+
+  useEffect(() => {
+    return () => {
+      if (fadeTimerRef.current) window.clearTimeout(fadeTimerRef.current)
+    }
+  }, [])
 
   // Sync from ?lang= (shared links, browser back/forward).
   // If lang is missing/invalid, stamp the active locale onto the URL.
@@ -69,16 +93,45 @@ export function LanguageProvider({ children }) {
     applyDocumentLocale(locale)
   }, [locale])
 
-  const setLocale = useCallback(
+  const applyLocale = useCallback(
     (next) => {
-      if (!isValidLocale(next) || next === locale) return
       setLocaleState(next)
       persistLocale(next)
       const params = new URLSearchParams(searchParams)
       params.set("lang", next)
       setSearchParams(params, { replace: true })
     },
-    [locale, searchParams, setSearchParams]
+    [searchParams, setSearchParams]
+  )
+
+  /**
+   * Smooth language change: fade out → swap locale → fade in.
+   * Browser back/forward still swaps instantly via the query sync effect.
+   */
+  const setLocale = useCallback(
+    (next) => {
+      if (!isValidLocale(next) || next === locale || isLocaleFading) return
+
+      if (prefersReducedMotion()) {
+        applyLocale(next)
+        return
+      }
+
+      setIsLocaleFading(true)
+      if (fadeTimerRef.current) window.clearTimeout(fadeTimerRef.current)
+
+      fadeTimerRef.current = window.setTimeout(() => {
+        applyLocale(next)
+        // Keep faded for one frame so new copy paints at opacity 0, then fade in.
+        requestAnimationFrame(() => {
+          fadeTimerRef.current = window.setTimeout(() => {
+            setIsLocaleFading(false)
+            fadeTimerRef.current = null
+          }, 40)
+        })
+      }, LOCALE_FADE_MS)
+    },
+    [locale, isLocaleFading, applyLocale]
   )
 
   /** Append or replace `lang` on an app path (preserves other query params + hash). */
@@ -117,8 +170,9 @@ export function LanguageProvider({ children }) {
       isRtl: getLocaleConfig(locale).dir === "rtl",
       t,
       localizePath,
+      isLocaleFading,
     }),
-    [locale, setLocale, t, localizePath]
+    [locale, setLocale, t, localizePath, isLocaleFading]
   )
 
   return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>

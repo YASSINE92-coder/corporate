@@ -7,6 +7,7 @@ import CookieConsent from './components/CookieConsent'
 import AnalyticsListener from './components/AnalyticsListener'
 import { Toaster } from './components/ui/sonner'
 import ScrollToTop from './ScrollToTop'
+import LocaleFade from './components/LocaleFade'
 import { useTranslation } from './context/LanguageContext'
 
 const Home = lazy(() => import('./pages/Home'))
@@ -42,20 +43,22 @@ function App() {
         {t('common.skipToContent')}
       </a>
       <Navbar />
-      <main id="main-content" className="min-h-screen" tabIndex={-1}>
-        <ScrollToTop />
-        <AnalyticsListener />
-        <Suspense fallback={<PageFallback />}>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/privacy" element={<Privacy />} />
-          </Routes>
-        </Suspense>
-      </main>
-      <Footer />
+      <LocaleFade>
+        <main id="main-content" className="min-h-screen" tabIndex={-1}>
+          <ScrollToTop />
+          <AnalyticsListener />
+          <Suspense fallback={<PageFallback />}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/services" element={<Services />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/privacy" element={<Privacy />} />
+            </Routes>
+          </Suspense>
+        </main>
+        <Footer />
+      </LocaleFade>
       <FloatingContact />
       <CookieConsent />
       <Toaster />
