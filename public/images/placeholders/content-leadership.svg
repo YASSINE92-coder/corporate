@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="800" viewBox="0 0 1000 800" role="img" aria-label="Leadership content">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="55%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#134e4a"/>
+    </linearGradient>
+  </defs>
+  <rect width="1000" height="800" fill="url(#g)"/>
+  <rect x="48" y="48" width="904" height="704" rx="24" fill="none" stroke="#94a3b8" stroke-opacity="0.25" stroke-width="2" stroke-dasharray="10 10"/>
+  <text x="50%" y="48%" text-anchor="middle" fill="#e2e8f0" font-family="Georgia, serif" font-size="36" font-weight="600">FM Education Services</text>
+  <text x="50%" y="56%" text-anchor="middle" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="22">Leadership content</text>
+  <text x="50%" y="62%" text-anchor="middle" fill="#64748b" font-family="system-ui, sans-serif" font-size="16">Replace with client photo</text>
+</svg>

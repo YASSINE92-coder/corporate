@@ -1,14 +1,73 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-GB">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FM Education Services</title>
-    <meta name="description" content="FM Education Services — specialist safeguarding, SEND and inclusion reviews, and school improvement support led by Fatiha Maitland." />
+    <meta name="theme-color" content="#f4f7f9" />
+    <meta name="author" content="Fatiha Maitland, FM Education Services" />
+    <title>FM Education Services | Safeguarding Consultant UK, SEND & School Improvement</title>
+    <meta
+      name="description"
+      content="UK safeguarding consultant offering SEND support services and school improvement consultancy. Led by Fatiha Maitland — specialist training, audits, and reviews for schools."
+    />
+    <meta
+      name="keywords"
+      content="safeguarding consultant UK, SEND support services, school improvement consultancy, safeguarding training schools"
+    />
+    <link rel="canonical" href="https://www.fmeducationservices.com/" />
+
+    <!-- Open Graph fallbacks (overridden per-route by react-helmet-async) -->
+    <meta property="og:site_name" content="FM Education Services" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="FM Education Services | Safeguarding Consultant UK" />
+    <meta
+      property="og:description"
+      content="Specialist safeguarding, SEND support services, and school improvement consultancy for schools across the UK."
+    />
+    <meta property="og:url" content="https://www.fmeducationservices.com/" />
+    <meta
+      property="og:image"
+      content="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1200&q=80"
+    />
+    <meta property="og:locale" content="en_GB" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="FM Education Services | Safeguarding Consultant UK" />
+    <meta
+      name="twitter:description"
+      content="Specialist safeguarding, SEND support services, and school improvement consultancy for schools across the UK."
+    />
+
+    <script>
+      (function () {
+        try {
+          var key = "corporate-theme";
+          var stored = localStorage.getItem(key);
+          var theme =
+            stored === "light" || stored === "dark"
+              ? stored
+              : window.matchMedia("(prefers-color-scheme: dark)").matches
+                ? "dark"
+                : "light";
+          var root = document.documentElement;
+          root.classList.toggle("dark", theme === "dark");
+          root.dataset.theme = theme;
+          root.style.colorScheme = theme;
+          var meta = document.querySelector('meta[name="theme-color"]');
+          if (meta) meta.setAttribute("content", theme === "dark" ? "#0a1219" : "#f4f7f9");
+        } catch (e) {}
+      })();
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
+    <link rel="dns-prefetch" href="https://images.unsplash.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <div id="root"></div>

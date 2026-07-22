@@ -1,0 +1,9 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+
+# Disallow Vite/dev artefacts if ever exposed
+Disallow: /src/
+Disallow: /node_modules/
+
+Sitemap: https://www.fmeducationservices.com/sitemap.xml

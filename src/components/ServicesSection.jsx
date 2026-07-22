@@ -1,44 +1,70 @@
+import { useMemo } from "react"
 import { Link } from "react-router-dom"
 import { motion } from "framer-motion"
 import { ArrowUpRight, GraduationCap, SearchCheck, ShieldCheck } from "lucide-react"
 import { fadeInUp, staggerContainer, fadeInUpStagger } from "../lib/animations"
 import { Container, Section, SectionHeading } from "./ui/Container"
 import { Badge } from "./ui/badge"
-
-const services = [
-  {
-    title: "Safeguarding Support",
-    description: "Bespoke advice, face-to-face training, and auditing — including Ofsted pre-registration preparation for schools and Early Years settings.",
-    image: "https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=900&q=80",
-    icon: ShieldCheck,
-    span: "md:col-span-2 md:row-span-2",
-    featured: true,
-  },
-  {
-    title: "SEND & Inclusion Reviews",
-    description: "One-to-two-day reviews that empower leaders, support SENCos, and raise achievement for all pupils.",
-    image: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=800&q=80",
-    icon: SearchCheck,
-    span: "md:col-span-1",
-  },
-  {
-    title: "School Improvement Advisory",
-    description: "Coaching and mock reviews using UK, UAE, and BSO frameworks.",
-    image: "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&w=800&q=80",
-    icon: GraduationCap,
-    span: "md:col-span-1",
-  },
-]
+import OptimizedImage from "./OptimizedImage"
+import { contactPath } from "../lib/enquiry"
+import { siteImages } from "../lib/images"
+import { useTranslation } from "../context/LanguageContext"
 
 export default function ServicesSection() {
+  const { t, locale } = useTranslation()
+
+  const services = useMemo(
+    () => [
+      {
+        id: "safeguarding",
+        title: t("homeServices.items.safeguarding.title"),
+        description: t("homeServices.items.safeguarding.description"),
+        image: siteImages.serviceSafeguarding.src,
+        imageAlt: siteImages.serviceSafeguarding.alt,
+        imageWidth: siteImages.serviceSafeguarding.width,
+        imageHeight: siteImages.serviceSafeguarding.height,
+        icon: ShieldCheck,
+        span: "md:col-span-2 md:row-span-2",
+        featured: true,
+        href: contactPath("safeguarding", { lang: locale }),
+      },
+      {
+        id: "send",
+        title: t("homeServices.items.send.title"),
+        description: t("homeServices.items.send.description"),
+        image: siteImages.serviceSend.src,
+        imageAlt: siteImages.serviceSend.alt,
+        imageWidth: siteImages.serviceSend.width,
+        imageHeight: siteImages.serviceSend.height,
+        icon: SearchCheck,
+        span: "md:col-span-1",
+        href: contactPath("send", { lang: locale }),
+      },
+      {
+        id: "school-improvement",
+        title: t("homeServices.items.schoolImprovement.title"),
+        description: t("homeServices.items.schoolImprovement.description"),
+        image: siteImages.serviceSchoolImprovement.src,
+        imageAlt: siteImages.serviceSchoolImprovement.alt,
+        imageWidth: siteImages.serviceSchoolImprovement.width,
+        imageHeight: siteImages.serviceSchoolImprovement.height,
+        icon: GraduationCap,
+        span: "md:col-span-1",
+        href: contactPath("school-improvement", { lang: locale }),
+      },
+    ],
+    [t, locale]
+  )
+
   return (
-    <Section>
+    <Section aria-labelledby="home-services-heading">
       <Container>
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
           <SectionHeading
-            eyebrow="Services"
-            title="Expert support built around your setting"
-            description="Safeguarding, SEND, and school improvement — tailored to your context and inspection frameworks."
+            id="home-services-heading"
+            eyebrow={t("homeServices.eyebrow")}
+            title={t("homeServices.title")}
+            description={t("homeServices.description")}
           />
         </motion.div>
 
@@ -52,30 +78,32 @@ export default function ServicesSection() {
           {services.map((service) => {
             const Icon = service.icon
             return (
-              <motion.div
-                key={service.title}
-                variants={fadeInUpStagger}
-                className={service.span}
-              >
+              <motion.article key={service.id} variants={fadeInUpStagger} className={service.span}>
                 <Link
-                  to="/services"
+                  to={service.href}
                   className={`group relative flex h-full min-h-[220px] overflow-hidden rounded-3xl border border-border bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${
                     service.featured ? "md:min-h-full" : ""
                   }`}
+                  aria-label={`${t("homeServices.requestConsultation")}: ${service.title}`}
                 >
-                  <img
+                  <OptimizedImage
                     src={service.image}
-                    alt=""
+                    alt={service.imageAlt}
+                    width={service.imageWidth}
+                    height={service.imageHeight}
+                    sizes="(max-width: 768px) 100vw, 50vw"
                     className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/50 to-slate-950/20" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/50 to-slate-950/20" aria-hidden="true" />
 
                   <div className="relative z-10 flex h-full flex-col justify-end p-6 md:p-8">
-                    <div className="mb-4 inline-flex w-fit rounded-2xl bg-white/15 p-3 text-white backdrop-blur">
+                    <div className="mb-4 inline-flex w-fit rounded-2xl bg-white/15 p-3 text-white backdrop-blur" aria-hidden="true">
                       <Icon className="h-5 w-5" />
                     </div>
                     {service.featured ? (
-                      <Badge className="mb-3 w-fit bg-primary text-primary-foreground">Core service</Badge>
+                      <Badge className="mb-3 w-fit bg-primary text-primary-foreground">
+                        {t("homeServices.coreService")}
+                      </Badge>
                     ) : null}
                     <h3 className="mb-2 font-display text-2xl font-semibold text-white md:text-3xl">
                       {service.title}
@@ -84,11 +112,11 @@ export default function ServicesSection() {
                       {service.description}
                     </p>
                     <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-white/90 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                      Learn more <ArrowUpRight className="h-4 w-4" />
+                      {t("homeServices.requestConsultation")} <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
                     </span>
                   </div>
                 </Link>
-              </motion.div>
+              </motion.article>
             )
           })}
         </motion.div>

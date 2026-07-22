@@ -8,7 +8,7 @@ export function Container({ children, className, as: Component = "div" }) {
   )
 }
 
-export function Section({ children, className, id, background = "default" }) {
+export function Section({ children, className, id, background = "default", ...props }) {
   const backgrounds = {
     default: "bg-background text-foreground",
     muted: "bg-muted/60 text-foreground dark:bg-muted/40",
@@ -16,13 +16,13 @@ export function Section({ children, className, id, background = "default" }) {
   }
 
   return (
-    <section id={id} className={cn("py-20 md:py-28", backgrounds[background], className)}>
+    <section id={id} className={cn("theme-surface py-20 md:py-28", backgrounds[background], className)} {...props}>
       {children}
     </section>
   )
 }
 
-export function SectionHeading({ eyebrow, title, description, align = "center" }) {
+export function SectionHeading({ eyebrow, title, description, align = "center", id }) {
   return (
     <div className={cn("mx-auto mb-14 max-w-3xl", align === "left" ? "ml-0 text-left" : "text-center")}>
       {eyebrow ? (
@@ -30,7 +30,10 @@ export function SectionHeading({ eyebrow, title, description, align = "center" }
           {eyebrow}
         </p>
       ) : null}
-      <h2 className="font-display text-3xl font-semibold tracking-tight text-foreground md:text-4xl text-balance">
+      <h2
+        id={id}
+        className="font-display text-3xl font-semibold tracking-tight text-foreground md:text-4xl text-balance"
+      >
         {title}
       </h2>
       {description ? (

@@ -1,4 +1,6 @@
+import Seo from "../components/Seo"
 import HeroSection from "../components/HeroSection"
+import CompanyOverview from "../components/CompanyOverview"
 import ImpactSection from "../components/ImpactSection"
 import TrustedSection from "../components/TrustedSection"
 import ServicesSection from "../components/ServicesSection"
@@ -6,31 +8,77 @@ import TestimonialSection from "../components/TestimonialSection"
 import ContentBlock from "../components/ContentBlock"
 import FAQSection from "../components/FAQSection"
 import CTASection from "../components/CTASection"
+import {
+  pages,
+  getProfessionalServiceSchema,
+  getBreadcrumbSchema,
+  getFaqSchema,
+} from "../lib/seo"
+import { siteImages } from "../lib/images"
+import { useTranslation } from "../context/LanguageContext"
 
 function Home() {
+  const meta = pages.home
+  const { t } = useTranslation()
+
+  const homeFaqs = [
+    {
+      question: t("faq.items.safeguarding.q"),
+      answer: t("faq.items.safeguarding.a"),
+    },
+    {
+      question: t("faq.items.send.q"),
+      answer: t("faq.items.send.a"),
+    },
+    {
+      question: t("faq.items.international.q"),
+      answer: t("faq.items.international.a"),
+    },
+    {
+      question: t("faq.items.response.q"),
+      answer: t("faq.items.response.a"),
+    },
+  ]
+
   return (
-    <div className="min-h-screen">
-      <HeroSection />
-      <ImpactSection />
-      <TrustedSection />
-      <ServicesSection />
-      <TestimonialSection />
-      <ContentBlock
-        eyebrow="Leadership"
-        title="35+ years of education expertise"
-        description="Fatiha Maitland, Director of FM Education Services, is a senior inspector and education consultant with extensive experience across the UK, UAE, GCC, and British Schools Overseas. Her coaching style helps schools accelerate performance with clarity and confidence."
-        image="https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1000&q=80"
+    <>
+      <Seo
+        title={meta.title}
+        description={meta.description}
+        path={meta.path}
+        keywords={meta.keywords}
+        schema={[
+          getProfessionalServiceSchema(),
+          getBreadcrumbSchema([{ name: "Home", path: "/" }]),
+          getFaqSchema(homeFaqs),
+        ]}
       />
-      <ContentBlock
-        eyebrow="Impact"
-        title="Safeguarding and SEND that make a difference"
-        description="From face-to-face safeguarding training and auditing to one-to-two-day SEND and inclusion reviews, we provide bespoke support that strengthens provision, meets statutory obligations, and raises achievement for all pupils."
-        image="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1000&q=80"
-        reverse
-      />
-      <FAQSection />
-      <CTASection />
-    </div>
+      <article>
+        <HeroSection />
+        <CompanyOverview />
+        <ImpactSection />
+        <TrustedSection />
+        <ServicesSection />
+        <TestimonialSection />
+        <ContentBlock
+          eyebrow={t("homeContent.leadershipEyebrow")}
+          title={t("homeContent.leadershipTitle")}
+          description={t("homeContent.leadershipBody")}
+          image={siteImages.contentLeadership.src}
+          imageAlt={siteImages.contentLeadership.alt}
+        />
+        <ContentBlock
+          eyebrow={t("homeContent.impactEyebrow")}
+          title={t("homeContent.impactTitle")}
+          description={t("homeContent.impactBody")}
+          image={siteImages.contentImpact.src}
+          imageAlt={siteImages.contentImpact.alt}
+          reverse
+        />
+        <FAQSection />
+        <CTASection />
+      </article>
+    </>
   )
 }
 
