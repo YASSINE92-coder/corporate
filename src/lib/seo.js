@@ -43,6 +43,13 @@ export const pages = {
     keywords:
       "contact safeguarding consultant, SEND consultancy enquiry, school improvement advisor UK",
   },
+  privacy: {
+    path: "/privacy",
+    title: "Privacy Policy | FM Education Services",
+    description:
+      "How FM Education Services collects, uses, and protects personal data from website enquiries, cookies, and analytics.",
+    keywords: "privacy policy, data protection, FM Education Services",
+  },
 }
 
 export function absoluteUrl(path = "/") {

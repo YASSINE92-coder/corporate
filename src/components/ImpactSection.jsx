@@ -1,13 +1,8 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import { motion, useInView, useReducedMotion } from "framer-motion"
 import { fadeInUp, staggerContainer, scaleIn } from "../lib/animations"
 import { Container, Section } from "./ui/Container"
-
-const highlights = [
-  { value: 35, suffix: "+", label: "Years of education leadership experience" },
-  { value: 4, suffix: "", label: "Regions: UK · UAE · GCC · BSO" },
-  { value: 1, suffix: "", label: "Same-day response when you get in touch", display: "Same day" },
-]
+import { useTranslation } from "../context/LanguageContext"
 
 function AnimatedStat({ value, suffix, display, label }) {
   const ref = useRef(null)
@@ -52,6 +47,17 @@ function AnimatedStat({ value, suffix, display, label }) {
 }
 
 export default function ImpactSection() {
+  const { t } = useTranslation()
+
+  const highlights = useMemo(
+    () => [
+      { value: 35, suffix: "+", label: t("impact.years") },
+      { value: 4, suffix: "", label: t("impact.regions") },
+      { value: 1, suffix: "", label: t("impact.response"), display: t("impact.sameDay") },
+    ],
+    [t]
+  )
+
   return (
     <Section background="muted">
       <Container>
@@ -62,13 +68,13 @@ export default function ImpactSection() {
           viewport={{ once: true }}
           variants={fadeInUp}
         >
-          <p className="mb-4 text-sm font-semibold uppercase tracking-[0.28em] text-primary">Driven by impact</p>
-          <h2 className="mb-6 font-display text-3xl font-semibold tracking-tight text-foreground md:text-4xl text-balance">
-            A calm, expert approach that turns strategy into progress
-          </h2>
-          <p className="text-lg leading-8 text-muted-foreground">
-            We help education leaders build stronger safeguarding culture, sharper SEND practice, and more confident improvement planning through practical partnership and clear insight.
+          <p className="mb-4 text-sm font-semibold uppercase tracking-[0.28em] text-primary">
+            {t("impact.eyebrow")}
           </p>
+          <h2 className="mb-6 font-display text-3xl font-semibold tracking-tight text-foreground md:text-4xl text-balance">
+            {t("impact.title")}
+          </h2>
+          <p className="text-lg leading-8 text-muted-foreground">{t("impact.body")}</p>
         </motion.div>
 
         <motion.div

@@ -6,6 +6,7 @@ import { toast } from "sonner"
 import Seo from "../components/Seo"
 import PageHero from "../components/PageHero"
 import CTASection from "../components/CTASection"
+import ServiceSelect from "../components/ServiceSelect"
 import { fadeInUp } from "../lib/animations"
 import { Container, Section } from "../components/ui/Container"
 import { Button } from "../components/ui/button"
@@ -19,28 +20,11 @@ import {
   CONTACT_EMAIL,
   CONTACT_PHONE,
   CONTACT_PHONE_DISPLAY,
-  ENQUIRY_SERVICES,
-  getServiceById,
   parseServiceParam,
+  scrollToId,
 } from "../lib/enquiry"
-import { cn } from "../lib/utils"
-
-const contactDetails = [
-  {
-    title: "Email",
-    value: CONTACT_EMAIL,
-    subtitle: "For safeguarding, SEND, and school improvement enquiries",
-    icon: Mail,
-    href: `mailto:${CONTACT_EMAIL}`,
-  },
-  {
-    title: "Telephone",
-    value: CONTACT_PHONE_DISPLAY,
-    subtitle: "Call us whenever you need support",
-    icon: Phone,
-    href: `tel:${CONTACT_PHONE}`,
-  },
-]
+import { siteImages } from "../lib/images"
+import { useTranslation } from "../context/LanguageContext"
 
 const emptyForm = {
   name: "",
@@ -49,10 +33,12 @@ const emptyForm = {
   role: "",
   service: "general",
   message: "",
+  website: "", // honeypot — must stay empty
 }
 
 function Contact() {
   const [searchParams] = useSearchParams()
+  const { t, localizePath } = useTranslation()
   const serviceFromQuery = useMemo(
     () => parseServiceParam(searchParams.get("service")),
     [searchParams]
@@ -65,7 +51,28 @@ function Contact() {
   const [status, setStatus] = useState("idle") // idle | loading | success | error
   const [errorMessage, setErrorMessage] = useState("")
   const meta = pages.contact
-  const selectedService = getServiceById(form.service)
+
+  const serviceLabel = t(`enquiryServices.${form.service}`)
+
+  const contactDetails = useMemo(
+    () => [
+      {
+        title: t("contact.emailTitle"),
+        value: CONTACT_EMAIL,
+        subtitle: t("contact.emailSubtitle"),
+        icon: Mail,
+        href: `mailto:${CONTACT_EMAIL}`,
+      },
+      {
+        title: t("contact.phoneTitle"),
+        value: CONTACT_PHONE_DISPLAY,
+        subtitle: t("contact.phoneSubtitle"),
+        icon: Phone,
+        href: `tel:${CONTACT_PHONE}`,
+      },
+    ],
+    [t]
+  )
 
   useEffect(() => {
     setForm((prev) => ({
@@ -74,12 +81,12 @@ function Contact() {
     }))
   }, [serviceFromQuery])
 
+  // Land on the form when arriving with a service prefill or #contact-form.
   useEffect(() => {
-    if (serviceFromQuery === "general") return
-    const frame = window.requestAnimationFrame(() => {
-      document.getElementById("contact-form")?.scrollIntoView({ behavior: "smooth", block: "start" })
-    })
-    return () => window.cancelAnimationFrame(frame)
+    const hash = window.location.hash.replace("#", "")
+    const shouldScroll = serviceFromQuery !== "general" || hash === "contact-form"
+    if (!shouldScroll) return undefined
+    return scrollToId("contact-form", { behavior: "smooth", block: "start" })
   }, [serviceFromQuery])
 
   const handleChange = (event) => {
@@ -92,18 +99,25 @@ function Contact() {
     setStatus("loading")
     setErrorMessage("")
 
-    try {
-      await sendContactEmail(form)
+    if (form.website?.trim()) {
       setStatus("success")
       setForm({ ...emptyForm, service: serviceFromQuery })
-      toast.success("Message sent successfully", {
-        description: "We aim to respond within the same day.",
+      return
+    }
+
+    try {
+      const { website: _honeypot, ...payload } = form
+      await sendContactEmail(payload)
+      setStatus("success")
+      setForm({ ...emptyForm, service: serviceFromQuery })
+      toast.success(t("contact.toastSuccess"), {
+        description: t("contact.toastSuccessDesc"),
       })
     } catch (error) {
       const message = error?.text || error?.message || "Something went wrong. Please try again."
       setStatus("error")
       setErrorMessage(message)
-      toast.error("Could not send message", {
+      toast.error(t("contact.toastError"), {
         description: message,
       })
     }
@@ -122,7 +136,7 @@ function Contact() {
         description={meta.description}
         path={meta.path}
         keywords={meta.keywords}
-        image="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=80"
+        image={siteImages.contactHero.src}
         schema={[
           getProfessionalServiceSchema(),
           getBreadcrumbSchema([
@@ -133,15 +147,15 @@ function Contact() {
       />
       <article className="min-h-screen bg-background text-foreground">
         <PageHero
-          eyebrow="Contact us"
-          title="Speak with a safeguarding & SEND consultancy specialist"
-          description="Contact FM Education Services at any time for safeguarding consultant UK advice, SEND support services, or school improvement consultancy. If we are not immediately available, we aim to reply within the same day."
-          image="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1600&q=80"
-          imageAlt="School leaders contacting an education consultancy for safeguarding support"
-          primaryLabel="Call now"
+          eyebrow={t("contact.heroEyebrow")}
+          title={t("contact.heroTitle")}
+          description={t("contact.heroDescription")}
+          image={siteImages.contactHero.src}
+          imageAlt={siteImages.contactHero.alt}
+          primaryLabel={t("common.callNow")}
           primaryHref={`tel:${CONTACT_PHONE}`}
           primaryIcon={false}
-          secondaryLabel="Send a message"
+          secondaryLabel={t("contact.sendMessage")}
           secondaryHref="#contact-form"
         />
 
@@ -149,13 +163,13 @@ function Contact() {
           <Container>
             <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr]">
               <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
-                <p className="mb-4 text-sm font-semibold uppercase tracking-[0.28em] text-primary">Get in touch</p>
-                <h2 id="contact-heading" className="mb-6 font-display text-3xl font-semibold tracking-tight md:text-4xl">
-                  We are here to support your next step
-                </h2>
-                <p className="mb-8 text-lg leading-8 text-muted-foreground">
-                  Reach out for safeguarding consultant UK support, SEND support services, or school improvement guidance.
+                <p className="mb-4 text-sm font-semibold uppercase tracking-[0.28em] text-primary">
+                  {t("common.getInTouch")}
                 </p>
+                <h2 id="contact-heading" className="mb-6 font-display text-3xl font-semibold tracking-tight md:text-4xl">
+                  {t("contact.heading")}
+                </h2>
+                <p className="mb-8 text-lg leading-8 text-muted-foreground">{t("contact.intro")}</p>
 
                 <address className="not-italic space-y-4">
                   {contactDetails.map((detail) => {
@@ -202,59 +216,71 @@ function Contact() {
                   <div className="flex min-h-[320px] flex-col justify-center gap-6" role="status" aria-live="polite">
                     <Alert variant="success">
                       <CheckCircle2 className="h-4 w-4" aria-hidden="true" />
-                      <AlertTitle>Message sent</AlertTitle>
-                      <AlertDescription>
-                        Your email was delivered successfully. We aim to respond within the same day.
-                      </AlertDescription>
+                      <AlertTitle>{t("contact.successTitle")}</AlertTitle>
+                      <AlertDescription>{t("contact.successBody")}</AlertDescription>
                     </Alert>
                     <div className="text-center">
                       <Button variant="secondary" onClick={resetForm}>
-                        Send another message
+                        {t("contact.sendAnother")}
                       </Button>
                     </div>
                   </div>
                 ) : (
                   <>
                     <h3 className="mb-2 font-display text-2xl font-semibold" id="contact-form-heading">
-                      Request a consultation
+                      {t("contact.formTitle")}
                     </h3>
-                    {selectedService && selectedService.id !== "general" ? (
+                    {form.service !== "general" ? (
                       <p className="mb-6 text-sm text-muted-foreground" role="status">
-                        Prefilling for: <span className="font-medium text-foreground">{selectedService.label}</span>
+                        {t("contact.prefilling")}{" "}
+                        <span className="font-medium text-foreground">{serviceLabel}</span>
                         {" · "}
-                        <Link to="/contact" className="text-primary underline-offset-4 hover:underline">
-                          Clear selection
+                        <Link
+                          to={localizePath("/contact#contact-form")}
+                          className="text-primary underline-offset-4 hover:underline"
+                        >
+                          {t("common.clearSelection")}
                         </Link>
                       </p>
                     ) : (
-                      <p className="mb-6 text-sm text-muted-foreground">
-                        Tell us about your setting and how we can help.
-                      </p>
+                      <p className="mb-6 text-sm text-muted-foreground">{t("contact.formHint")}</p>
                     )}
 
                     <form
-                      className="flex flex-col gap-5"
+                      className="relative flex flex-col gap-5"
                       onSubmit={handleSubmit}
                       aria-labelledby="contact-form-heading"
                       aria-busy={status === "loading"}
                     >
+                      <div className="absolute -left-[9999px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
+                        <label htmlFor="website">Website</label>
+                        <input
+                          id="website"
+                          name="website"
+                          type="text"
+                          tabIndex={-1}
+                          autoComplete="off"
+                          value={form.website}
+                          onChange={handleChange}
+                        />
+                      </div>
                       <div className="grid gap-5 sm:grid-cols-2">
                         <div className="space-y-2">
-                          <Label htmlFor="name">Full name</Label>
+                          <Label htmlFor="name">{t("contact.fullName")}</Label>
                           <Input
                             id="name"
                             name="name"
                             autoComplete="name"
                             value={form.name}
                             onChange={handleChange}
-                            placeholder="Your name"
+                            placeholder={t("contact.namePlaceholder")}
                             required
                             disabled={status === "loading"}
                             aria-required="true"
                           />
                         </div>
                         <div className="space-y-2">
-                          <Label htmlFor="email">Work email</Label>
+                          <Label htmlFor="email">{t("contact.workEmail")}</Label>
                           <Input
                             id="email"
                             name="email"
@@ -262,7 +288,7 @@ function Contact() {
                             autoComplete="email"
                             value={form.email}
                             onChange={handleChange}
-                            placeholder="you@school.org"
+                            placeholder={t("contact.emailPlaceholder")}
                             required
                             disabled={status === "loading"}
                             aria-required="true"
@@ -272,61 +298,54 @@ function Contact() {
 
                       <div className="grid gap-5 sm:grid-cols-2">
                         <div className="space-y-2">
-                          <Label htmlFor="school">School / setting</Label>
+                          <Label htmlFor="school">{t("contact.school")}</Label>
                           <Input
                             id="school"
                             name="school"
                             autoComplete="organization"
                             value={form.school}
                             onChange={handleChange}
-                            placeholder="School or academy name"
+                            placeholder={t("contact.schoolPlaceholder")}
                             disabled={status === "loading"}
                           />
                         </div>
                         <div className="space-y-2">
-                          <Label htmlFor="role">Your role</Label>
+                          <Label htmlFor="role">{t("contact.role")}</Label>
                           <Input
                             id="role"
                             name="role"
                             autoComplete="organization-title"
                             value={form.role}
                             onChange={handleChange}
-                            placeholder="e.g. Headteacher, SENCo"
+                            placeholder={t("contact.rolePlaceholder")}
                             disabled={status === "loading"}
                           />
                         </div>
                       </div>
 
-                      <div className="space-y-2">
-                        <Label htmlFor="service">How can we help?</Label>
-                        <select
-                          id="service"
+                      <div className="space-y-3">
+                        <Label id="service-label">{t("contact.howCanWeHelp")}</Label>
+                        <ServiceSelect
                           name="service"
                           value={form.service}
-                          onChange={handleChange}
+                          labelId="service-label"
                           disabled={status === "loading"}
-                          aria-required="true"
-                          className={cn(
-                            "flex h-11 w-full rounded-2xl border border-input bg-background px-4 py-3 text-sm text-foreground shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                          )}
-                        >
-                          {ENQUIRY_SERVICES.map((service) => (
-                            <option key={service.id} value={service.id}>
-                              {service.label}
-                            </option>
-                          ))}
-                        </select>
+                          getLabel={(id) => t(`enquiryServices.${id}`)}
+                          onChange={(service) =>
+                            setForm((prev) => ({ ...prev, service }))
+                          }
+                        />
                       </div>
 
                       <div className="space-y-2">
-                        <Label htmlFor="message">Message</Label>
+                        <Label htmlFor="message">{t("contact.message")}</Label>
                         <Textarea
                           id="message"
                           name="message"
                           rows={6}
                           value={form.message}
                           onChange={handleChange}
-                          placeholder="Share a little context — inspection prep, training needs, review dates, or anything else we should know"
+                          placeholder={t("contact.messagePlaceholder")}
                           required
                           disabled={status === "loading"}
                           aria-required="true"
@@ -337,7 +356,7 @@ function Contact() {
                       {status === "error" ? (
                         <Alert variant="destructive" role="alert">
                           <AlertCircle className="h-4 w-4" aria-hidden="true" />
-                          <AlertTitle>Sending failed</AlertTitle>
+                          <AlertTitle>{t("contact.errorTitle")}</AlertTitle>
                           <AlertDescription>{errorMessage}</AlertDescription>
                         </Alert>
                       ) : null}
@@ -348,15 +367,14 @@ function Contact() {
                           variant="primary"
                           icon={status !== "loading"}
                           disabled={status === "loading"}
-                          aria-label={status === "loading" ? "Sending your message" : "Send consultation request"}
                         >
                           {status === "loading" ? (
                             <>
                               <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
-                              Sending...
+                              {t("contact.sending")}
                             </>
                           ) : (
-                            "Send message"
+                            t("contact.send")
                           )}
                         </Button>
                       </div>

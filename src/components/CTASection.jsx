@@ -5,6 +5,7 @@ import { fadeInUp } from "../lib/animations"
 import { Button } from "./ui/button"
 import { Container, Section } from "./ui/Container"
 import { CONTACT_PHONE, contactPath } from "../lib/enquiry"
+import { useTranslation } from "../context/LanguageContext"
 
 /**
  * Closing CTA with dual actions:
@@ -12,7 +13,8 @@ import { CONTACT_PHONE, contactPath } from "../lib/enquiry"
  * - Secondary → phone call
  */
 export default function CTASection({ service } = {}) {
-  const consultationHref = contactPath(service)
+  const { t, locale } = useTranslation()
+  const consultationHref = contactPath(service, { lang: locale })
 
   return (
     <Section background="accent">
@@ -25,11 +27,9 @@ export default function CTASection({ service } = {}) {
           variants={fadeInUp}
         >
           <h2 className="mb-6 font-display text-3xl font-semibold text-white md:text-4xl text-balance">
-            Ready to strengthen your setting?
+            {t("cta.title")}
           </h2>
-          <p className="mb-8 text-lg leading-8 text-white/80">
-            Request a consultation for safeguarding support, SEND and inclusion reviews, or school improvement guidance. We aim to reply within the same day.
-          </p>
+          <p className="mb-8 text-lg leading-8 text-white/80">{t("cta.body")}</p>
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Button
               as={Link}
@@ -38,17 +38,17 @@ export default function CTASection({ service } = {}) {
               className="bg-white text-slate-900 hover:bg-white/90"
               icon
             >
-              Request a consultation
+              {t("common.requestConsultation")}
             </Button>
             <Button
               as="a"
               href={`tel:${CONTACT_PHONE}`}
               variant="ghost"
               className="border border-white/25 bg-white/10 text-white hover:bg-white/20 hover:text-white"
-              aria-label="Call FM Education Services now"
+              aria-label={t("cta.callAria")}
             >
               <Phone className="h-4 w-4" aria-hidden="true" />
-              Call now
+              {t("common.callNow")}
             </Button>
           </div>
         </motion.div>

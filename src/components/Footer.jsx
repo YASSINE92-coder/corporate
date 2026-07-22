@@ -1,8 +1,22 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import BrandLogo from "./BrandLogo";
+import { ThemeToggle } from "./theme-toggle";
+import LanguageSwitcher from "./LanguageSwitcher";
+import { useTranslation } from "../context/LanguageContext";
+import { CONTACT_EMAIL, CONTACT_PHONE, CONTACT_PHONE_DISPLAY } from "../lib/enquiry";
 
 export default function Footer() {
   const year = new Date().getFullYear();
+  const { t, localizePath } = useTranslation();
+
+  const links = [
+    { label: t("nav.home"), to: "/" },
+    { label: t("nav.about"), to: "/about" },
+    { label: t("nav.services"), to: "/services" },
+    { label: t("nav.contact"), to: "/contact#contact-form" },
+    { label: t("nav.privacy"), to: "/privacy" },
+  ];
 
   return (
     <motion.footer
@@ -10,7 +24,7 @@ export default function Footer() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
-      className="relative border-t border-slate-800 bg-slate-950 text-slate-400"
+      className="relative border-t border-border bg-footer text-footer-foreground"
       role="contentinfo"
       aria-label="Site footer"
     >
@@ -19,27 +33,22 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         <div className="grid gap-8 md:grid-cols-3">
           <div className="space-y-3">
-            <h2 className="text-lg font-semibold text-white">
-              FM Education Services
-            </h2>
-            <p className="text-sm text-slate-400">
-              Specialist safeguarding, SEND and inclusion, and school improvement support for schools, academies, and Early Years settings.
-            </p>
+            <BrandLogo
+              className="text-foreground"
+              markClassName="bg-primary text-primary-foreground"
+              textClassName="text-foreground"
+            />
+            <p className="text-sm text-muted-foreground">{t("footer.tagline")}</p>
           </div>
 
           <div className="space-y-3">
-            <h3 className="text-sm font-semibold text-white">Navigation</h3>
+            <h3 className="text-sm font-semibold text-foreground">{t("common.navigation")}</h3>
             <ul className="space-y-2">
-              {[
-                { label: "Home", to: "/" },
-                { label: "About", to: "/about" },
-                { label: "Services", to: "/services" },
-                { label: "Contact", to: "/contact" },
-              ].map((item) => (
+              {links.map((item) => (
                 <li key={item.to}>
                   <Link
-                    to={item.to}
-                    className="relative inline-block transition-colors hover:text-white after:absolute after:left-0 after:-bottom-1 after:h-[1px] after:w-0 after:bg-white after:transition-all hover:after:w-full"
+                    to={localizePath(item.to)}
+                    className="relative inline-block text-muted-foreground transition-colors hover:text-foreground after:absolute after:start-0 after:-bottom-1 after:h-[1px] after:w-0 after:bg-primary after:transition-all hover:after:w-full"
                   >
                     {item.label}
                   </Link>
@@ -49,36 +58,39 @@ export default function Footer() {
           </div>
 
           <div className="space-y-3">
-            <h3 className="text-sm font-semibold text-white">Get in touch</h3>
+            <h3 className="text-sm font-semibold text-foreground">{t("common.getInTouch")}</h3>
             <p className="text-sm">
-              <a href="mailto:fatiha.maitland1@gmail.com" className="transition hover:text-white">
-                fatiha.maitland1@gmail.com
+              <a href={`mailto:${CONTACT_EMAIL}`} className="text-muted-foreground transition hover:text-foreground">
+                {CONTACT_EMAIL}
               </a>
             </p>
             <p className="text-sm">
-              <a href="tel:+447704267745" className="transition hover:text-white">
-                +44 (0) 770 426 7745
+              <a href={`tel:${CONTACT_PHONE}`} className="text-muted-foreground transition hover:text-foreground">
+                {CONTACT_PHONE_DISPLAY}
               </a>
             </p>
             <Link
-              to="/contact"
+              to={localizePath("/contact#contact-form")}
               className="inline-block text-sm font-medium text-primary transition hover:underline"
             >
-              Contact us →
+              {t("common.contactUs")} →
             </Link>
+
+            <div className="flex items-center gap-1 rounded-full border border-border bg-card/70 p-1 w-fit">
+              <LanguageSwitcher />
+              <ThemeToggle />
+            </div>
           </div>
         </div>
 
-        <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-slate-800 pt-6 text-xs sm:flex-row">
+        <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-border pt-6 text-xs text-muted-foreground sm:flex-row">
           <p>
-            © {year} FM Education Services. All rights reserved.
+            © {year} {t("common.brand")}. {t("common.allRightsReserved")}
           </p>
 
-          <p className="text-slate-500">
-            Built by{" "}
-            <span className="font-medium text-slate-400">
-              Yassine Chaanoune
-            </span>
+          <p>
+            {t("common.builtBy")}{" "}
+            <span className="font-medium text-foreground/80">Yassine Chaanoune</span>
           </p>
         </div>
       </div>

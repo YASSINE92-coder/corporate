@@ -2,14 +2,11 @@ import { useEffect, useRef, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'framer-motion'
 import { useTheme } from '../context/ThemeContext'
+import { useTranslation } from '../context/LanguageContext'
 import { ThemeToggle } from './theme-toggle'
-
-const navLinks = [
-  { label: 'Home', to: '/' },
-  { label: 'About', to: '/about' },
-  { label: 'Services', to: '/services' },
-  { label: 'Contact', to: '/contact' },
-]
+import BrandLogo from './BrandLogo'
+import LanguageSwitcher from './LanguageSwitcher'
+import { cn } from '../lib/utils'
 
 function Navbar() {
   const { scrollY } = useScroll()
@@ -17,7 +14,15 @@ function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const menuRef = useRef(null)
   const buttonRef = useRef(null)
-  const { theme } = useTheme()
+  const { isDark } = useTheme()
+  const { t, localizePath } = useTranslation()
+
+  const navLinks = [
+    { label: t('nav.home'), to: '/' },
+    { label: t('nav.about'), to: '/about' },
+    { label: t('nav.services'), to: '/services' },
+    { label: t('nav.contact'), to: '/contact#contact-form' },
+  ]
 
   useMotionValueEvent(scrollY, 'change', (latest) => {
     setIsScrolled(latest > 50)
@@ -57,38 +62,41 @@ function Navbar() {
     }
   }, [isMenuOpen])
 
-  const isDark = theme === 'dark'
-  const textColor = isDark ? '#f8fafc' : '#ffffff'
-  const scrolledTextColor = isDark ? '#f8fafc' : '#0f172a'
-  const mobileTextColor = isDark ? '#f8fafc' : '#0f172a'
-  const navTextColor = isScrolled ? scrolledTextColor : textColor
+  // Over hero: always light text. Scrolled: follow theme foreground.
+  const overHero = !isScrolled
+  const navTextClass = overHero
+    ? 'text-white'
+    : 'text-foreground'
+
+  const chromePillClass = overHero
+    ? isDark
+      ? 'border-white/15 bg-white/10 text-white'
+      : 'border-white/25 bg-white/15 text-white'
+    : 'border-border bg-card/90 text-foreground shadow-sm'
 
   return (
     <motion.nav
       aria-label="Primary"
-      className={`fixed inset-x-0 top-0 z-50 border-b backdrop-blur-md transition-all duration-300 ${
+      className={cn(
+        'fixed inset-x-0 top-0 z-50 border-b backdrop-blur-md transition-all duration-300',
         isScrolled
-          ? isDark
-            ? 'border-white/10 bg-slate-950/95 shadow-[0_10px_30px_rgba(0,0,0,0.45)]'
-            : 'border-slate-900/10 bg-white/95 shadow-[0_10px_30px_rgba(15,23,42,0.12)]'
+          ? 'border-border bg-background/95 shadow-[0_10px_30px_hsl(var(--foreground)/0.08)]'
           : 'border-transparent bg-transparent'
-      }`}
+      )}
       initial={{ y: -24, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.4, ease: 'easeOut' }}
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8 md:h-20">
-        <NavLink
-          to="/"
-          className="font-display text-xl font-semibold tracking-tight"
-          style={{ color: navTextColor }}
-          aria-label="FM Education Services home"
-        >
-          FM Education Services
-        </NavLink>
+        <BrandLogo
+          className={navTextClass}
+          markClassName={overHero ? 'bg-white text-slate-900 shadow-sm' : undefined}
+          textClassName="hidden sm:inline"
+        />
 
         <div className="flex items-center gap-3 md:hidden">
-          <div className={`rounded-full border p-1 backdrop-blur-md ${isDark ? 'border-white/15 bg-white/10' : 'border-slate-900/10 bg-white/20'}`}>
+          <div className={cn('flex items-center gap-1 rounded-full border p-1 backdrop-blur-md', chromePillClass)}>
+            <LanguageSwitcher />
             <ThemeToggle />
           </div>
 
@@ -96,34 +104,56 @@ function Navbar() {
             ref={buttonRef}
             type="button"
             onClick={() => setIsMenuOpen((prev) => !prev)}
-            className={`inline-flex h-10 w-10 items-center justify-center rounded-full border transition-colors ${isDark ? 'border-white/15 bg-white/10 text-slate-100' : 'border-slate-900/10 bg-white/20 text-slate-900'}`}
-            aria-label={isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+            className={cn(
+              'inline-flex h-10 w-10 items-center justify-center rounded-full border transition-colors backdrop-blur-md',
+              chromePillClass
+            )}
+            aria-label={isMenuOpen ? t('nav.closeMenu') : t('nav.openMenu')}
             aria-expanded={isMenuOpen}
             aria-controls="mobile-navigation-menu"
           >
             <span className="flex flex-col gap-1.5">
-              <span className={`h-0.5 w-5 rounded-full transition-all duration-300 ${isMenuOpen ? 'translate-y-2 rotate-45' : ''}`} style={{ backgroundColor: navTextColor }} />
-              <span className={`h-0.5 w-5 rounded-full transition-all duration-300 ${isMenuOpen ? 'opacity-0' : 'opacity-100'}`} style={{ backgroundColor: navTextColor }} />
-              <span className={`h-0.5 w-5 rounded-full transition-all duration-300 ${isMenuOpen ? '-translate-y-2 -rotate-45' : ''}`} style={{ backgroundColor: navTextColor }} />
+              <span
+                className={cn(
+                  'h-0.5 w-5 rounded-full bg-current transition-all duration-300',
+                  isMenuOpen && 'translate-y-2 rotate-45'
+                )}
+              />
+              <span
+                className={cn(
+                  'h-0.5 w-5 rounded-full bg-current transition-all duration-300',
+                  isMenuOpen ? 'opacity-0' : 'opacity-100'
+                )}
+              />
+              <span
+                className={cn(
+                  'h-0.5 w-5 rounded-full bg-current transition-all duration-300',
+                  isMenuOpen && '-translate-y-2 -rotate-45'
+                )}
+              />
             </span>
           </button>
         </div>
 
-        <div className="ml-auto hidden items-center gap-4 md:flex">
+        <div className="ms-auto hidden items-center gap-4 md:flex">
           {navLinks.map((link) => (
             <NavLink
               key={link.to}
-              to={link.to}
+              to={localizePath(link.to)}
               end={link.to === '/'}
               className={({ isActive }) =>
-                `text-sm font-medium transition-colors duration-300 ${isActive ? "underline underline-offset-8 decoration-2" : ""}`
+                cn(
+                  'text-sm font-medium transition-colors duration-300',
+                  navTextClass,
+                  isActive && 'underline underline-offset-8 decoration-2'
+                )
               }
-              style={{ color: navTextColor }}
             >
               {link.label}
             </NavLink>
           ))}
-          <div className={`ml-2 rounded-full border p-1 backdrop-blur-md ${isDark ? 'border-white/15 bg-white/10' : 'border-slate-900/10 bg-white/20'}`}>
+          <div className={cn('ms-2 flex items-center gap-1 rounded-full border p-1 backdrop-blur-md', chromePillClass)}>
+            <LanguageSwitcher />
             <ThemeToggle />
           </div>
         </div>
@@ -138,17 +168,16 @@ function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.3, ease: 'easeOut' }}
-            className={`mx-4 mt-2 rounded-2xl border px-4 py-4 shadow-lg backdrop-blur-md md:hidden ${isDark ? 'border-white/10 bg-slate-950/95' : 'border-slate-900/10 bg-white/95'}`}
+            className="mx-4 mt-2 rounded-2xl border border-border bg-card/95 px-4 py-4 text-foreground shadow-lg backdrop-blur-md md:hidden"
           >
             <div className="flex flex-col gap-2">
               {navLinks.map((link) => (
                 <NavLink
                   key={link.to}
-                  to={link.to}
+                  to={localizePath(link.to)}
                   end={link.to === '/'}
                   onClick={() => setIsMenuOpen(false)}
-                  className="rounded-lg px-3 py-2 text-base font-medium transition-colors duration-300"
-                  style={{ color: mobileTextColor }}
+                  className="rounded-lg px-3 py-2 text-base font-medium text-foreground transition-colors duration-300 hover:bg-muted"
                 >
                   {link.label}
                 </NavLink>

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom"
 import { fadeInUp } from "../lib/animations"
 import { Button } from "./ui/button"
 import OptimizedImage from "./OptimizedImage"
+import { useTranslation } from "../context/LanguageContext"
 
 function isAppRoute(href) {
   return typeof href === "string" && href.startsWith("/") && !href.startsWith("//")
@@ -30,21 +31,28 @@ export default function PageHero({
   description,
   image,
   imageAlt = "FM Education Services — education consultancy",
-  primaryLabel = "Contact us",
-  primaryHref = "/contact",
+  primaryLabel,
+  primaryHref = "/contact#contact-form",
   primaryIcon = true,
-  secondaryLabel = "Explore services",
+  secondaryLabel,
   secondaryHref = "/services",
   secondaryIcon = false,
 }) {
+  const { t, localizePath } = useTranslation()
+  const resolvedPrimary = primaryLabel ?? t("pageHero.contactUs")
+  const resolvedSecondary = secondaryLabel ?? t("pageHero.exploreServices")
+
   return (
     <header className="relative isolate overflow-hidden pt-24 md:pt-32">
       <div className="absolute inset-0" aria-hidden="true">
         <div className="absolute inset-0 hero-gradient" />
         <OptimizedImage
           src={image}
-          alt={imageAlt}
+          alt=""
           priority
+          width={1600}
+          height={900}
+          sizes="100vw"
           className="absolute inset-0 h-full w-full object-cover opacity-35"
         />
         <div className="absolute inset-0 bg-slate-950/65" />
@@ -70,20 +78,20 @@ export default function PageHero({
           </p>
           <div className="flex flex-wrap gap-4">
             <HeroAction
-              href={primaryHref}
+              href={localizePath(primaryHref)}
               variant="secondary"
               className="bg-white text-slate-900 hover:bg-white/90"
               icon={primaryIcon}
             >
-              {primaryLabel}
+              {resolvedPrimary}
             </HeroAction>
             <HeroAction
-              href={secondaryHref}
+              href={localizePath(secondaryHref)}
               variant="ghost"
               className="border border-white/20 bg-white/10 text-white hover:bg-white/20 hover:text-white"
               icon={secondaryIcon}
             >
-              {secondaryLabel}
+              {resolvedSecondary}
             </HeroAction>
           </div>
         </motion.div>

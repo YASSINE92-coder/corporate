@@ -1,7 +1,12 @@
-import { createContext, useContext, useEffect, useMemo, useState } from 'react'
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 
 const ThemeContext = createContext(undefined)
-const STORAGE_KEY = 'corporate-theme'
+export const THEME_STORAGE_KEY = 'corporate-theme'
+
+const THEME_COLORS = {
+  light: '#f4f7f9',
+  dark: '#0a1219',
+}
 
 function getSystemTheme() {
   if (typeof window === 'undefined') return 'light'
@@ -11,7 +16,7 @@ function getSystemTheme() {
 function getInitialTheme() {
   if (typeof window === 'undefined') return 'light'
 
-  const storedTheme = window.localStorage.getItem(STORAGE_KEY)
+  const storedTheme = window.localStorage.getItem(THEME_STORAGE_KEY)
   if (storedTheme === 'light' || storedTheme === 'dark') {
     return storedTheme
   }
@@ -19,14 +24,28 @@ function getInitialTheme() {
   return getSystemTheme()
 }
 
+function applyThemeToDocument(theme) {
+  const root = document.documentElement
+  root.classList.toggle('dark', theme === 'dark')
+  root.dataset.theme = theme
+  root.style.colorScheme = theme
+
+  const meta = document.querySelector('meta[name="theme-color"]')
+  if (meta) {
+    meta.setAttribute('content', THEME_COLORS[theme] ?? THEME_COLORS.light)
+  }
+}
+
 export function ThemeProvider({ children }) {
   const [theme, setThemeState] = useState(getInitialTheme)
 
   useEffect(() => {
-    const root = document.documentElement
-    root.classList.toggle('dark', theme === 'dark')
-    root.style.colorScheme = theme
-    window.localStorage.setItem(STORAGE_KEY, theme)
+    applyThemeToDocument(theme)
+    try {
+      window.localStorage.setItem(THEME_STORAGE_KEY, theme)
+    } catch {
+      // ignore
+    }
   }, [theme])
 
   useEffect(() => {
@@ -35,30 +54,38 @@ export function ThemeProvider({ children }) {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
 
     const handleSystemThemeChange = () => {
-      const savedTheme = window.localStorage.getItem(STORAGE_KEY)
-      if (!savedTheme) {
-        setThemeState(mediaQuery.matches ? 'dark' : 'light')
+      try {
+        const savedTheme = window.localStorage.getItem(THEME_STORAGE_KEY)
+        if (savedTheme === 'light' || savedTheme === 'dark') return
+      } catch {
+        // ignore
       }
+      setThemeState(mediaQuery.matches ? 'dark' : 'light')
     }
 
     mediaQuery.addEventListener?.('change', handleSystemThemeChange)
-
-    return () => {
-      mediaQuery.removeEventListener?.('change', handleSystemThemeChange)
-    }
+    return () => mediaQuery.removeEventListener?.('change', handleSystemThemeChange)
   }, [])
 
-  const setTheme = (nextTheme) => {
+  const setTheme = useCallback((nextTheme) => {
     if (nextTheme === 'light' || nextTheme === 'dark') {
       setThemeState(nextTheme)
     }
-  }
+  }, [])
 
-  const toggleTheme = () => {
+  const toggleTheme = useCallback(() => {
     setThemeState((currentTheme) => (currentTheme === 'dark' ? 'light' : 'dark'))
-  }
+  }, [])
 
-  const value = useMemo(() => ({ theme, setTheme, toggleTheme }), [theme])
+  const value = useMemo(
+    () => ({
+      theme,
+      setTheme,
+      toggleTheme,
+      isDark: theme === 'dark',
+    }),
+    [theme, setTheme, toggleTheme]
+  )
 
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
 }

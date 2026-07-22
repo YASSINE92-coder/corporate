@@ -16,7 +16,7 @@ export function Section({ children, className, id, background = "default", ...pr
   }
 
   return (
-    <section id={id} className={cn("py-20 md:py-28", backgrounds[background], className)} {...props}>
+    <section id={id} className={cn("theme-surface py-20 md:py-28", backgrounds[background], className)} {...props}>
       {children}
     </section>
   )

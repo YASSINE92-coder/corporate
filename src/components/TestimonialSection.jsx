@@ -3,6 +3,7 @@ import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { fadeIn } from "../lib/animations"
 import { Container, Section } from "./ui/Container"
+import { useTranslation } from "../context/LanguageContext"
 
 const testimonials = [
   {
@@ -29,6 +30,7 @@ const testimonials = [
 
 export default function TestimonialSection() {
   const [currentIndex, setCurrentIndex] = useState(0)
+  const { t } = useTranslation()
 
   const handlePrevious = () => setCurrentIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1))
   const handleNext = () => setCurrentIndex((prev) => (prev === testimonials.length - 1 ? 0 : prev + 1))
@@ -40,7 +42,7 @@ export default function TestimonialSection() {
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
             <Quote className="mx-auto mb-6 h-10 w-10 text-primary/80" aria-hidden="true" />
             <h2 id="testimonials-heading" className="sr-only">
-              Client testimonials
+              {t("testimonials.heading")}
             </h2>
           </motion.div>
 

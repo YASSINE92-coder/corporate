@@ -43,9 +43,53 @@ export function parseServiceParam(value) {
   return isValidServiceId(normalized) ? normalized : "general"
 }
 
-/** Build a contact path with optional service query param. */
-export function contactPath(service) {
-  if (!service || service === "general") return "/contact"
-  if (!isValidServiceId(service)) return "/contact"
-  return `/contact?service=${encodeURIComponent(service)}`
+/**
+ * Build a contact path with optional service + lang query params.
+ * Defaults to `#contact-form` so CTAs land on the enquiry form.
+ * @param {string} [service]
+ * @param {{ lang?: string, hash?: boolean | string }} [options]
+ */
+export function contactPath(service, options = {}) {
+  const params = new URLSearchParams()
+  if (service && service !== "general" && isValidServiceId(service)) {
+    params.set("service", service)
+  }
+  if (options.lang) {
+    params.set("lang", options.lang)
+  }
+  const qs = params.toString()
+  const base = qs ? `/contact?${qs}` : "/contact"
+
+  if (options.hash === false) return base
+  if (typeof options.hash === "string") {
+    const id = options.hash.replace(/^#/, "")
+    return id ? `${base}#${id}` : base
+  }
+  return `${base}#contact-form`
+}
+
+/** Scroll to an element once it exists (handles lazy-loaded routes). */
+export function scrollToId(id, { behavior = "smooth", block = "start", attempts = 40 } = {}) {
+  if (!id || typeof document === "undefined") return () => {}
+
+  let cancelled = false
+  let tries = 0
+
+  const tick = () => {
+    if (cancelled) return
+    const el = document.getElementById(id)
+    if (el) {
+      el.scrollIntoView({ behavior, block })
+      return
+    }
+    tries += 1
+    if (tries < attempts) {
+      window.setTimeout(tick, 50)
+    }
+  }
+
+  tick()
+  return () => {
+    cancelled = true
+  }
 }
