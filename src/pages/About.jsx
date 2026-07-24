@@ -16,6 +16,7 @@ import PageHero from "../components/PageHero"
 import CTASection from "../components/CTASection"
 import { fadeInUp, fadeInUpStagger, staggerContainer, scaleIn } from "../lib/animations"
 import { Container, Section, SectionHeading } from "../components/ui/Container"
+import { TiltedCard } from "../components/ui/tilted-card"
 import { pages, getProfessionalServiceSchema, getBreadcrumbSchema } from "../lib/seo"
 import { siteImages } from "../lib/images"
 import OptimizedImage from "../components/OptimizedImage"
@@ -104,12 +105,14 @@ function About() {
                     aria-hidden="true"
                     className="absolute -inset-3 -z-10 rounded-[40px] border border-primary/15 bg-accent/40 dark:bg-accent/15"
                   />
-                  <OptimizedImage
-                    src={siteImages.directorPortrait.src}
-                    alt={siteImages.directorPortrait.alt}
+                  <TiltedCard
+                    imageSrc={siteImages.directorPortrait.src}
+                    altText={siteImages.directorPortrait.alt}
                     width={siteImages.directorPortrait.width}
                     height={siteImages.directorPortrait.height}
-                    className="aspect-[4/5] w-full rounded-[32px] border border-border object-cover shadow-xl"
+                    className="aspect-[4/5] w-full"
+                    rotateAmplitude={8}
+                    scaleOnHover={1.03}
                   />
                 </div>
               </motion.div>

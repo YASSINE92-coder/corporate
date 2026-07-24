@@ -3,6 +3,7 @@ import { Link } from "react-router-dom"
 import { fadeInUp, staggerContainer } from "../lib/animations"
 import { Button } from "./ui/button"
 import { Badge } from "./ui/badge"
+import { TextType } from "./ui/text-type"
 import OptimizedImage from "./OptimizedImage"
 import { contactPath } from "../lib/enquiry"
 import { siteImages } from "../lib/images"
@@ -65,13 +66,20 @@ export default function HeroSection() {
             </Badge>
           </motion.div>
 
-          <motion.h1
+          <TextType
+            as="h1"
             id="home-hero-heading"
+            aria-label={t("hero.title")}
+            text={[t("hero.title")]}
             className="mb-6 font-display text-5xl font-semibold leading-[1.08] tracking-tight text-white md:text-6xl lg:text-7xl"
-            variants={fadeInUp}
-          >
-            {t("hero.title")}
-          </motion.h1>
+            typingSpeed={80}
+            deletingSpeed={50}
+            pauseDuration={1500}
+            loop={false}
+            showCursor
+            cursorCharacter="_"
+            cursorBlinkDuration={0.5}
+          />
 
           <motion.p className="mb-10 max-w-2xl text-lg leading-8 text-white/85 md:text-xl" variants={fadeInUp}>
             {t("hero.subtitle")}
