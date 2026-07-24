@@ -35,6 +35,7 @@ export default {
     toggleTheme: "تبديل المظهر",
     themeLight: "الوضع الفاتح",
     themeDark: "الوضع الداكن",
+    close: "إغلاق",
   },
   footer: {
     tagline:
@@ -303,6 +304,7 @@ export default {
     requestConsultation: "تحدث إلى متخصص",
     openMenu: "فتح قائمة الاتصال",
     closeMenu: "إغلاق قائمة الاتصال",
+    openQuickEnquiry: "فتح نموذج الاستفسار السريع",
   },
   pageHero: {
     contactUs: "احجز استشارة",

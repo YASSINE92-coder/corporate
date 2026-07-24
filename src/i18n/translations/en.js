@@ -35,6 +35,7 @@ export default {
     toggleTheme: "Toggle color theme",
     themeLight: "Light mode",
     themeDark: "Dark mode",
+    close: "Close",
   },
   footer: {
     tagline:
@@ -303,6 +304,7 @@ export default {
     requestConsultation: "Talk to a specialist",
     openMenu: "Open contact menu",
     closeMenu: "Close contact menu",
+    openQuickEnquiry: "Open quick enquiry form",
   },
   pageHero: {
     contactUs: "Book a consultation",
