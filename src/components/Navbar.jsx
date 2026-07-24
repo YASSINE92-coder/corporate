@@ -136,15 +136,20 @@ function Navbar() {
               key={link.key}
               to={localizePath(link.to)}
               end={link.to === '/'}
-              className={({ isActive }) =>
-                cn(
-                  'text-sm font-medium transition-colors duration-300',
-                  navTextClass,
-                  isActive && 'underline underline-offset-8 decoration-2'
-                )
-              }
+              className={cn('relative text-sm font-medium transition-colors duration-300', navTextClass)}
             >
-              {link.label}
+              {({ isActive }) => (
+                <>
+                  {link.label}
+                  {isActive ? (
+                    <motion.span
+                      layoutId="nav-active-underline"
+                      className="absolute inset-x-0 -bottom-2 h-0.5 rounded-full bg-current"
+                      transition={{ type: 'spring', stiffness: 380, damping: 32 }}
+                    />
+                  ) : null}
+                </>
+              )}
             </NavLink>
           ))}
           <div className={cn('ms-2 flex items-center gap-1 rounded-full border p-1 backdrop-blur-md', chromePillClass)}>
