@@ -9,6 +9,9 @@ export default {
     openMenu: "Open navigation menu",
     closeMenu: "Close navigation menu",
     language: "Language",
+    switchLanguageTo: "Switch language to {{name}}",
+    primary: "Primary navigation",
+    goToHomepage: "Go to homepage",
   },
   common: {
     brand: "FM Education Services",
@@ -36,6 +39,7 @@ export default {
   footer: {
     tagline:
       "Specialist safeguarding, SEND and inclusion, and school improvement support for schools, academies, and Early Years settings.",
+    landmarkLabel: "Site footer",
   },
   hero: {
     badge: "Safeguarding consultant UK · SEND · School improvement",
@@ -306,5 +310,34 @@ export default {
   },
   testimonials: {
     heading: "Client testimonials",
+    previous: "Previous testimonial",
+    next: "Next testimonial",
+    goTo: "Go to testimonial {{number}}",
+    items: [
+      {
+        quote:
+          "The feedback given was brilliant and delivered in a supportive way. It helped us know our strengths and how to further improve.",
+        author: "Director of Education",
+        role: "SEND and Inclusion Review",
+      },
+      {
+        quote:
+          "The service was amazing and supported me in my role. I felt more confident to support colleagues and to evaluate SEND outcomes.",
+        author: "SENCo",
+        role: "SEND and Inclusion Review",
+      },
+      {
+        quote:
+          "Safeguarding Audit was invaluable to identify existing strengths and to focus our action points for improvement going forwards.",
+        author: "Early Years Manager",
+        role: "Safeguarding Audit",
+      },
+      {
+        quote:
+          "Safeguarding training met our needs and made it clear to us how to continue to improve our staff’s knowledge to keep our children safe and secure.",
+        author: "Headteacher",
+        role: "Safeguarding Training",
+      },
+    ],
   },
 }

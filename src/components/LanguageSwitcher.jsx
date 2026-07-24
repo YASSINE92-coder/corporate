@@ -27,7 +27,7 @@ export default function LanguageSwitcher({ className }) {
             onClick={() => setLocale(item.code)}
             disabled={isLocaleFading}
             aria-pressed={isActive}
-            aria-label={`Switch language to ${item.name}`}
+            aria-label={t("nav.switchLanguageTo", { name: item.name })}
             title={item.name}
             className={cn(
               "inline-flex h-9 items-center gap-1.5 rounded-full px-2.5 text-xs font-semibold transition-all duration-300",
