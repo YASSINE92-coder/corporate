@@ -1,7 +1,7 @@
 import { motion } from "framer-motion"
 import { slideInLeft, slideInRight } from "../lib/animations"
 import { Container, Section } from "./ui/Container"
-import OptimizedImage from "./OptimizedImage"
+import { TiltedCard } from "./ui/tilted-card"
 
 export default function ContentBlock({
   eyebrow = "Professional delivery",
@@ -22,15 +22,16 @@ export default function ContentBlock({
             viewport={{ once: true }}
             variants={reverse ? slideInRight : slideInLeft}
           >
-            <motion.div whileHover={{ scale: 1.02 }} transition={{ duration: 0.3 }}>
-              <OptimizedImage
-                src={image}
-                alt={imageAlt}
-                width={1000}
-                height={640}
-                className="h-80 w-full rounded-3xl object-cover shadow-lg transition-shadow duration-300 hover:shadow-2xl"
-              />
-            </motion.div>
+            <TiltedCard
+              imageSrc={image}
+              altText={imageAlt}
+              width={1000}
+              height={640}
+              className="h-80 w-full"
+              imageClassName="rounded-3xl border-0 shadow-lg transition-shadow duration-300 hover:shadow-2xl"
+              rotateAmplitude={8}
+              scaleOnHover={1.02}
+            />
           </motion.div>
           <motion.div
             className="w-full md:w-1/2"

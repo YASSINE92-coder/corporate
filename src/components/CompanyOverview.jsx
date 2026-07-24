@@ -3,7 +3,7 @@ import { motion } from "framer-motion"
 import { fadeInUp } from "../lib/animations"
 import { Container, Section } from "./ui/Container"
 import { Button } from "./ui/button"
-import OptimizedImage from "./OptimizedImage"
+import { TiltedCard } from "./ui/tilted-card"
 import { siteImages } from "../lib/images"
 import { useTranslation } from "../context/LanguageContext"
 
@@ -25,12 +25,15 @@ export default function CompanyOverview() {
           variants={fadeInUp}
         >
           <div className="w-full md:w-1/2">
-            <OptimizedImage
-              src={image.src}
-              alt={image.alt}
+            <TiltedCard
+              imageSrc={image.src}
+              altText={image.alt}
               width={image.width}
               height={image.height}
-              className="h-72 w-full rounded-3xl border border-border object-cover shadow-sm sm:h-80"
+              className="h-72 w-full sm:h-80"
+              imageClassName="rounded-3xl shadow-sm opacity-90"
+              rotateAmplitude={8}
+              scaleOnHover={1.03}
             />
           </div>
 
