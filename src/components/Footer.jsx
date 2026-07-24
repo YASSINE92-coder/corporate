@@ -21,7 +21,7 @@ export default function Footer() {
       transition={{ duration: 0.5 }}
       className="relative border-t border-border bg-footer text-footer-foreground"
       role="contentinfo"
-      aria-label="Site footer"
+      aria-label={t("footer.landmarkLabel")}
     >
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary to-transparent" />
 

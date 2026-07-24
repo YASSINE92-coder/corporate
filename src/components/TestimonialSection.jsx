@@ -1,42 +1,54 @@
 import { ChevronLeft, ChevronRight, Quote } from "lucide-react"
-import { useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import { useEffect, useRef, useState } from "react"
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion"
 import { fadeIn } from "../lib/animations"
 import { Container, Section } from "./ui/Container"
 import { useTranslation } from "../context/LanguageContext"
 
-const testimonials = [
-  {
-    quote: "The feedback given was brilliant and delivered in a supportive way. It helped us know our strengths and how to further improve.",
-    author: "Director of Education",
-    role: "SEND and Inclusion Review",
-  },
-  {
-    quote: "The service was amazing and supported me in my role. I felt more confident to support colleagues and to evaluate SEND outcomes.",
-    author: "SENCo",
-    role: "SEND and Inclusion Review",
-  },
-  {
-    quote: "Safeguarding Audit was invaluable to identify existing strengths and to focus our action points for improvement going forwards.",
-    author: "Early Years Manager",
-    role: "Safeguarding Audit",
-  },
-  {
-    quote: "Safeguarding training met our needs and made it clear to us how to continue to improve our staff’s knowledge to keep our children safe and secure.",
-    author: "Headteacher",
-    role: "Safeguarding Training",
-  },
-]
+const AUTO_ADVANCE_MS = 6000
 
 export default function TestimonialSection() {
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [isPaused, setIsPaused] = useState(false)
   const { t } = useTranslation()
+  const shouldReduceMotion = useReducedMotion()
+  const intervalRef = useRef(null)
 
-  const handlePrevious = () => setCurrentIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1))
-  const handleNext = () => setCurrentIndex((prev) => (prev === testimonials.length - 1 ? 0 : prev + 1))
+  const testimonials = t("testimonials.items")
+  const count = Array.isArray(testimonials) ? testimonials.length : 0
+
+  const handlePrevious = () => setCurrentIndex((prev) => (prev === 0 ? count - 1 : prev - 1))
+  const handleNext = () => setCurrentIndex((prev) => (prev === count - 1 ? 0 : prev + 1))
+
+  // Auto-advance, paused on hover/focus and skipped entirely for reduced-motion users.
+  useEffect(() => {
+    if (shouldReduceMotion || isPaused || count <= 1) return undefined
+
+    intervalRef.current = window.setInterval(() => {
+      setCurrentIndex((prev) => (prev === count - 1 ? 0 : prev + 1))
+    }, AUTO_ADVANCE_MS)
+
+    return () => window.clearInterval(intervalRef.current)
+  }, [shouldReduceMotion, isPaused, count])
+
+  // Keep the index valid if the translated items array ever shrinks (e.g. locale swap).
+  useEffect(() => {
+    if (currentIndex >= count && count > 0) setCurrentIndex(0)
+  }, [count, currentIndex])
+
+  if (count === 0) return null
+
+  const current = testimonials[currentIndex] ?? testimonials[0]
 
   return (
-    <Section background="accent" aria-labelledby="testimonials-heading">
+    <Section
+      background="accent"
+      aria-labelledby="testimonials-heading"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+      onFocus={() => setIsPaused(true)}
+      onBlur={() => setIsPaused(false)}
+    >
       <Container>
         <div className="mx-auto max-w-4xl text-center">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
@@ -56,11 +68,11 @@ export default function TestimonialSection() {
                 transition={{ duration: 0.35 }}
               >
                 <blockquote className="mb-8 font-display text-2xl font-medium leading-relaxed text-white md:text-3xl text-balance">
-                  “{testimonials[currentIndex].quote}”
+                  “{current.quote}”
                 </blockquote>
                 <div className="mb-8 text-white">
-                  <p className="text-lg font-semibold">{testimonials[currentIndex].author}</p>
-                  <p className="text-white/70">{testimonials[currentIndex].role}</p>
+                  <p className="text-lg font-semibold">{current.author}</p>
+                  <p className="text-white/70">{current.role}</p>
                 </div>
               </motion.div>
             </AnimatePresence>
@@ -72,7 +84,7 @@ export default function TestimonialSection() {
                 key={index}
                 type="button"
                 onClick={() => setCurrentIndex(index)}
-                aria-label={`Go to testimonial ${index + 1}`}
+                aria-label={t("testimonials.goTo", { number: index + 1 })}
                 aria-current={index === currentIndex}
                 className={`h-2.5 rounded-full transition-all ${
                   index === currentIndex ? "w-8 bg-white" : "w-2.5 bg-white/35 hover:bg-white/55"
@@ -85,7 +97,7 @@ export default function TestimonialSection() {
             <motion.button
               onClick={handlePrevious}
               className="rounded-full border border-white/20 bg-white/10 p-3 transition-all duration-300 hover:bg-white/20"
-              aria-label="Previous testimonial"
+              aria-label={t("testimonials.previous")}
               whileHover={{ scale: 1.08 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -94,7 +106,7 @@ export default function TestimonialSection() {
             <motion.button
               onClick={handleNext}
               className="rounded-full border border-white/20 bg-white/10 p-3 transition-all duration-300 hover:bg-white/20"
-              aria-label="Next testimonial"
+              aria-label={t("testimonials.next")}
               whileHover={{ scale: 1.08 }}
               whileTap={{ scale: 0.95 }}
             >

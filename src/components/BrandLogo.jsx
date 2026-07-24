@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom"
 import { cn } from "../lib/utils"
+import { useTranslation } from "../context/LanguageContext"
 
 /**
  * Brand mark used in navbar/footer — keeps identity consistent without a raster logo file.
@@ -12,12 +13,15 @@ export default function BrandLogo({
   showWordmark = true,
   style,
 }) {
+  const { t } = useTranslation()
+  const brand = t("common.brand")
+
   return (
     <Link
       to={to}
       className={cn("inline-flex items-center gap-2.5 font-display font-semibold tracking-tight", className)}
       style={style}
-      aria-label="FM Education Services home"
+      aria-label={`${brand} — ${t("nav.goToHomepage")}`}
     >
       <span
         className={cn(
@@ -30,7 +34,7 @@ export default function BrandLogo({
       </span>
       {showWordmark ? (
         <span className={cn("text-lg leading-none md:text-xl", textClassName)}>
-          FM Education Services
+          {brand}
         </span>
       ) : null}
     </Link>

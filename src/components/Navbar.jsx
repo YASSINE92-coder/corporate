@@ -71,7 +71,7 @@ function Navbar() {
 
   return (
     <motion.nav
-      aria-label="Primary"
+      aria-label={t('nav.primary')}
       className={cn(
         'fixed inset-x-0 top-0 z-50 border-b backdrop-blur-md transition-all duration-300',
         isScrolled
