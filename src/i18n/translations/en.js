@@ -17,6 +17,11 @@ export default {
     contactUs: "Contact us",
     exploreServices: "Explore services",
     requestConsultation: "Request a consultation",
+    bookConsultation: "Book a consultation",
+    arrangeConsultation: "Arrange a consultation",
+    startConsultation: "Start a consultation",
+    enquireNow: "Enquire now",
+    talkToSpecialist: "Talk to a specialist",
     callNow: "Call now",
     getInTouch: "Get in touch",
     navigation: "Navigation",
@@ -34,15 +39,15 @@ export default {
   },
   hero: {
     badge: "Safeguarding consultant UK · SEND · School improvement",
-    title: "FM Education Services",
+    title: "Fatiha Maitland-FM Education Services",
     subtitle:
-      "Specialist safeguarding consultant UK services, SEND support services, and school improvement consultancy — led by Fatiha Maitland for schools, academies, and Early Years settings.",
+      "Specialist safeguarding consultant UK and international services, SEND support services, school improvement consultancy and training — led by Fatiha Maitland for schools, academies, and Early Years settings.",
   },
   companyOverview: {
     eyebrow: "About the company",
     title: "Education consultancy built around safeguarding, SEND, and improvement",
     body:
-      "FM Education Services is an education consultancy helping schools, academies, and Early Years settings strengthen safeguarding culture, SEND and inclusion practice, and school improvement planning. Directed by Fatiha Maitland, we combine inspection expertise with practical coaching across the UK, UAE, GCC, and British Schools Overseas.",
+      "FM Education Services is an education consultancy helping schools, academies, and Early Years settings to strengthen safeguarding culture, SEND and inclusion practice, and school improvement planning. Directed by Fatiha Maitland, we combine inspection expertise with practical coaching and training across the UK, UAE, GCC, and British Schools Overseas.",
     cta: "Learn more about us",
   },
   impact: {
@@ -82,7 +87,7 @@ export default {
     description:
       "Safeguarding consultant UK services, SEND support services, and school improvement consultancy — tailored to your context and inspection frameworks.",
     coreService: "Core service",
-    requestConsultation: "Request a consultation",
+    requestConsultation: "Enquire now",
     items: {
       safeguarding: {
         title: "Safeguarding Support",
@@ -97,7 +102,7 @@ export default {
       schoolImprovement: {
         title: "School Improvement Advisory",
         description:
-          "School improvement consultancy with coaching and mock reviews using UK, UAE, and BSO frameworks.",
+          "School improvement consultancy with coaching and mock inspections/reviews using UK, UAE, and BSO frameworks.",
       },
     },
   },
@@ -291,12 +296,12 @@ export default {
     replySameDay: "We aim to reply within the same day.",
     emailUs: "Email us",
     callNow: "Call now",
-    requestConsultation: "Request a consultation",
+    requestConsultation: "Talk to a specialist",
     openMenu: "Open contact menu",
     closeMenu: "Close contact menu",
   },
   pageHero: {
-    contactUs: "Contact us",
+    contactUs: "Book a consultation",
     exploreServices: "Explore services",
   },
   testimonials: {

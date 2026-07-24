@@ -38,7 +38,7 @@ export default function CTASection({ service } = {}) {
               className="bg-white text-slate-900 hover:bg-white/90"
               icon
             >
-              {t("common.requestConsultation")}
+              {t("common.startConsultation")}
             </Button>
             <Button
               as="a"

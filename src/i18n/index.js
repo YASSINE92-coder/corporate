@@ -1,9 +1,8 @@
 import en from "./translations/en"
-import fr from "./translations/fr"
 import ar from "./translations/ar"
 import { DEFAULT_LOCALE } from "./locales"
 
-export const dictionaries = { en, fr, ar }
+export const dictionaries = { en, ar }
 
 /**
  * Resolve a dotted key (e.g. "nav.home") or return a nested value.
