@@ -80,7 +80,7 @@ function Services() {
                 <p>{t("servicesPage.safeguardingP1")}</p>
                 <p>{t("servicesPage.safeguardingP2")}</p>
                 <Button as={Link} to={localizePath(contactPath("safeguarding"))} variant="primary" icon>
-                  {t("common.requestConsultation")}
+                  {t("common.bookConsultation")}
                 </Button>
               </motion.div>
 
@@ -146,7 +146,7 @@ function Services() {
                 </ul>
                 <div className="mt-8">
                   <Button as={Link} to={localizePath(contactPath("send"))} variant="primary" icon>
-                    {t("common.requestConsultation")}
+                    {t("common.enquireNow")}
                   </Button>
                 </div>
               </motion.div>
@@ -177,7 +177,7 @@ function Services() {
                     variant="primary"
                     icon
                   >
-                    {t("common.requestConsultation")}
+                    {t("common.talkToSpecialist")}
                   </Button>
                 </div>
                 <aside className="rounded-[24px] bg-accent p-6 text-accent-foreground">

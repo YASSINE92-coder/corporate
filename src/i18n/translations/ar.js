@@ -17,6 +17,11 @@ export default {
     contactUs: "اتصل بنا",
     exploreServices: "استكشف الخدمات",
     requestConsultation: "اطلب استشارة",
+    bookConsultation: "احجز استشارة",
+    arrangeConsultation: "رتّب استشارة",
+    startConsultation: "ابدأ استشارة",
+    enquireNow: "قدّم طلبًا الآن",
+    talkToSpecialist: "تحدث إلى متخصص",
     callNow: "اتصل الآن",
     getInTouch: "تواصل معنا",
     navigation: "التنقل",
@@ -34,7 +39,7 @@ export default {
   },
   hero: {
     badge: "استشاري حماية الطفل في المملكة المتحدة · SEND · تحسين المدارس",
-    title: "FM Education Services",
+    title: "Fatiha Maitland-FM Education Services",
     subtitle:
       "خدمات متخصصة لحماية الطفل في المملكة المتحدة، ودعم SEND، واستشارات تحسين المدارس — تقودها فاتحة مايتلاند للمدارس والأكاديميات ومؤسسات الطفولة المبكرة.",
   },
@@ -82,7 +87,7 @@ export default {
     description:
       "خدمات استشاري حماية الطفل في المملكة المتحدة، ودعم SEND، واستشارات تحسين المدارس — مصممة لسياقكم وأطر التفتيش.",
     coreService: "خدمة أساسية",
-    requestConsultation: "اطلب استشارة",
+    requestConsultation: "قدّم طلبًا الآن",
     items: {
       safeguarding: {
         title: "دعم الحماية",
@@ -291,12 +296,12 @@ export default {
     replySameDay: "نسعى للرد في نفس اليوم.",
     emailUs: "راسلونا",
     callNow: "اتصل الآن",
-    requestConsultation: "اطلب استشارة",
+    requestConsultation: "تحدث إلى متخصص",
     openMenu: "فتح قائمة الاتصال",
     closeMenu: "إغلاق قائمة الاتصال",
   },
   pageHero: {
-    contactUs: "اتصل بنا",
+    contactUs: "احجز استشارة",
     exploreServices: "استكشف الخدمات",
   },
   testimonials: {

@@ -1,6 +1,5 @@
 export const LOCALES = [
   { code: "en", label: "EN", name: "English", flag: "gb", dir: "ltr" },
-  { code: "fr", label: "FR", name: "Français", flag: "fr", dir: "ltr" },
   { code: "ar", label: "AR", name: "العربية", flag: "ma", dir: "rtl" },
 ]
 
