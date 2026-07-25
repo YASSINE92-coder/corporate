@@ -111,6 +111,7 @@ function About() {
                     width={siteImages.directorPortrait.width}
                     height={siteImages.directorPortrait.height}
                     className="aspect-[4/5] w-full"
+                    imageClassName="opacity-96"
                     rotateAmplitude={8}
                     scaleOnHover={1.03}
                   />

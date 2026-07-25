@@ -66,8 +66,8 @@ export const siteImages = {
   // TODO: replace file with Fatiha's real headshot; alt is only accurate once that's done
   directorPortrait: {
     src: "/images/about/director.jpg",
-    width: 900,
-    height: 1100,
+    width: 1448,
+    height: 1086,
     alt: "Fatiha Maitland, Director of FM Education Services",
   },
   missionImage: {
