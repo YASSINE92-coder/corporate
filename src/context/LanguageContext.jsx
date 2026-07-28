@@ -8,13 +8,7 @@ import {
   useState,
 } from "react"
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom"
-import {
-  DEFAULT_LOCALE,
-  LOCALES,
-  getLocaleConfig,
-  splitLocalePath,
-  withLocale,
-} from "../i18n/locales"
+import { LOCALES, getLocaleConfig, splitLocalePath, withLocale } from "../i18n/locales"
 import { createT } from "../i18n"
 
 const LanguageContext = createContext(null)

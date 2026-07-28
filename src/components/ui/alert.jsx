@@ -31,6 +31,8 @@ const Alert = React.forwardRef(({ className, variant, ...props }, ref) => (
 Alert.displayName = "Alert"
 
 const AlertTitle = React.forwardRef(({ className, ...props }, ref) => (
+  // Content is provided by consumers via {...props}.children.
+  // eslint-disable-next-line jsx-a11y/heading-has-content
   <h5
     ref={ref}
     className={cn("mb-1 font-semibold leading-none tracking-tight", className)}
