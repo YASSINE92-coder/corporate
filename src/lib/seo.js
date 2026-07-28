@@ -7,8 +7,8 @@ export const SITE_URL =
   "https://www.fmeducationservices.com"
 
 export const SITE_NAME = "FM Education Services"
-export const DEFAULT_OG_IMAGE =
-  "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1200&q=80"
+/** Branded 1200×630 social card in /public (regenerate with `npm run og`). */
+export const DEFAULT_OG_IMAGE = `${SITE_URL}/og-image.png`
 
 export const pages = {
   home: {
