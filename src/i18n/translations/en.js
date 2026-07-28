@@ -1,5 +1,41 @@
 /** English (default) */
 export default {
+  seo: {
+    home: {
+      title: "FM Education Services | Safeguarding Consultant UK, SEND & School Improvement",
+      description:
+        "UK safeguarding consultant offering SEND support services and school improvement consultancy. Led by Fatiha Maitland — specialist training, audits, and reviews for schools.",
+      keywords:
+        "safeguarding consultant UK, SEND support services, school improvement consultancy, safeguarding training schools, inclusion reviews",
+    },
+    about: {
+      title: "About Fatiha Maitland | Education Consultant & Safeguarding Specialist",
+      description:
+        "Meet Fatiha Maitland, Director of FM Education Services — 35+ years as a senior inspector and education consultant specialising in safeguarding, SEND, and school improvement across the UK.",
+      keywords:
+        "Fatiha Maitland, education consultant UK, safeguarding specialist, school improvement advisor, SEND consultant",
+    },
+    services: {
+      title: "Safeguarding, SEND Support & School Improvement Consultancy | FM Education",
+      description:
+        "Bespoke safeguarding consultant UK services, SEND support services, and school improvement consultancy — training, audits, inclusion reviews, and Ofsted preparation.",
+      keywords:
+        "safeguarding consultant UK, SEND support services, school improvement consultancy, safeguarding auditing, SEND inclusion reviews, Ofsted preparation",
+    },
+    contact: {
+      title: "Contact FM Education Services | Book a Safeguarding or SEND Consultation",
+      description:
+        "Contact FM Education Services for safeguarding consultancy, SEND support services, or school improvement advice. Same-day responses for UK schools and academies.",
+      keywords:
+        "contact safeguarding consultant, SEND consultancy enquiry, school improvement advisor UK",
+    },
+    privacy: {
+      title: "Privacy Policy | FM Education Services",
+      description:
+        "How FM Education Services collects, uses, and protects personal data from website enquiries, cookies, and analytics.",
+      keywords: "privacy policy, data protection, FM Education Services",
+    },
+  },
   nav: {
     home: "Home",
     about: "About",

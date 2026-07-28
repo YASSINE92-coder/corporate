@@ -59,10 +59,10 @@ function About() {
   return (
     <>
       <Seo
-        title={meta.title}
-        description={meta.description}
+        title={t("seo.about.title")}
+        description={t("seo.about.description")}
         path={meta.path}
-        keywords={meta.keywords}
+        keywords={t("seo.about.keywords")}
         image={siteImages.aboutHero.src}
         schema={[
           getProfessionalServiceSchema(),

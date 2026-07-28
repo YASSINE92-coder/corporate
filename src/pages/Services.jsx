@@ -35,10 +35,10 @@ function Services() {
   return (
     <>
       <Seo
-        title={meta.title}
-        description={meta.description}
+        title={t("seo.services.title")}
+        description={t("seo.services.description")}
         path={meta.path}
-        keywords={meta.keywords}
+        keywords={t("seo.services.keywords")}
         image={siteImages.servicesHero.src}
         schema={[
           getProfessionalServiceSchema(),

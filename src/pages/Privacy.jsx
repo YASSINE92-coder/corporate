@@ -7,15 +7,15 @@ import { useTranslation } from "../context/LanguageContext"
 
 function Privacy() {
   const meta = pages.privacy
-  const { localizePath } = useTranslation()
+  const { t, localizePath } = useTranslation()
 
   return (
     <>
       <Seo
-        title={meta.title}
-        description={meta.description}
+        title={t("seo.privacy.title")}
+        description={t("seo.privacy.description")}
         path={meta.path}
-        keywords={meta.keywords}
+        keywords={t("seo.privacy.keywords")}
         schema={[
           getBreadcrumbSchema([
             { name: "Home", path: "/" },

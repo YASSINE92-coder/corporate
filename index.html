@@ -8,16 +8,12 @@
     <meta name="author" content="Fatiha Maitland, FM Education Services" />
 
     <!--
-      Bootstrap fallbacks only. Canonical, hreflang, Open Graph, Twitter, and
-      per-route title/description are managed by react-helmet-async (see
-      src/components/Seo.jsx) and baked into each page by the prerender step,
-      so they are intentionally NOT duplicated here.
+      Title, description, canonical, hreflang, Open Graph, Twitter, and JSON-LD
+      are managed per-route by react-helmet-async (src/components/Seo.jsx) and
+      baked into each page by the prerender step (scripts/prerender.mjs). They
+      are intentionally NOT declared statically here, so the prerendered HTML
+      carries exactly one authoritative set per page.
     -->
-    <title>FM Education Services | Safeguarding Consultant UK, SEND & School Improvement</title>
-    <meta
-      name="description"
-      content="UK safeguarding consultant offering SEND support services and school improvement consultancy. Led by Fatiha Maitland — specialist training, audits, and reviews for schools."
-    />
 
     <script>
       (function () {
