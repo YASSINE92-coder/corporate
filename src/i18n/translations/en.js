@@ -14,7 +14,7 @@ export default {
     goToHomepage: "Go to homepage",
   },
   common: {
-    brand: "FM Education Services",
+    brand: "Fatiha Maitland-FM Education Services",
     skipToContent: "Skip to main content",
     learnMore: "Learn more",
     contactUs: "Contact us",
@@ -46,11 +46,11 @@ export default {
     badge: "Safeguarding consultant UK · SEND · School improvement",
     title: "Fatiha Maitland-FM Education Services",
     subtitle:
-      "Specialist safeguarding consultant UK and international services, SEND support services, school improvement consultancy and training — led by Fatiha Maitland for schools, academies, and Early Years settings.",
+      "Specialist safeguarding inspector and consultant UK and international services, SEND and inclusion support services, school improvement consultancy and training — led by Fatiha Maitland for schools, academies, and Early Years settings.",
   },
   companyOverview: {
     eyebrow: "About the company",
-    title: "Education consultancy built around safeguarding, SEND, and improvement",
+    title: "Education consultancy built around safeguarding, SEND, inclusion and school improvement",
     body:
       "FM Education Services is an education consultancy helping schools, academies, and Early Years settings to strengthen safeguarding culture, SEND and inclusion practice, and school improvement planning. Directed by Fatiha Maitland, we combine inspection expertise with practical coaching and training across the UK, UAE, GCC, and British Schools Overseas.",
     cta: "Learn more about us",
@@ -70,7 +70,7 @@ export default {
     regions: {
       gb: {
         name: "United Kingdom",
-        detail: "Ofsted, KCSIE, and school improvement frameworks",
+        detail: "Ofsted inspections/reviews and school improvement",
       },
       ae: {
         name: "United Arab Emirates",
@@ -78,7 +78,7 @@ export default {
       },
       gcc: {
         name: "GCC Region",
-        detail: "Consultancy across Gulf Cooperation Council settings",
+        detail: "Inspection and consultancy support across Gulf Cooperation Council settings",
       },
       bso: {
         name: "British Schools Overseas",
@@ -153,7 +153,7 @@ export default {
     heroEyebrow: "About FM Education Services",
     heroTitle: "Led by experience. Driven by school improvement.",
     heroDescription:
-      "FM Education Services is directed by Fatiha Maitland — a highly recommended education consultant, safeguarding specialist, and school improvement advisor with over 35 years in education across the UK and internationally.",
+      "FM Education Services is directed by Fatiha Maitland — a highly recommended education inspector and consultant, coach, trainer and safeguarding specialist, and school improvement advisor with over 35 years in education across the UK and internationally.",
     whoWeAre: "Who we are",
     directorTitle: "Meet Fatiha Maitland, Director",
     directorP1:
@@ -161,12 +161,12 @@ export default {
     directorP2:
       "She is a highly experienced education consultant, school improvement advisor, and trainer. Fatiha is a specialist in safeguarding, special educational needs and/or disabilities (SEND), inclusion, and early years’ education reviews.",
     directorP3:
-      "She uses her skills expertly to work closely with senior and middle leaders, teachers, and support staff. Her supportive skills and unique coaching style enable her to accelerate a school’s performance from a very low starting point. She conducts mock reviews using the UK, UAE, and BSO inspection frameworks. She is highly recommended.",
+      "She uses her skills expertly to work closely with senior and middle leaders, teachers, and support staff. Her supportive skills and unique coaching style enable her to accelerate a school’s performance from a very low starting point. She conducts mock inspections/reviews using the UK, UAE, and BSO inspection frameworks. She is highly recommended.",
     positioningTitle: "Market positioning",
     positioning: [
       "Specialist education consultancy for schools and Early Years settings",
       "Focus on safeguarding, SEND, inclusion, and school improvement",
-      "Trusted across the UK, UAE, GCC, and British Schools Overseas",
+      "Trusted across the UK, UAE, GCC, and BSO",
       "Inspection-aligned coaching that builds lasting staff capacity",
     ],
     purposeEyebrow: "Purpose",
@@ -191,21 +191,21 @@ export default {
     strengths: {
       safeguarding: { title: "Safeguarding specialist", description: "Expert advice, auditing, and training for schools, academies, and Early Years settings across the UK, UAE, and internationally." },
       send: { title: "SEND and inclusion", description: "Bespoke SEND support services and inclusion reviews that reflect each school’s context and strengthen provision." },
-      inspection: { title: "Inspection-ready support", description: "Mock reviews using UK, UAE, and BSO inspection frameworks, plus guidance for Ofsted pre-registration." },
+      inspection: { title: "Inspection-ready support", description: "Mock inspections/reviews using UK, UAE, and — globally — BSO inspection frameworks, plus guidance for Ofsted pre-registration." },
       coaching: { title: "Coaching that accelerates progress", description: "A supportive coaching style that helps staff raise performance from any starting point." },
     },
   },
   servicesPage: {
     heroEyebrow: "Our services",
-    heroTitle: "Safeguarding consultant UK, SEND support & school improvement",
+    heroTitle: "Safeguarding inspector and consultant UK, SEND and inclusion support & school improvement",
     heroDescription:
-      "Bespoke advice, training, and reviews tailored to your setting — whether you need a safeguarding consultant in the UK, SEND support services, or school improvement consultancy ahead of inspection.",
+      "Bespoke advice, training, and mock inspections/reviews tailored to your setting — whether you need a safeguarding inspector and consultant in the UK, SEND support services, or school improvement consultancy ahead of inspection.",
     safeguardingEyebrow: "Safeguarding",
-    safeguardingTitle: "Safeguarding consultant UK — advice, training, and auditing you can trust",
+    safeguardingTitle: "Safeguarding inspector and consultant UK and the globe — advice, training, and auditing you can trust",
     safeguardingDescription:
       "FM Education Services is highly experienced and successful in providing bespoke advice, support, guidance, and training to those responsible for safeguarding, including schools, academies, and Early Years settings in the United Kingdom, the United Arab Emirates, and globally.",
     safeguardingP1:
-      "As a trusted safeguarding consultant UK schools rely on, our services include face-to-face safeguarding training and auditing. We successfully support new schools and Early Years settings to prepare for their pre-registration inspections for Ofsted and to offer ongoing support.",
+      "As a trusted safeguarding inspector and consultant UK schools rely on, our services include face-to-face safeguarding training and auditing. We successfully support new schools and Early Years settings to prepare for their pre-registration inspections for Ofsted and to offer ongoing support.",
     safeguardingP2:
       "We are highly committed to Keeping Children Safe in Education (KCSIE) and Working Together to Safeguard Children — strengthening culture, compliance, and confidence across your setting.",
     whatWeProvide: "What we provide",
