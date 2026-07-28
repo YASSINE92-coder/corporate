@@ -105,10 +105,10 @@ function Contact() {
   return (
     <>
       <Seo
-        title={meta.title}
-        description={meta.description}
+        title={t("seo.contact.title")}
+        description={t("seo.contact.description")}
         path={meta.path}
-        keywords={meta.keywords}
+        keywords={t("seo.contact.keywords")}
         image={siteImages.contactHero.src}
         schema={[
           getProfessionalServiceSchema(),
@@ -124,7 +124,6 @@ function Contact() {
           title={t("contact.heroTitle")}
           description={t("contact.heroDescription")}
           image={siteImages.contactHero.src}
-          imageAlt={siteImages.contactHero.alt}
           primaryLabel={t("common.callNow")}
           primaryHref={`tel:${CONTACT_PHONE}`}
           primaryIcon={false}

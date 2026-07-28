@@ -30,7 +30,6 @@ export default function PageHero({
   title,
   description,
   image,
-  imageAlt = "FM Education Services — education consultancy",
   primaryLabel,
   primaryHref = "/contact#contact-form",
   primaryIcon = true,

@@ -27,10 +27,10 @@ function Home() {
   return (
     <>
       <Seo
-        title={meta.title}
-        description={meta.description}
+        title={t("seo.home.title")}
+        description={t("seo.home.description")}
         path={meta.path}
-        keywords={meta.keywords}
+        keywords={t("seo.home.keywords")}
         schema={[
           getProfessionalServiceSchema(),
           getBreadcrumbSchema([{ name: "Home", path: "/" }]),

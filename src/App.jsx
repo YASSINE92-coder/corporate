@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react'
+import { Fragment, lazy, Suspense } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import Navbar from './components/Navbar'
@@ -13,12 +13,29 @@ import ScrollToTop from './ScrollToTop'
 import LocaleFade from './components/LocaleFade'
 import { fadeInUp } from './lib/animations'
 import { useTranslation } from './context/LanguageContext'
+import { PREFIXED_LOCALES, splitLocalePath } from './i18n/locales'
 
 const Home = lazy(() => import('./pages/Home'))
 const About = lazy(() => import('./pages/About'))
 const Services = lazy(() => import('./pages/Services'))
 const Contact = lazy(() => import('./pages/Contact'))
 const Privacy = lazy(() => import('./pages/Privacy'))
+
+/** Locale-agnostic routes, rendered once at root and once under each locale prefix. */
+const ROUTES = [
+  { path: '/', element: <Home /> },
+  { path: '/about', element: <About /> },
+  { path: '/services', element: <Services /> },
+  { path: '/contact', element: <Contact /> },
+  { path: '/privacy', element: <Privacy /> },
+]
+
+function localeRoutes(prefix) {
+  return ROUTES.map(({ path, element }) => {
+    const full = prefix ? `${prefix}${path === '/' ? '' : path}` : path
+    return <Route key={full} path={full} element={element} />
+  })
+}
 
 function PageFallback() {
   const { t } = useTranslation()
@@ -43,16 +60,19 @@ function AnimatedRoutes() {
     ? { initial: false, animate: undefined, exit: undefined }
     : { initial: 'hidden', animate: 'visible', exit: 'hidden', variants: fadeInUp }
 
+  // Key on the locale-agnostic path so switching language on the same page
+  // is handled by LocaleFade, not a full page transition.
+  const { path: routePath } = splitLocalePath(location.pathname)
+
   return (
     <AnimatePresence mode="wait" initial={false}>
-      <motion.div key={location.pathname} {...pageMotionProps}>
+      <motion.div key={routePath} {...pageMotionProps}>
         <Suspense fallback={<PageFallback />}>
           <Routes location={location}>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/privacy" element={<Privacy />} />
+            {localeRoutes('')}
+            {PREFIXED_LOCALES.map((code) => (
+              <Fragment key={code}>{localeRoutes(`/${code}`)}</Fragment>
+            ))}
           </Routes>
         </Suspense>
       </motion.div>
