@@ -1,8 +1,15 @@
 /** Shared enquiry / contact helpers for CTA deep-links and form prefills. */
 
-export const CONTACT_PHONE = "+447704267745"
-export const CONTACT_PHONE_DISPLAY = "+44 (0) 770 426 7745"
-export const CONTACT_EMAIL = "fatiha.maitland1@gmail.com"
+// The contact details themselves live in ./contact.js — the single place the
+// phone number is defined — and are re-exported so existing imports keep working.
+export {
+  CONTACT_PHONE,
+  CONTACT_PHONE_DISPLAY,
+  CONTACT_EMAIL,
+  CONTACT_WHATSAPP,
+  telHref,
+  whatsappHref,
+} from "./contact"
 
 export const ENQUIRY_SERVICES = [
   { id: "safeguarding", label: "Safeguarding consultancy" },

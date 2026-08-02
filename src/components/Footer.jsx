@@ -1,11 +1,17 @@
 import { motion } from "framer-motion"
 import { Link } from "react-router-dom"
-import { Mail, Phone, ArrowUpRight } from "lucide-react"
+import { Mail, Phone, ArrowRight, ArrowUpRight } from "lucide-react"
 import BrandLogo from "./BrandLogo"
 import { ThemeToggle } from "./theme-toggle"
 import LanguageSwitcher from "./LanguageSwitcher"
 import { useTranslation } from "../context/LanguageContext"
-import { CONTACT_EMAIL, CONTACT_PHONE, CONTACT_PHONE_DISPLAY } from "../lib/enquiry"
+import {
+  AUTHOR_LINKEDIN_URL,
+  AUTHOR_NAME,
+  CONTACT_EMAIL,
+  CONTACT_PHONE_DISPLAY,
+  telHref,
+} from "../lib/contact"
 import { getNavLinks } from "../data/navigation"
 
 export default function Footer() {
@@ -23,9 +29,15 @@ export default function Footer() {
       role="contentinfo"
       aria-label={t("footer.landmarkLabel")}
     >
-      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary to-transparent" />
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary to-transparent" />
 
-      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-12 lg:px-8">
+      {/*
+        Extra bottom padding keeps the last row clear of the fixed contact stack
+        (FloatingContact), which sits at the inline-end corner of the viewport and
+        would otherwise sit on top of the build credit — and, now that the credit
+        is a link, swallow its clicks.
+      */}
+      <div className="mx-auto max-w-7xl px-4 pb-24 pt-10 sm:px-6 sm:pb-24 sm:pt-12 lg:px-8">
         {/* —— Mobile layout —— */}
         <div className="flex flex-col gap-8 md:hidden">
           <div className="flex flex-col items-center gap-3 text-center">
@@ -67,16 +79,19 @@ export default function Footer() {
                 <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-accent text-accent-foreground">
                   <Mail className="h-4 w-4" aria-hidden="true" />
                 </span>
-                <span className="min-w-0 truncate">{CONTACT_EMAIL}</span>
+                {/* Latin address, LTR even in Arabic — see the note in ContactDetails. */}
+                <span dir="ltr" className="min-w-0 truncate">
+                  {CONTACT_EMAIL}
+                </span>
               </a>
               <a
-                href={`tel:${CONTACT_PHONE}`}
+                href={telHref()}
                 className="flex min-h-12 items-center gap-3 rounded-2xl border border-border bg-card/80 px-4 text-sm font-medium text-foreground transition hover:border-primary/40 hover:bg-muted"
               >
                 <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-accent text-accent-foreground">
                   <Phone className="h-4 w-4" aria-hidden="true" />
                 </span>
-                <span>{CONTACT_PHONE_DISPLAY}</span>
+                <span dir="ltr">{CONTACT_PHONE_DISPLAY}</span>
               </a>
             </div>
 
@@ -125,20 +140,30 @@ export default function Footer() {
           <div className="space-y-3">
             <h3 className="text-sm font-semibold text-foreground">{t("common.getInTouch")}</h3>
             <p className="text-sm">
-              <a href={`mailto:${CONTACT_EMAIL}`} className="text-muted-foreground transition hover:text-foreground">
+              <a
+                href={`mailto:${CONTACT_EMAIL}`}
+                dir="ltr"
+                className="inline-block text-muted-foreground transition hover:text-foreground"
+              >
                 {CONTACT_EMAIL}
               </a>
             </p>
             <p className="text-sm">
-              <a href={`tel:${CONTACT_PHONE}`} className="text-muted-foreground transition hover:text-foreground">
+              <a
+                href={telHref()}
+                dir="ltr"
+                className="inline-block text-muted-foreground transition hover:text-foreground"
+              >
                 {CONTACT_PHONE_DISPLAY}
               </a>
             </p>
             <Link
               to={localizePath("/contact#contact-form")}
-              className="inline-block text-sm font-medium text-primary transition hover:underline"
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-primary transition hover:underline"
             >
-              {t("common.arrangeConsultation")} →
+              {t("common.arrangeConsultation")}
+              {/* Was a literal "→", which pointed the wrong way in Arabic. */}
+              <ArrowRight className="h-3.5 w-3.5 rtl:-scale-x-100" aria-hidden="true" />
             </Link>
 
             <div className="flex w-fit items-center gap-1 rounded-full border border-border bg-card/70 p-1">
@@ -152,9 +177,23 @@ export default function Footer() {
           <p>
             © {year} {t("common.brand")}. {t("common.allRightsReserved")}
           </p>
-          <p>
+          {/*
+            From `sm` up this row is justify-between, so the credit lands in the
+            same inline-end corner the fixed contact stack occupies. The padding
+            steps it clear of the buttons; on mobile the row is centred and there
+            is no collision, so none is applied.
+          */}
+          <p className="sm:pe-24">
             {t("common.builtBy")}{" "}
-            <span className="font-medium text-foreground/80">Yassine Chaanoune</span>
+            <a
+              href={AUTHOR_LINKEDIN_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={t("footer.builtByAria", { name: AUTHOR_NAME })}
+              className="rounded-sm font-medium text-foreground/80 underline decoration-transparent decoration-1 underline-offset-4 transition-colors duration-300 hover:text-primary hover:decoration-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+            >
+              {AUTHOR_NAME}
+            </a>
           </p>
         </div>
       </div>

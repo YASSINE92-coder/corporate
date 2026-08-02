@@ -13,7 +13,13 @@ function RegionCard({ region }) {
   return (
     <Card className="h-full overflow-hidden rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-xl sm:rounded-2xl">
       <CardContent className="flex h-full min-h-28 flex-col items-center justify-center p-5 text-center sm:min-h-32 sm:p-6 md:min-h-36 md:p-8">
-        <FlagIcon code={region.flag} title={region.name} className="mb-3 h-6 w-8 rounded-sm" />
+        {/* Every flag in /public/flags is 4:3, so a fixed aspect box scales them
+            up without cropping and keeps the row's baselines aligned. */}
+        <FlagIcon
+          code={region.flag}
+          title={region.name}
+          className="mb-4 h-auto w-14 rounded-md shadow-md ring-1 ring-foreground/10 sm:w-16 md:w-[4.5rem] aspect-[4/3]"
+        />
         <h3 className="mb-2 font-display text-base font-semibold text-foreground sm:text-lg">{region.name}</h3>
         <p className="text-xs leading-6 text-muted-foreground sm:text-sm sm:leading-7">{region.detail}</p>
       </CardContent>
@@ -64,7 +70,9 @@ export default function TrustedSection() {
   })
 
   return (
-    <section className="w-full bg-muted/50 py-16 theme-surface dark:bg-muted/25 sm:py-20 md:py-28">
+    // Bottom padding is deliberately lighter than the top: PartnersSection sits
+    // directly beneath on the same surface and supplies the closing space.
+    <section className="w-full bg-muted/50 pb-14 pt-16 theme-surface dark:bg-muted/25 sm:pb-16 sm:pt-20 md:pb-20 md:pt-28">
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.h2
           className="mb-8 text-center font-display text-2xl font-semibold text-foreground sm:mb-10 sm:text-3xl md:mb-12 md:text-4xl text-balance"

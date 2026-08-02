@@ -41,7 +41,8 @@ const Button = React.forwardRef(
         {...props}
       >
         {children}
-        {icon ? <ArrowRight className="h-4 w-4" aria-hidden="true" /> : null}
+        {/* The arrow points "forward", which is leftward under RTL. */}
+        {icon ? <ArrowRight className="h-4 w-4 rtl:-scale-x-100" aria-hidden="true" /> : null}
       </Comp>
     )
   }

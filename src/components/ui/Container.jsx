@@ -22,9 +22,16 @@ export function Section({ children, className, id, background = "default", ...pr
   )
 }
 
+/**
+ * `align="start"` hugs the inline start of the container and aligns its text the
+ * same way, so it flips with the writing direction. `align="left"` is kept as a
+ * deprecated alias — it never meant "physically left", only "not centred".
+ */
 export function SectionHeading({ eyebrow, title, description, align = "center", id }) {
+  const isStartAligned = align === "start" || align === "left"
+
   return (
-    <div className={cn("mx-auto mb-14 max-w-3xl", align === "left" ? "ml-0 text-left" : "text-center")}>
+    <div className={cn("mx-auto mb-14 max-w-3xl", isStartAligned ? "ms-0 text-start" : "text-center")}>
       {eyebrow ? (
         <p className="mb-4 text-sm font-semibold uppercase tracking-[0.28em] text-primary">
           {eyebrow}
@@ -37,7 +44,7 @@ export function SectionHeading({ eyebrow, title, description, align = "center", 
         {title}
       </h2>
       {description ? (
-        <p className={cn("mt-5 text-lg leading-8 text-muted-foreground", align === "center" && "mx-auto")}>
+        <p className={cn("mt-5 text-lg leading-8 text-muted-foreground", !isStartAligned && "mx-auto")}>
           {description}
         </p>
       ) : null}

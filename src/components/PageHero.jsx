@@ -3,6 +3,7 @@ import { Link } from "react-router-dom"
 import { fadeInUp } from "../lib/animations"
 import { Button } from "./ui/button"
 import OptimizedImage from "./OptimizedImage"
+import { darkHeroProps } from "../lib/navOverlay"
 import { useTranslation } from "../context/LanguageContext"
 
 function isAppRoute(href) {
@@ -42,7 +43,7 @@ export default function PageHero({
   const resolvedSecondary = secondaryLabel ?? t("pageHero.exploreServices")
 
   return (
-    <header className="relative isolate overflow-hidden pt-24 md:pt-32">
+    <header className="relative isolate overflow-hidden pt-24 md:pt-32" {...darkHeroProps}>
       <div className="absolute inset-0" aria-hidden="true">
         <div className="absolute inset-0 hero-gradient" />
         <OptimizedImage

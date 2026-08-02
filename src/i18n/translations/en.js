@@ -68,15 +68,18 @@ export default {
     builtBy: "Built by",
     loading: "Loading page…",
     clearSelection: "Clear selection",
-    toggleTheme: "Toggle color theme",
-    themeLight: "Light mode",
-    themeDark: "Dark mode",
+    theme: "Theme",
+    toggleTheme: "Theme",
+    themeLight: "Light",
+    themeDark: "Dark",
+    themeSystem: "System",
     close: "Close",
   },
   footer: {
     tagline:
       "Specialist safeguarding, SEND and inclusion, and school improvement support for schools, academies, and Early Years settings.",
     landmarkLabel: "Site footer",
+    builtByAria: "{{name}} on LinkedIn (opens in a new tab)",
   },
   hero: {
     badge: "Safeguarding consultant UK · SEND · School improvement",
@@ -120,6 +123,17 @@ export default {
         name: "British Schools Overseas",
         detail: "Mock reviews aligned to BSO frameworks",
       },
+    },
+  },
+  partners: {
+    title: "Departments and organisations we've worked with",
+    subtitle:
+      "Direct engagement with national regulators, education authorities, and individual settings across the UK, the Gulf, and beyond.",
+    orgs: {
+      adek: "Department of Education and Knowledge, Abu Dhabi",
+      edt: "Education Development Trust",
+      bqa: "Education & Training Quality Authority, Bahrain",
+      littleDoves: "Little Doves Nursery & Preschool",
     },
   },
   homeServices: {
@@ -332,6 +346,56 @@ export default {
     decline: "Decline",
     accept: "Accept",
   },
+  privacy: {
+    eyebrow: "Legal",
+    title: "Privacy Policy",
+    lastUpdated: "Last updated: {{date}}",
+    who: {
+      title: "Who we are",
+      body: "This website is operated by {{brand}}, directed by Fatiha Maitland. For privacy enquiries, contact us at {{email}}.",
+    },
+    collect: {
+      title: "Information we collect",
+      intro: "When you use our contact form, we may collect:",
+      items: [
+        "Full name",
+        "Email address",
+        "School or setting name (optional)",
+        "Your role (optional)",
+        "Service interest and message content",
+      ],
+      analytics:
+        "If you allow analytics cookies, we may also collect anonymised usage data (pages visited, approximate location, device/browser type) via Google Analytics.",
+    },
+    use: {
+      title: "How we use your information",
+      items: [
+        "To respond to consultation and support enquiries",
+        "To provide the services you request",
+        "To improve our website experience (only with analytics consent)",
+      ],
+      note: "We do not sell your personal data. We do not use contact-form data for unrelated marketing without a lawful basis.",
+    },
+    processing: {
+      title: "How messages are processed",
+      body: "Contact-form submissions are delivered by email using {{emailjs}}, a third-party email delivery service. Message content is sent to FM Education Services (typically to {{email}}) so we can reply to you.",
+      note: "Please review EmailJS’s own privacy terms for how they process transmission data on our behalf.",
+    },
+    cookies: {
+      title: "Cookies",
+      body: "We use essential cookies/local storage needed for basic site functions (for example remembering your cookie preference and theme). Analytics cookies are used only if you accept them via our cookie banner.",
+      note: "You can change your mind later by clearing site data for this website in your browser settings, which will show the cookie banner again.",
+    },
+    rights: {
+      title: "Your rights",
+      body: "Depending on applicable law (including UK GDPR where relevant), you may request access to, correction of, or deletion of personal data we hold about you. Contact us using the details above.",
+    },
+    contactSection: {
+      title: "Contact",
+      body: "Questions about this policy? Email {{email}} or use our {{form}}.",
+      formLabel: "contact form",
+    },
+  },
   floating: {
     needSupport: "Need support?",
     replySameDay: "We aim to reply within the same day.",
@@ -341,6 +405,7 @@ export default {
     openMenu: "Open contact menu",
     closeMenu: "Close contact menu",
     openQuickEnquiry: "Open quick enquiry form",
+    chatOnWhatsApp: "Chat on WhatsApp",
   },
   pageHero: {
     contactUs: "Book a consultation",

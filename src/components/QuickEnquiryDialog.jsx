@@ -99,7 +99,7 @@ export default function QuickEnquiryDialog({ open, onOpenChange }) {
             aria-label={t("floating.needSupport")}
             aria-busy={status === "loading"}
           >
-            <div className="absolute -left-[9999px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
+            <div className="absolute -start-[9999px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
               <label htmlFor="quick-enquiry-website">Website</label>
               <input
                 id="quick-enquiry-website"
