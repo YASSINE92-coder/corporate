@@ -102,6 +102,10 @@ function Navbar() {
       }
     }
 
+    // Capture the current nodes for use in cleanup (refs may have changed by then).
+    const menuNode = menuRef.current
+    const buttonNode = buttonRef.current
+
     document.body.style.overflow = 'hidden'
     document.addEventListener('mousedown', handleClickOutside)
     document.addEventListener('keydown', handleKeydown)
@@ -118,8 +122,8 @@ function Navbar() {
       cancelAnimationFrame(raf)
       // Return focus to the toggle unless focus has deliberately moved elsewhere.
       const active = document.activeElement
-      if (buttonRef.current && (!active || active === document.body || menuRef.current?.contains(active))) {
-        buttonRef.current.focus()
+      if (buttonNode && (!active || active === document.body || menuNode?.contains(active))) {
+        buttonNode.focus()
       }
     }
   }, [isMenuOpen])

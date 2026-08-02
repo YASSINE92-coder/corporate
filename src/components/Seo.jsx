@@ -64,10 +64,10 @@ export default function Seo({
             rel="preload"
             as="image"
             href={img.src}
-            imagesrcset={srcset || undefined}
-            imagesizes={srcset ? img.sizes || "100vw" : undefined}
+            imageSrcSet={srcset || undefined}
+            imageSizes={srcset ? img.sizes || "100vw" : undefined}
             type={srcset ? type : undefined}
-            fetchpriority="high"
+            fetchPriority="high"
           />
         )
       })}
