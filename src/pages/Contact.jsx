@@ -87,11 +87,14 @@ function Contact() {
         description: t("contact.toastSuccessDesc"),
       })
     } catch (error) {
-      const message = error?.text || error?.message || "Something went wrong. Please try again."
+      // Show a friendly, localized message; keep the raw provider error in the
+      // console for debugging rather than leaking EmailJS wording to visitors.
+      if (import.meta.env.DEV) console.error("Contact form send failed:", error)
+      const friendly = t("contact.errorBody")
       setStatus("error")
-      setErrorMessage(message)
+      setErrorMessage(friendly)
       toast.error(t("contact.toastError"), {
-        description: message,
+        description: friendly,
       })
     }
   }

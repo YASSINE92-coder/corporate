@@ -35,7 +35,7 @@ export default function CookieConsent() {
 
   return (
     <div
-      role="dialog"
+      role="region"
       aria-labelledby="cookie-consent-title"
       aria-describedby="cookie-consent-desc"
       className="fixed inset-x-0 bottom-0 z-[60] p-4 sm:p-6"

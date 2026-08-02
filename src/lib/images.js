@@ -1,8 +1,15 @@
 /**
  * Site images — self-hosted locally in /public/images (Vite serves `public/` at `/`).
+ *
+ * Each entry is the authoritative source (a single JPEG). Responsive AVIF/WebP/
+ * JPEG `srcSet`s are layered on at module load from `images.generated.js`, which
+ * `npm run images` produces. When that manifest is empty (assets not generated
+ * yet) every entry stays exactly as authored, so the site ships the source JPEG
+ * and never references a derivative that does not exist.
  */
+import { generatedImageSources } from "./images.generated"
 
-export const siteImages = {
+const sourceImages = {
   homeHero: {
     src: "/images/hero/home-hero.jpg",
     width: 1920,
@@ -83,3 +90,11 @@ export const siteImages = {
     alt: "A supportive, inclusive learning environment in a school",
   },
 }
+
+/** Merge in generated AVIF/WebP/JPEG srcSets by source path (no-op when absent). */
+export const siteImages = Object.fromEntries(
+  Object.entries(sourceImages).map(([key, image]) => {
+    const generated = generatedImageSources[image.src]
+    return [key, generated ? { ...image, ...generated } : image]
+  })
+)

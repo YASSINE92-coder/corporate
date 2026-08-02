@@ -1,7 +1,6 @@
 import { Helmet } from "react-helmet-async"
 import {
   SITE_NAME,
-  SITE_URL,
   DEFAULT_OG_IMAGE,
   absoluteUrl,
   getProfessionalServiceSchema,
@@ -27,6 +26,7 @@ export default function Seo({
   type = "website",
   schema,
   noindex = false,
+  preloadImages = [],
 }) {
   const { locale } = useLanguage()
   const canonical = absoluteUrl(withLocale(path, locale))
@@ -48,6 +48,30 @@ export default function Seo({
       />
       <link rel="canonical" href={canonical} />
 
+      {/*
+        LCP image preload. Mirrors OptimizedImage's source order (AVIF → WebP →
+        JPEG) so the preloaded resource is exactly the one the browser picks —
+        no "preloaded but not used" waste. `srcSet`/`webp`/`avif` are only set
+        once the image pipeline has generated them; until then the base src is
+        preloaded on its own.
+      */}
+      {preloadImages.map((img, i) => {
+        const srcset = img.avif || img.webp || img.srcSet
+        const type = img.avif ? "image/avif" : img.webp ? "image/webp" : undefined
+        return (
+          <link
+            key={`preload-image-${i}`}
+            rel="preload"
+            as="image"
+            href={img.src}
+            imagesrcset={srcset || undefined}
+            imagesizes={srcset ? img.sizes || "100vw" : undefined}
+            type={srcset ? type : undefined}
+            fetchpriority="high"
+          />
+        )
+      })}
+
       {/* hreflang alternates for the bilingual site */}
       {LOCALES.map((l) => (
         <link
@@ -67,6 +91,9 @@ export default function Seo({
       <meta property="og:url" content={canonical} />
       <meta property="og:image" content={ogImage} />
       <meta property="og:image:alt" content={`${SITE_NAME} — education consultancy`} />
+      {image === DEFAULT_OG_IMAGE ? <meta property="og:image:width" content="1200" /> : null}
+      {image === DEFAULT_OG_IMAGE ? <meta property="og:image:height" content="630" /> : null}
+      {image === DEFAULT_OG_IMAGE ? <meta property="og:image:type" content="image/png" /> : null}
       <meta property="og:locale" content={OG_LOCALE[locale] ?? OG_LOCALE.en} />
       {LOCALES.filter((l) => l.code !== locale).map((l) => (
         <meta key={l.code} property="og:locale:alternate" content={OG_LOCALE[l.code] ?? l.code} />
@@ -77,9 +104,7 @@ export default function Seo({
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={ogImage} />
-
-      {/* Base URL hint for relative assets */}
-      <link rel="home" href={SITE_URL} />
+      <meta name="twitter:image:alt" content={`${SITE_NAME} — education consultancy`} />
 
       {jsonLd.map((block, index) => (
         <script key={index} type="application/ld+json">

@@ -32,6 +32,7 @@ function Home() {
         description={t("seo.home.description")}
         path={meta.path}
         keywords={t("seo.home.keywords")}
+        preloadImages={[{ ...siteImages.homeHero, sizes: "100vw" }]}
         schema={[
           getProfessionalServiceSchema(),
           getBreadcrumbSchema([{ name: "Home", path: "/" }]),
