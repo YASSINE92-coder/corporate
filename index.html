@@ -26,12 +26,14 @@
         try {
           var key = "corporate-theme";
           var stored = localStorage.getItem(key);
-          var explicit = stored === "light" || stored === "dark";
-          var theme = explicit
-            ? stored
-            : window.matchMedia("(prefers-color-scheme: dark)").matches
-              ? "dark"
-              : "light";
+          var preference =
+            stored === "light" || stored === "dark" || stored === "system" ? stored : "system";
+          var theme =
+            preference !== "system"
+              ? preference
+              : window.matchMedia("(prefers-color-scheme: dark)").matches
+                ? "dark"
+                : "light";
           var root = document.documentElement;
           root.classList.toggle("dark", theme === "dark");
           root.dataset.theme = theme;
@@ -44,10 +46,29 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!--
+      Fonts are loaded off the critical path: fetch the stylesheet as a
+      non-blocking resource, then flip it to `all` once it arrives. `display=swap`
+      keeps text visible in the fallback face meanwhile, and <noscript> covers
+      the no-JS case. Removes the render-blocking round-trip to Google Fonts.
+    -->
     <link
+      rel="preload"
+      as="style"
       href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&display=swap"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&display=swap"
+      />
+    </noscript>
   </head>
   <body>
     <div id="root"></div>

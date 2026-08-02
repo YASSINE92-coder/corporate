@@ -325,6 +325,8 @@ export default {
     successBody: "Your email was delivered successfully. We aim to respond within the same day.",
     sendAnother: "Send another message",
     errorTitle: "Sending failed",
+    errorBody:
+      "We couldn't send your message just now. Please try again, or email us directly and we'll pick it up.",
     toastSuccess: "Message sent successfully",
     toastSuccessDesc: "We aim to respond within the same day.",
     toastError: "Could not send message",

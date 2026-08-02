@@ -67,6 +67,10 @@ export function getProfessionalServiceSchema() {
       "Specialist safeguarding consultant UK, SEND support services, and school improvement consultancy for schools, academies, and Early Years settings.",
     url: SITE_URL,
     image: DEFAULT_OG_IMAGE,
+    logo: {
+      "@type": "ImageObject",
+      url: `${SITE_URL}/favicon.svg`,
+    },
     telephone: "+44-770-426-7745",
     email: "fatiha.maitland1@gmail.com",
     areaServed: [

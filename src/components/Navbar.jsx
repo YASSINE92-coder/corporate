@@ -57,6 +57,15 @@ function Navbar() {
       return
     }
 
+    const focusablesIn = (root) =>
+      root
+        ? Array.from(
+            root.querySelectorAll(
+              'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+            )
+          )
+        : []
+
     const handleClickOutside = (event) => {
       if (
         menuRef.current &&
@@ -68,20 +77,54 @@ function Navbar() {
       }
     }
 
-    const handleEscape = (event) => {
+    // The menu locks body scroll, so it behaves modally — keep keyboard focus
+    // inside it, close on Escape, and restore focus to the trigger on close.
+    const handleKeydown = (event) => {
       if (event.key === 'Escape') {
         setIsMenuOpen(false)
+        return
+      }
+      if (event.key !== 'Tab') return
+      const items = focusablesIn(menuRef.current)
+      if (!items.length) return
+      const first = items[0]
+      const last = items[items.length - 1]
+      const active = document.activeElement
+      if (!menuRef.current.contains(active)) {
+        event.preventDefault()
+        first.focus()
+      } else if (event.shiftKey && active === first) {
+        event.preventDefault()
+        last.focus()
+      } else if (!event.shiftKey && active === last) {
+        event.preventDefault()
+        first.focus()
       }
     }
 
+    // Capture the current nodes for use in cleanup (refs may have changed by then).
+    const menuNode = menuRef.current
+    const buttonNode = buttonRef.current
+
     document.body.style.overflow = 'hidden'
     document.addEventListener('mousedown', handleClickOutside)
-    document.addEventListener('keydown', handleEscape)
+    document.addEventListener('keydown', handleKeydown)
+
+    // Move focus into the menu once it has mounted/animated in.
+    const raf = requestAnimationFrame(() => {
+      focusablesIn(menuRef.current)[0]?.focus()
+    })
 
     return () => {
       document.body.style.overflow = ''
       document.removeEventListener('mousedown', handleClickOutside)
-      document.removeEventListener('keydown', handleEscape)
+      document.removeEventListener('keydown', handleKeydown)
+      cancelAnimationFrame(raf)
+      // Return focus to the toggle unless focus has deliberately moved elsewhere.
+      const active = document.activeElement
+      if (buttonNode && (!active || active === document.body || menuNode?.contains(active))) {
+        buttonNode.focus()
+      }
     }
   }, [isMenuOpen])
 

@@ -66,10 +66,11 @@ export default function QuickEnquiryDialog({ open, onOpenChange }) {
       setForm(emptyForm)
       toast.success(t("contact.toastSuccess"), { description: t("contact.toastSuccessDesc") })
     } catch (error) {
-      const message = error?.text || error?.message || "Something went wrong. Please try again."
+      if (import.meta.env.DEV) console.error("Quick enquiry send failed:", error)
+      const friendly = t("contact.errorBody")
       setStatus("error")
-      setErrorMessage(message)
-      toast.error(t("contact.toastError"), { description: message })
+      setErrorMessage(friendly)
+      toast.error(t("contact.toastError"), { description: friendly })
     }
   }
 

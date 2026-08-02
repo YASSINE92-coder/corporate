@@ -9,6 +9,7 @@
     "prerender": "node scripts/prerender.mjs",
     "generate": "vite build && node scripts/prerender.mjs",
     "og": "node scripts/og-image.mjs",
+    "images": "node scripts/optimize-images.mjs",
     "sitemap": "node scripts/sitemap.mjs",
     "preview": "vite preview",
     "lint": "eslint .",
