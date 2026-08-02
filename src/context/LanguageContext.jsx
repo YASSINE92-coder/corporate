@@ -8,6 +8,7 @@ import {
   useState,
 } from "react"
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom"
+import { DirectionProvider } from "@radix-ui/react-direction"
 import { LOCALES, getLocaleConfig, splitLocalePath, withLocale } from "../i18n/locales"
 import { createT } from "../i18n"
 
@@ -150,7 +151,17 @@ export function LanguageProvider({ children }) {
     [locale, routePath, setLocale, t, localizePath, isLocaleFading]
   )
 
-  return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>
+  return (
+    <LanguageContext.Provider value={value}>
+      {/*
+        Radix primitives read their direction from this context, NOT from
+        <html dir>. Without it they default to "ltr" and anything portaled to
+        <body> — dropdown menus, tooltips, dialogs — lays out left-to-right in
+        Arabic even though the rest of the page is mirrored.
+      */}
+      <DirectionProvider dir={value.config.dir}>{children}</DirectionProvider>
+    </LanguageContext.Provider>
+  )
 }
 
 export function useLanguage() {

@@ -7,6 +7,7 @@ import { TextType } from "./ui/text-type"
 import OptimizedImage from "./OptimizedImage"
 import { contactPath } from "../lib/enquiry"
 import { siteImages } from "../lib/images"
+import { darkHeroProps } from "../lib/navOverlay"
 import { useTranslation } from "../context/LanguageContext"
 
 export default function HeroSection() {
@@ -26,7 +27,12 @@ export default function HeroSection() {
   const hero = siteImages.homeHero
 
   return (
-    <header className="relative isolate min-h-[100svh] overflow-hidden" aria-labelledby="home-hero-heading">
+    <header
+      className="relative isolate min-h-[100svh] overflow-hidden"
+      aria-labelledby="home-hero-heading"
+      // Tells the navbar its white chrome has a dark backdrop to sit on.
+      {...darkHeroProps}
+    >
       <motion.div
         className="absolute inset-0 hero-gradient"
         initial={{ opacity: 0 }}

@@ -4,6 +4,7 @@ import HeroSection from "../components/HeroSection"
 import CompanyOverview from "../components/CompanyOverview"
 import ImpactSection from "../components/ImpactSection"
 import TrustedSection from "../components/TrustedSection"
+import PartnersSection from "../components/PartnersSection"
 import ServicesSection from "../components/ServicesSection"
 import TestimonialSection from "../components/TestimonialSection"
 import ContentBlock from "../components/ContentBlock"
@@ -42,6 +43,7 @@ function Home() {
         <CompanyOverview />
         <ImpactSection />
         <TrustedSection />
+        <PartnersSection />
         <ServicesSection />
         <TestimonialSection />
         <ContentBlock

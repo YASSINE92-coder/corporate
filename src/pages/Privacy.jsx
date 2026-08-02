@@ -1,13 +1,49 @@
+import { useMemo } from "react"
 import { Link } from "react-router-dom"
 import Seo from "../components/Seo"
 import { Container, Section } from "../components/ui/Container"
 import { pages, getBreadcrumbSchema } from "../lib/seo"
-import { CONTACT_EMAIL, contactPath } from "../lib/enquiry"
-import { useTranslation } from "../context/LanguageContext"
+import { contactPath } from "../lib/enquiry"
+import { CONTACT_EMAIL } from "../lib/contact"
+import { richText } from "../i18n/rich"
+import { useTranslation, useLanguage } from "../context/LanguageContext"
+
+/** ISO date of the last substantive change; formatted per locale below. */
+const LAST_UPDATED_ISO = "2026-07-22"
+
+/**
+ * Latin digits in Arabic too, so the date reads consistently with the phone
+ * number and email elsewhere on the site rather than switching numeral systems
+ * mid-page.
+ */
+const DATE_LOCALES = { en: "en-GB", ar: "ar-u-nu-latn" }
+
+const linkClass = "font-medium text-primary underline-offset-4 hover:underline"
 
 function Privacy() {
   const meta = pages.privacy
   const { t, localizePath } = useTranslation()
+  const { locale } = useLanguage()
+
+  const lastUpdated = useMemo(() => {
+    const formatter = new Intl.DateTimeFormat(DATE_LOCALES[locale] ?? DATE_LOCALES.en, {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    })
+    return formatter.format(new Date(LAST_UPDATED_ISO))
+  }, [locale])
+
+  // Reused across three sections, so built once. `dir="ltr"` keeps the address
+  // from being reordered by the surrounding RTL paragraph.
+  const emailLink = (
+    <a className={linkClass} dir="ltr" href={`mailto:${CONTACT_EMAIL}`}>
+      {CONTACT_EMAIL}
+    </a>
+  )
+
+  const collectItems = t("privacy.collect.items")
+  const useItems = t("privacy.use.items")
 
   return (
     <>
@@ -26,123 +62,104 @@ function Privacy() {
       <article className="min-h-screen bg-background text-foreground">
         <Section className="pt-28 md:pt-36">
           <Container className="max-w-3xl">
-            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.28em] text-primary">Legal</p>
+            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.28em] text-primary">
+              {t("privacy.eyebrow")}
+            </p>
             <h1 className="mb-4 font-display text-4xl font-semibold tracking-tight md:text-5xl">
-              Privacy Policy
+              {t("privacy.title")}
             </h1>
             <p className="mb-10 text-muted-foreground">
-              Last updated: 22 July 2026
+              {t("privacy.lastUpdated", { date: lastUpdated })}
             </p>
 
             <div className="prose-legal space-y-8 text-base leading-8 text-muted-foreground">
               <section aria-labelledby="privacy-who">
                 <h2 id="privacy-who" className="mb-3 font-display text-2xl font-semibold text-foreground">
-                  Who we are
+                  {t("privacy.who.title")}
                 </h2>
                 <p>
-                  This website is operated by <strong className="text-foreground">FM Education Services</strong>,
-                  directed by Fatiha Maitland. For privacy enquiries, contact us at{" "}
-                  <a className="font-medium text-primary underline-offset-4 hover:underline" href={`mailto:${CONTACT_EMAIL}`}>
-                    {CONTACT_EMAIL}
-                  </a>
-                  .
+                  {richText(t("privacy.who.body"), {
+                    brand: <strong className="text-foreground">FM Education Services</strong>,
+                    email: emailLink,
+                  })}
                 </p>
               </section>
 
               <section aria-labelledby="privacy-collect">
                 <h2 id="privacy-collect" className="mb-3 font-display text-2xl font-semibold text-foreground">
-                  Information we collect
+                  {t("privacy.collect.title")}
                 </h2>
-                <p>When you use our contact form, we may collect:</p>
-                <ul className="mt-3 list-disc space-y-2 pl-5">
-                  <li>Full name</li>
-                  <li>Email address</li>
-                  <li>School or setting name (optional)</li>
-                  <li>Your role (optional)</li>
-                  <li>Service interest and message content</li>
+                <p>{t("privacy.collect.intro")}</p>
+                <ul className="mt-3 list-disc space-y-2 ps-5">
+                  {collectItems.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
                 </ul>
-                <p className="mt-4">
-                  If you allow analytics cookies, we may also collect anonymised usage data (pages visited,
-                  approximate location, device/browser type) via Google Analytics.
-                </p>
+                <p className="mt-4">{t("privacy.collect.analytics")}</p>
               </section>
 
               <section aria-labelledby="privacy-use">
                 <h2 id="privacy-use" className="mb-3 font-display text-2xl font-semibold text-foreground">
-                  How we use your information
+                  {t("privacy.use.title")}
                 </h2>
-                <ul className="list-disc space-y-2 pl-5">
-                  <li>To respond to consultation and support enquiries</li>
-                  <li>To provide the services you request</li>
-                  <li>To improve our website experience (only with analytics consent)</li>
+                <ul className="list-disc space-y-2 ps-5">
+                  {useItems.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
                 </ul>
-                <p className="mt-4">
-                  We do not sell your personal data. We do not use contact-form data for unrelated marketing
-                  without a lawful basis.
-                </p>
+                <p className="mt-4">{t("privacy.use.note")}</p>
               </section>
 
               <section aria-labelledby="privacy-process">
                 <h2 id="privacy-process" className="mb-3 font-display text-2xl font-semibold text-foreground">
-                  How messages are processed
+                  {t("privacy.processing.title")}
                 </h2>
                 <p>
-                  Contact-form submissions are delivered by email using{" "}
-                  <a
-                    className="font-medium text-primary underline-offset-4 hover:underline"
-                    href="https://www.emailjs.com/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    EmailJS
-                  </a>
-                  , a third-party email delivery service. Message content is sent to FM Education Services
-                  (typically to {CONTACT_EMAIL}) so we can reply to you.
+                  {richText(t("privacy.processing.body"), {
+                    emailjs: (
+                      <a
+                        className={linkClass}
+                        href="https://www.emailjs.com/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        EmailJS
+                      </a>
+                    ),
+                    email: emailLink,
+                  })}
                 </p>
-                <p className="mt-4">
-                  Please review EmailJS’s own privacy terms for how they process transmission data on our behalf.
-                </p>
+                <p className="mt-4">{t("privacy.processing.note")}</p>
               </section>
 
               <section aria-labelledby="privacy-cookies">
                 <h2 id="privacy-cookies" className="mb-3 font-display text-2xl font-semibold text-foreground">
-                  Cookies
+                  {t("privacy.cookies.title")}
                 </h2>
-                <p>
-                  We use essential cookies/local storage needed for basic site functions (for example remembering
-                  your cookie preference and theme). Analytics cookies are used only if you accept them via our
-                  cookie banner.
-                </p>
-                <p className="mt-4">
-                  You can change your mind later by clearing site data for this website in your browser settings,
-                  which will show the cookie banner again.
-                </p>
+                <p>{t("privacy.cookies.body")}</p>
+                <p className="mt-4">{t("privacy.cookies.note")}</p>
               </section>
 
               <section aria-labelledby="privacy-rights">
                 <h2 id="privacy-rights" className="mb-3 font-display text-2xl font-semibold text-foreground">
-                  Your rights
+                  {t("privacy.rights.title")}
                 </h2>
-                <p>
-                  Depending on applicable law (including UK GDPR where relevant), you may request access to,
-                  correction of, or deletion of personal data we hold about you. Contact us using the details above.
-                </p>
+                <p>{t("privacy.rights.body")}</p>
               </section>
 
               <section aria-labelledby="privacy-contact">
                 <h2 id="privacy-contact" className="mb-3 font-display text-2xl font-semibold text-foreground">
-                  Contact
+                  {t("privacy.contactSection.title")}
                 </h2>
                 <p>
-                  Questions about this policy? Email{" "}
-                  <a className="font-medium text-primary underline-offset-4 hover:underline" href={`mailto:${CONTACT_EMAIL}`}>
-                    {CONTACT_EMAIL}
-                  </a>{" "}
-                  or use our{" "}
-                  <Link to={localizePath(contactPath())} className="font-medium text-primary underline-offset-4 hover:underline">
-                    contact form
-                  </Link>
-                  .
+                  {richText(t("privacy.contactSection.body"), {
+                    email: emailLink,
+                    form: (
+                      <Link to={localizePath(contactPath())} className={linkClass}>
+                        {t("privacy.contactSection.formLabel")}
+                      </Link>
+                    ),
+                  })}
                 </p>
               </section>
             </div>

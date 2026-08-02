@@ -1,8 +1,13 @@
 import { Mail, Phone } from "lucide-react"
-import { CONTACT_EMAIL, CONTACT_PHONE, CONTACT_PHONE_DISPLAY } from "../lib/enquiry"
+import { CONTACT_EMAIL, CONTACT_PHONE_DISPLAY, telHref } from "../lib/contact"
 
 /**
  * Contact sidebar details (email + phone cards).
+ *
+ * Values are marked `dir="ltr"`: an email address and a "+44 (0) 770…" number are
+ * Latin/neutral runs, and letting the RTL paragraph direction reorder them moves
+ * the "+" and the brackets to the wrong end of the string. `detail.ltrValue` opts
+ * a row in; localised prose rows would not set it.
  */
 export default function ContactDetails({ details }) {
   return (
@@ -27,7 +32,8 @@ export default function ContactDetails({ details }) {
                       "aria-label": `${detail.title}: ${detail.value}`,
                     }
                   : {})}
-                className="font-medium text-foreground"
+                dir={detail.ltrValue ? "ltr" : undefined}
+                className="inline-block font-medium text-foreground"
               >
                 {detail.value}
               </ValueTag>
@@ -48,13 +54,15 @@ export function buildContactDetails(t) {
       subtitle: t("contact.emailSubtitle"),
       icon: Mail,
       href: `mailto:${CONTACT_EMAIL}`,
+      ltrValue: true,
     },
     {
       title: t("contact.phoneTitle"),
       value: CONTACT_PHONE_DISPLAY,
       subtitle: t("contact.phoneSubtitle"),
       icon: Phone,
-      href: `tel:${CONTACT_PHONE}`,
+      href: telHref(),
+      ltrValue: true,
     },
   ]
 }

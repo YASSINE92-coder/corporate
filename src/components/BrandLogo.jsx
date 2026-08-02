@@ -17,7 +17,8 @@ export default function BrandLogo({
   const brand = t("common.brand")
 
   // Support a two-part lockup like "Fatiha Maitland-FM Education Services":
-  // render the leading name as a refined kicker above the company wordmark.
+  // both lines share one voice — same family, weight, size and colour — so the
+  // name reads as part of the brand rather than a faint kicker above it.
   const separatorIndex = brand.indexOf("-")
   const hasLockup = separatorIndex > 0 && separatorIndex < brand.length - 1
   const leadName = hasLockup ? brand.slice(0, separatorIndex).trim() : null
@@ -42,11 +43,9 @@ export default function BrandLogo({
       {showWordmark ? (
         <span className={cn(textClassName)}>
           {hasLockup ? (
-            <span className="flex flex-col leading-tight">
-              <span className="text-[0.68rem] font-medium uppercase tracking-[0.2em] opacity-75 md:text-xs">
-                {leadName}
-              </span>
-              <span className="text-base font-semibold leading-none md:text-lg">{companyName}</span>
+            <span className="flex flex-col">
+              <span className="text-base font-semibold leading-tight md:text-lg">{leadName}</span>
+              <span className="text-base font-semibold leading-tight md:text-lg">{companyName}</span>
             </span>
           ) : (
             <span className="text-lg leading-none md:text-xl">{companyName}</span>

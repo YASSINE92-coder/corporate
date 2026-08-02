@@ -15,17 +15,23 @@
       carries exactly one authoritative set per page.
     -->
 
+    <!--
+      Paints the theme before the first frame, so there is no flash of the wrong
+      one. The stored value is the *preference* — "light", "dark" or "system"
+      (anything else, including nothing stored, means system). Mirrors
+      src/context/ThemeContext.jsx; change both together.
+    -->
     <script>
       (function () {
         try {
           var key = "corporate-theme";
           var stored = localStorage.getItem(key);
-          var theme =
-            stored === "light" || stored === "dark"
-              ? stored
-              : window.matchMedia("(prefers-color-scheme: dark)").matches
-                ? "dark"
-                : "light";
+          var explicit = stored === "light" || stored === "dark";
+          var theme = explicit
+            ? stored
+            : window.matchMedia("(prefers-color-scheme: dark)").matches
+              ? "dark"
+              : "light";
           var root = document.documentElement;
           root.classList.toggle("dark", theme === "dark");
           root.dataset.theme = theme;

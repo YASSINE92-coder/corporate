@@ -33,8 +33,8 @@ const html = `<!doctype html>
         <div style="width:76px;height:76px;border-radius:20px;background:#2f9e8b;display:flex;
           align-items:center;justify-content:center;font-weight:800;font-size:34px;color:#06231d;
           box-shadow:0 10px 30px rgba(0,0,0,0.35);">FM</div>
-        <div style="line-height:1.05">
-          <div style="font-size:20px;letter-spacing:0.32em;text-transform:uppercase;color:#8fd6c7;font-weight:600;">Fatiha Maitland</div>
+        <div style="line-height:1.18">
+          <div style="font-family:Georgia,'Times New Roman',serif;font-size:34px;font-weight:700;letter-spacing:-0.01em;">Fatiha Maitland</div>
           <div style="font-family:Georgia,'Times New Roman',serif;font-size:34px;font-weight:700;letter-spacing:-0.01em;">FM Education Services</div>
         </div>
       </div>

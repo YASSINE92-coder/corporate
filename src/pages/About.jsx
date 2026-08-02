@@ -176,7 +176,7 @@ function About() {
                 eyebrow={t("about.purposeEyebrow")}
                 title={t("about.purposeTitle")}
                 description={t("about.purposeDescription")}
-                align="left"
+                align="start"
               />
             </motion.div>
 
@@ -237,7 +237,7 @@ function About() {
                 id="core-values-heading"
                 eyebrow={t("about.valuesEyebrow")}
                 title={t("about.valuesTitle")}
-                align="left"
+                align="start"
               />
             </motion.div>
 
@@ -275,7 +275,7 @@ function About() {
                 id="about-strengths"
                 eyebrow={t("about.strengthsEyebrow")}
                 title={t("about.strengthsTitle")}
-                align="left"
+                align="start"
               />
             </motion.div>
 

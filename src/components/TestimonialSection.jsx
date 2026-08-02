@@ -101,7 +101,7 @@ export default function TestimonialSection() {
               whileHover={{ scale: 1.08 }}
               whileTap={{ scale: 0.95 }}
             >
-              <ChevronLeft className="h-6 w-6 text-white" />
+              <ChevronLeft className="h-6 w-6 text-white rtl:-scale-x-100" />
             </motion.button>
             <motion.button
               onClick={handleNext}
@@ -110,7 +110,7 @@ export default function TestimonialSection() {
               whileHover={{ scale: 1.08 }}
               whileTap={{ scale: 0.95 }}
             >
-              <ChevronRight className="h-6 w-6 text-white" />
+              <ChevronRight className="h-6 w-6 text-white rtl:-scale-x-100" />
             </motion.button>
           </div>
         </div>

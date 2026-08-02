@@ -77,7 +77,7 @@ function Services() {
                     eyebrow={t("servicesPage.safeguardingEyebrow")}
                     title={t("servicesPage.safeguardingTitle")}
                     description={t("servicesPage.safeguardingDescription")}
-                    align="left"
+                    align="start"
                   />
                 </motion.div>
 
@@ -119,7 +119,7 @@ function Services() {
                     eyebrow={t("servicesPage.sendEyebrow")}
                     title={t("servicesPage.sendTitle")}
                     description={t("servicesPage.sendDescription")}
-                    align="left"
+                    align="start"
                   />
                 </motion.div>
 

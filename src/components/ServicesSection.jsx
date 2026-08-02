@@ -115,7 +115,8 @@ export default function ServicesSection() {
                         {service.description}
                       </p>
                       <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-white/90 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                        {t("homeServices.requestConsultation")} <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+                        {t("homeServices.requestConsultation")}{" "}
+                        <ArrowUpRight className="h-4 w-4 rtl:-scale-x-100" aria-hidden="true" />
                       </span>
                     </div>
                   </Link>

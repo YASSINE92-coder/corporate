@@ -3,16 +3,44 @@ import { NavLink } from 'react-router-dom'
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'framer-motion'
 import { useTheme } from '../context/ThemeContext'
 import { useTranslation } from '../context/LanguageContext'
+import { DARK_HERO_SELECTOR } from '../lib/navOverlay'
 import { ThemeToggle } from './theme-toggle'
 import BrandLogo from './BrandLogo'
 import LanguageSwitcher from './LanguageSwitcher'
 import { cn } from '../lib/utils'
 import { getNavLinks } from '../data/navigation'
 
+/**
+ * Is a dark hero currently mounted behind the navbar?
+ *
+ * Routes are lazy, so the hero can land a tick or two after the pathname changes —
+ * hence the MutationObserver rather than a one-shot read on navigation. It starts
+ * `false` (the readable default) and the observer fires in the same task as the
+ * insertion, before paint, so there is no flicker in practice.
+ */
+function useHasDarkHero() {
+  const [hasDarkHero, setHasDarkHero] = useState(false)
+
+  useEffect(() => {
+    const read = () => setHasDarkHero(!!document.querySelector(DARK_HERO_SELECTOR))
+    read()
+
+    const main = document.getElementById('main-content')
+    if (!main) return undefined
+
+    const observer = new MutationObserver(read)
+    observer.observe(main, { childList: true, subtree: true })
+    return () => observer.disconnect()
+  }, [])
+
+  return hasDarkHero
+}
+
 function Navbar() {
   const { scrollY } = useScroll()
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const hasDarkHero = useHasDarkHero()
   const menuRef = useRef(null)
   const buttonRef = useRef(null)
   const { isDark } = useTheme()
@@ -57,11 +85,29 @@ function Navbar() {
     }
   }, [isMenuOpen])
 
-  // Over hero: always light text. Scrolled: follow theme foreground.
-  const overHero = !isScrolled
-  const navTextClass = overHero
-    ? 'text-white'
-    : 'text-foreground'
+  // White chrome only where something dark is actually behind it: unscrolled AND
+  // sitting over a hero that declared a dark backdrop. Everywhere else — scrolled,
+  // or a page that opens on the page background — use the theme foreground, which
+  // is what keeps the links readable in the light theme.
+  const overHero = hasDarkHero && !isScrolled
+
+  const navTextClass = overHero ? 'text-white' : 'text-foreground'
+
+  /** Focus ring + link states, both measured AA against their own backdrop. */
+  const focusRingClass = overHero
+    ? 'focus-visible:ring-white focus-visible:ring-offset-transparent'
+    : 'focus-visible:ring-ring focus-visible:ring-offset-background'
+
+  const navLinkClass = cn(
+    'relative rounded-md px-1 text-sm font-medium transition-colors duration-300',
+    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
+    focusRingClass,
+    overHero
+      ? // 90% white over the scrimmed hero still clears AA comfortably; going
+        // lighter than this is where it starts to fail.
+        'text-white hover:text-white/90'
+      : 'text-foreground hover:text-primary'
+  )
 
   const chromePillClass = overHero
     ? isDark
@@ -84,7 +130,11 @@ function Navbar() {
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8 md:h-20">
         <BrandLogo
-          className={navTextClass}
+          className={cn(
+            'rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
+            focusRingClass,
+            navTextClass
+          )}
           markClassName={overHero ? 'bg-white text-slate-900 shadow-sm' : undefined}
           textClassName="hidden sm:inline"
         />
@@ -101,6 +151,8 @@ function Navbar() {
             onClick={() => setIsMenuOpen((prev) => !prev)}
             className={cn(
               'inline-flex h-10 w-10 items-center justify-center rounded-full border transition-colors backdrop-blur-md',
+              'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
+              focusRingClass,
               chromePillClass
             )}
             aria-label={isMenuOpen ? t('nav.closeMenu') : t('nav.openMenu')}
@@ -136,7 +188,7 @@ function Navbar() {
               key={link.key}
               to={localizePath(link.to)}
               end={link.to === '/'}
-              className={cn('relative text-sm font-medium transition-colors duration-300', navTextClass)}
+              className={navLinkClass}
             >
               {({ isActive }) => (
                 <>
@@ -177,7 +229,15 @@ function Navbar() {
                   to={localizePath(link.to)}
                   end={link.to === '/'}
                   onClick={() => setIsMenuOpen(false)}
-                  className="rounded-lg px-3 py-2 text-base font-medium text-foreground transition-colors duration-300 hover:bg-muted"
+                  className={({ isActive }) =>
+                    cn(
+                      'rounded-lg px-3 py-2 text-base font-medium transition-colors duration-300',
+                      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card',
+                      isActive
+                        ? 'bg-accent text-accent-foreground'
+                        : 'text-foreground hover:bg-muted hover:text-primary'
+                    )
+                  }
                 >
                   {link.label}
                 </NavLink>
