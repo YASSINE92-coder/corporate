@@ -53,6 +53,8 @@ function Home() {
           description={t("homeContent.leadershipBody")}
           image={siteImages.contentLeadership.src}
           imageAlt={siteImages.contentLeadership.alt}
+          imageWidth={siteImages.contentLeadership.width}
+          imageHeight={siteImages.contentLeadership.height}
         />
         <ContentBlock
           eyebrow={t("homeContent.impactEyebrow")}
@@ -60,6 +62,8 @@ function Home() {
           description={t("homeContent.impactBody")}
           image={siteImages.contentImpact.src}
           imageAlt={siteImages.contentImpact.alt}
+          imageWidth={siteImages.contentImpact.width}
+          imageHeight={siteImages.contentImpact.height}
           reverse
         />
         <FAQSection />

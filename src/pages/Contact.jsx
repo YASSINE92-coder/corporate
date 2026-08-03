@@ -127,6 +127,8 @@ function Contact() {
           title={t("contact.heroTitle")}
           description={t("contact.heroDescription")}
           image={siteImages.contactHero.src}
+          imageWidth={siteImages.contactHero.width}
+          imageHeight={siteImages.contactHero.height}
           primaryLabel={t("common.callNow")}
           primaryHref={`tel:${CONTACT_PHONE}`}
           primaryIcon={false}
