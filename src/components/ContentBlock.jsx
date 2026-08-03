@@ -11,6 +11,10 @@ export default function ContentBlock({
   description,
   image,
   imageAlt = "FM Education Services education consultancy",
+  // Real pixel dimensions of `image`, so the reserved box matches the file and
+  // the block does not shift on load. Pass them from `siteImages.<slot>`.
+  imageWidth = 1000,
+  imageHeight = 667,
   reverse = false,
 }) {
   const { isRtl } = useLanguage()
@@ -39,8 +43,8 @@ export default function ContentBlock({
             <TiltedCard
               imageSrc={image}
               altText={imageAlt}
-              width={1000}
-              height={640}
+              width={imageWidth}
+              height={imageHeight}
               className="h-80 w-full"
               imageClassName="rounded-3xl border-0 shadow-lg transition-shadow duration-300 hover:shadow-2xl"
               rotateAmplitude={8}

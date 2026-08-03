@@ -54,6 +54,8 @@ function Services() {
           title={t("servicesPage.heroTitle")}
           description={t("servicesPage.heroDescription")}
           image={siteImages.servicesHero.src}
+          imageWidth={siteImages.servicesHero.width}
+          imageHeight={siteImages.servicesHero.height}
           primaryHref={contactPath()}
         />
 

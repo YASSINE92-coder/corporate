@@ -31,6 +31,10 @@ export default function PageHero({
   title,
   description,
   image,
+  // Real pixel dimensions of `image`, so the browser reserves the right box and
+  // the hero does not shift on load. Pass them from `siteImages.<slot>`.
+  imageWidth = 1600,
+  imageHeight = 1067,
   primaryLabel,
   primaryHref = "/contact#contact-form",
   primaryIcon = true,
@@ -50,8 +54,8 @@ export default function PageHero({
           src={image}
           alt=""
           priority
-          width={1600}
-          height={900}
+          width={imageWidth}
+          height={imageHeight}
           sizes="100vw"
           className="absolute inset-0 h-full w-full object-cover opacity-35"
         />

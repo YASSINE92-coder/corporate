@@ -78,6 +78,8 @@ function About() {
           title={t("about.heroTitle")}
           description={t("about.heroDescription")}
           image={siteImages.aboutHero.src}
+          imageWidth={siteImages.aboutHero.width}
+          imageHeight={siteImages.aboutHero.height}
         />
 
         <Section aria-labelledby="about-director" className="relative overflow-hidden">
