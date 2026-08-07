@@ -36,6 +36,12 @@ export default {
       keywords: "privacy policy, data protection, FM Education Services",
     },
   },
+  notFound: {
+    title: "Page not found | FM Education Services",
+    heading: "We couldn\u2019t find that page",
+    body: "The page you\u2019re looking for may have moved or no longer exists. Let\u2019s get you back on track.",
+    cta: "Back to home",
+  },
   nav: {
     home: "Home",
     about: "About",
