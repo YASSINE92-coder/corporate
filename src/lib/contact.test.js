@@ -46,9 +46,13 @@ describe("whatsappHref", () => {
 })
 
 describe("build credit link", () => {
-  it("is still the unreplaced placeholder", () => {
-    // Fails deliberately once the real profile URL lands, as a nudge to delete
-    // this test along with the placeholder.
-    expect(AUTHOR_LINKEDIN_URL).toContain("REPLACE-WITH-REAL-PROFILE")
+  it("never ships the old placeholder slug", () => {
+    expect(AUTHOR_LINKEDIN_URL).not.toContain("REPLACE-WITH-REAL-PROFILE")
+  })
+
+  it("is either empty (link hidden) or a valid LinkedIn profile URL", () => {
+    if (AUTHOR_LINKEDIN_URL !== "") {
+      expect(AUTHOR_LINKEDIN_URL).toMatch(/^https:\/\/(www\.)?linkedin\.com\/.+/i)
+    }
   })
 })
