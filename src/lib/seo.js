@@ -13,33 +13,33 @@ export const DEFAULT_OG_IMAGE = `${SITE_URL}/og-image.png`
 export const pages = {
   home: {
     path: "/",
-    title: "FM Education Services | Safeguarding Consultant UK, SEND & School Improvement",
+    title: "Safeguarding & SEND Consultant UK | FM Education Services",
     description:
-      "UK safeguarding consultant offering SEND support services and school improvement consultancy. Led by Fatiha Maitland — specialist training, audits, and reviews for schools.",
+      "UK safeguarding consultant offering SEND support and school improvement services. Led by Fatiha Maitland — training, audits and reviews for schools.",
     keywords:
       "safeguarding consultant UK, SEND support services, school improvement consultancy, safeguarding training schools, inclusion reviews",
   },
   about: {
     path: "/about",
-    title: "About Fatiha Maitland | Education Consultant & Safeguarding Specialist",
+    title: "About Fatiha Maitland | Safeguarding & SEND Consultant UK",
     description:
-      "Meet Fatiha Maitland, Director of FM Education Services — 35+ years as a senior inspector and education consultant specialising in safeguarding, SEND, and school improvement across the UK.",
+      "Meet Fatiha Maitland, Director of FM Education Services — 35+ years as a senior inspector in safeguarding, SEND and school improvement.",
     keywords:
       "Fatiha Maitland, education consultant UK, safeguarding specialist, school improvement advisor, SEND consultant",
   },
   services: {
     path: "/services",
-    title: "Safeguarding, SEND Support & School Improvement Consultancy | FM Education",
+    title: "Safeguarding, SEND & School Improvement | FM Education",
     description:
-      "Bespoke safeguarding consultant UK services, SEND support services, and school improvement consultancy — training, audits, inclusion reviews, and Ofsted preparation.",
+      "Bespoke safeguarding, SEND support and school improvement services — training, audits, inclusion reviews and Ofsted preparation.",
     keywords:
       "safeguarding consultant UK, SEND support services, school improvement consultancy, safeguarding auditing, SEND inclusion reviews, Ofsted preparation",
   },
   contact: {
     path: "/contact",
-    title: "Contact FM Education Services | Book a Safeguarding or SEND Consultation",
+    title: "Contact FM Education Services | Book a Consultation",
     description:
-      "Contact FM Education Services for safeguarding consultancy, SEND support services, or school improvement advice. Same-day responses for UK schools and academies.",
+      "Contact FM Education Services for safeguarding, SEND or school improvement advice. Same-day responses for UK schools and academies.",
     keywords:
       "contact safeguarding consultant, SEND consultancy enquiry, school improvement advisor UK",
   },
