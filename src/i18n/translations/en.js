@@ -83,7 +83,7 @@ export default {
   },
   hero: {
     badge: "Safeguarding consultant UK · SEND · School improvement",
-    title: "Fatiha Maitland-FM Education Services",
+    title: "Specialist safeguarding, SEND & school improvement consultancy",
     subtitle:
       "Specialist safeguarding inspector and consultant UK and international services, SEND and inclusion support services, school improvement consultancy and training — led by Fatiha Maitland for schools, academies, and Early Years settings.",
   },
