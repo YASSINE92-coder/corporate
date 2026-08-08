@@ -13,7 +13,7 @@ export default function BrandLogo({
   showWordmark = true,
   style,
 }) {
-  const { t } = useTranslation()
+  const { t, localizePath } = useTranslation()
   const brand = t("common.brand")
 
   // Support a two-part lockup like "Fatiha Maitland-FM Education Services":
@@ -26,8 +26,13 @@ export default function BrandLogo({
 
   return (
     <Link
-      to={to}
-      className={cn("inline-flex items-center gap-2.5 font-display font-semibold tracking-tight", className)}
+      // Localized so the logo stays inside the active locale — on /ar pages it
+      // must lead to /ar, not silently switch the reader back to English.
+      to={localizePath(to)}
+      className={cn(
+        "inline-flex items-center gap-2.5 font-display font-semibold tracking-tight",
+        className
+      )}
       style={style}
       aria-label={`${brand} — ${t("nav.goToHomepage")}`}
     >
@@ -45,7 +50,9 @@ export default function BrandLogo({
           {hasLockup ? (
             <span className="flex flex-col">
               <span className="text-base font-semibold leading-tight md:text-lg">{leadName}</span>
-              <span className="text-base font-semibold leading-tight md:text-lg">{companyName}</span>
+              <span className="text-base font-semibold leading-tight md:text-lg">
+                {companyName}
+              </span>
             </span>
           ) : (
             <span className="text-lg leading-none md:text-xl">{companyName}</span>
