@@ -11,6 +11,21 @@ export {
   whatsappHref,
 } from "./contact"
 
+/**
+ * Hard caps on enquiry field lengths, enforced as `maxLength` on both forms
+ * (ContactForm + QuickEnquiryDialog). EmailJS is the recipient, so oversized
+ * payloads cost quota and inbox space rather than database rows — these keep a
+ * bot (or a very enthusiastic visitor) from pumping megabytes through the form.
+ * 254 is the RFC 5321 upper bound for an email address.
+ */
+export const FIELD_LIMITS = {
+  name: 100,
+  email: 254,
+  school: 150,
+  role: 100,
+  message: 3000,
+}
+
 export const ENQUIRY_SERVICES = [
   { id: "safeguarding", label: "Safeguarding consultancy" },
   { id: "send", label: "SEND & inclusion reviews" },

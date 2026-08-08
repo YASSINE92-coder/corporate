@@ -6,6 +6,7 @@ import { Textarea } from "./ui/textarea"
 import { Label } from "./ui/label"
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert"
 import ServiceSelect from "./ServiceSelect"
+import { FIELD_LIMITS } from "../lib/enquiry"
 
 /**
  * Contact enquiry form + success state.
@@ -25,7 +26,11 @@ export default function ContactForm({
 }) {
   if (status === "success") {
     return (
-      <div className="flex min-h-[320px] flex-col justify-center gap-6" role="status" aria-live="polite">
+      <div
+        className="flex min-h-[320px] flex-col justify-center gap-6"
+        role="status"
+        aria-live="polite"
+      >
         <Alert variant="success">
           <CheckCircle2 className="h-4 w-4" aria-hidden="true" />
           <AlertTitle>{t("contact.successTitle")}</AlertTitle>
@@ -64,7 +69,10 @@ export default function ContactForm({
         aria-labelledby="contact-form-heading"
         aria-busy={status === "loading"}
       >
-        <div className="absolute -start-[9999px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
+        <div
+          className="absolute -start-[9999px] top-auto h-px w-px overflow-hidden"
+          aria-hidden="true"
+        >
           <label htmlFor="website">Website</label>
           <input
             id="website"
@@ -87,6 +95,7 @@ export default function ContactForm({
               value={form.name}
               onChange={onChange}
               placeholder={t("contact.namePlaceholder")}
+              maxLength={FIELD_LIMITS.name}
               required
               disabled={status === "loading"}
               aria-required="true"
@@ -102,6 +111,7 @@ export default function ContactForm({
               value={form.email}
               onChange={onChange}
               placeholder={t("contact.emailPlaceholder")}
+              maxLength={FIELD_LIMITS.email}
               required
               disabled={status === "loading"}
               aria-required="true"
@@ -119,6 +129,7 @@ export default function ContactForm({
               value={form.school}
               onChange={onChange}
               placeholder={t("contact.schoolPlaceholder")}
+              maxLength={FIELD_LIMITS.school}
               disabled={status === "loading"}
             />
           </div>
@@ -131,6 +142,7 @@ export default function ContactForm({
               value={form.role}
               onChange={onChange}
               placeholder={t("contact.rolePlaceholder")}
+              maxLength={FIELD_LIMITS.role}
               disabled={status === "loading"}
             />
           </div>
@@ -157,6 +169,7 @@ export default function ContactForm({
             value={form.message}
             onChange={onChange}
             placeholder={t("contact.messagePlaceholder")}
+            maxLength={FIELD_LIMITS.message}
             required
             disabled={status === "loading"}
             aria-required="true"

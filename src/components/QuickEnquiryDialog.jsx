@@ -16,7 +16,7 @@ import { Textarea } from "./ui/textarea"
 import { Label } from "./ui/label"
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert"
 import { sendContactEmail } from "../lib/emailjs"
-import { CONTACT_EMAIL, CONTACT_PHONE, contactPath } from "../lib/enquiry"
+import { CONTACT_EMAIL, CONTACT_PHONE, contactPath, FIELD_LIMITS } from "../lib/enquiry"
 import { useTranslation } from "../context/LanguageContext"
 
 const emptyForm = { name: "", email: "", message: "", website: "" }
@@ -100,7 +100,10 @@ export default function QuickEnquiryDialog({ open, onOpenChange }) {
             aria-label={t("floating.needSupport")}
             aria-busy={status === "loading"}
           >
-            <div className="absolute -start-[9999px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
+            <div
+              className="absolute -start-[9999px] top-auto h-px w-px overflow-hidden"
+              aria-hidden="true"
+            >
               <label htmlFor="quick-enquiry-website">Website</label>
               <input
                 id="quick-enquiry-website"
@@ -122,6 +125,7 @@ export default function QuickEnquiryDialog({ open, onOpenChange }) {
                 value={form.name}
                 onChange={handleChange}
                 placeholder={t("contact.namePlaceholder")}
+                maxLength={FIELD_LIMITS.name}
                 required
                 disabled={status === "loading"}
                 aria-required="true"
@@ -138,6 +142,7 @@ export default function QuickEnquiryDialog({ open, onOpenChange }) {
                 value={form.email}
                 onChange={handleChange}
                 placeholder={t("contact.emailPlaceholder")}
+                maxLength={FIELD_LIMITS.email}
                 required
                 disabled={status === "loading"}
                 aria-required="true"
@@ -153,6 +158,7 @@ export default function QuickEnquiryDialog({ open, onOpenChange }) {
                 value={form.message}
                 onChange={handleChange}
                 placeholder={t("contact.messagePlaceholder")}
+                maxLength={FIELD_LIMITS.message}
                 required
                 disabled={status === "loading"}
                 aria-required="true"
@@ -168,7 +174,12 @@ export default function QuickEnquiryDialog({ open, onOpenChange }) {
               </Alert>
             ) : null}
 
-            <Button type="submit" variant="primary" icon={status !== "loading"} disabled={status === "loading"}>
+            <Button
+              type="submit"
+              variant="primary"
+              icon={status !== "loading"}
+              disabled={status === "loading"}
+            >
               {status === "loading" ? (
                 <>
                   <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
@@ -180,11 +191,17 @@ export default function QuickEnquiryDialog({ open, onOpenChange }) {
             </Button>
 
             <DialogFooter className="mt-0 flex-row flex-wrap items-center justify-center gap-x-3 gap-y-1 border-t border-border pt-4 text-center text-xs text-muted-foreground">
-              <a href={`mailto:${CONTACT_EMAIL}`} className="underline-offset-4 hover:text-foreground hover:underline">
+              <a
+                href={`mailto:${CONTACT_EMAIL}`}
+                className="underline-offset-4 hover:text-foreground hover:underline"
+              >
                 {t("floating.emailUs")}
               </a>
               <span aria-hidden="true">·</span>
-              <a href={`tel:${CONTACT_PHONE}`} className="underline-offset-4 hover:text-foreground hover:underline">
+              <a
+                href={`tel:${CONTACT_PHONE}`}
+                className="underline-offset-4 hover:text-foreground hover:underline"
+              >
                 {t("floating.callNow")}
               </a>
               <span aria-hidden="true">·</span>
