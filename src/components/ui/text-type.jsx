@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
-import { gsap } from "gsap"
 import { useReducedMotion } from "framer-motion"
 import { cn } from "../../lib/utils"
 
@@ -43,11 +42,41 @@ export function TextType({
   const [isDeleting, setIsDeleting] = useState(false)
   const [currentTextIndex, setCurrentTextIndex] = useState(0)
   const [isVisible, setIsVisible] = useState(!startOnVisible)
-  const cursorRef = useRef(null)
   const containerRef = useRef(null)
   const prefersReducedMotion = useReducedMotion()
 
   const textArray = useMemo(() => (Array.isArray(text) ? text : [text]), [text])
+
+  /**
+   * Content-based identity for the source text. Callers almost always pass an
+   * inline array (`text={[t("hero.title")]}`), which is a fresh reference on
+   * every render, so `textArray` can never be used as an effect dependency —
+   * it would re-run the effect on every render. Joining on a character that
+   * cannot appear in copy gives a value that only changes when the words do.
+   */
+  const textKey = useMemo(() => textArray.join("\u0000"), [textArray])
+
+  /**
+   * Restart typing whenever the source text actually changes — most visibly on
+   * a language switch, where the locale lives in the URL and the page subtree
+   * is deliberately NOT remounted (see `key={routePath}` in App.jsx).
+   *
+   * Without this reset the component keeps the finished state from the previous
+   * text: `currentCharIndex` still sits at the old string's length, so the
+   * typing branch (`currentCharIndex < processedText.length`) is false and, with
+   * `loop={false}`, the effect returns early and the stale copy stays on screen
+   * until a full reload. When the new string is longer it is worse — typing
+   * resumes mid-word and appends the new tail onto the old text.
+   *
+   * Declared before the typing effect so that within a single commit the reset
+   * is queued first.
+   */
+  useEffect(() => {
+    setDisplayedText("")
+    setCurrentCharIndex(0)
+    setIsDeleting(false)
+    setCurrentTextIndex(0)
+  }, [textKey])
 
   const getRandomSpeed = useCallback(() => {
     if (!variableSpeed) return typingSpeed
@@ -77,18 +106,6 @@ export function TextType({
   }, [startOnVisible])
 
   useEffect(() => {
-    if (!showCursor || !cursorRef.current || prefersReducedMotion) return
-    gsap.set(cursorRef.current, { opacity: 1 })
-    gsap.to(cursorRef.current, {
-      opacity: 0,
-      duration: cursorBlinkDuration,
-      repeat: -1,
-      yoyo: true,
-      ease: "power2.inOut",
-    })
-  }, [showCursor, cursorBlinkDuration, prefersReducedMotion])
-
-  useEffect(() => {
     if (!isVisible) return undefined
 
     if (prefersReducedMotion) {
@@ -110,9 +127,12 @@ export function TextType({
 
           onSentenceComplete?.(textArray[currentTextIndex], currentTextIndex)
 
+          // Advancing the indices re-runs this effect, which starts typing the
+          // next sentence; the between-sentences pause already happened before
+          // deleting began. (The React Bits source schedules a no-op timeout
+          // here — dropped, it never did anything.)
           setCurrentTextIndex((prev) => (prev + 1) % textArray.length)
           setCurrentCharIndex(0)
-          timeout = setTimeout(() => {}, pauseDuration)
         } else {
           timeout = setTimeout(() => {
             setDisplayedText((prev) => prev.slice(0, -1))
@@ -149,7 +169,8 @@ export function TextType({
     typingSpeed,
     deletingSpeed,
     pauseDuration,
-    textArray,
+    // `textKey`, not `textArray`: the latter is a new reference every render.
+    textKey,
     currentTextIndex,
     loop,
     initialDelay,
@@ -165,15 +186,25 @@ export function TextType({
     (currentCharIndex < (textArray[currentTextIndex]?.length ?? 0) || isDeleting)
 
   return (
-    <Component ref={containerRef} className={cn("inline-block whitespace-pre-wrap", className)} {...props}>
+    <Component
+      ref={containerRef}
+      className={cn("inline-block whitespace-pre-wrap", className)}
+      {...props}
+    >
       <span aria-hidden="true" style={{ color: getCurrentTextColor() }}>
         {displayedText}
       </span>
       {showCursor && !prefersReducedMotion ? (
         <span
-          ref={cursorRef}
           aria-hidden="true"
-          className={cn("ms-1 inline-block", shouldHideCursor && "hidden", cursorClassName)}
+          className={cn(
+            "ms-1 inline-block animate-cursor-blink",
+            shouldHideCursor && "hidden",
+            cursorClassName
+          )}
+          // One CSS cycle fades out AND back in, so it lasts 2× the old GSAP
+          // yoyo tween's one-way duration.
+          style={{ animationDuration: `${cursorBlinkDuration * 2}s` }}
         >
           {cursorCharacter}
         </span>
