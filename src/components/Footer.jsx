@@ -47,7 +47,9 @@ export default function Footer() {
               markClassName="bg-primary text-primary-foreground"
               textClassName="text-foreground text-base"
             />
-            <p className="max-w-xs text-sm leading-6 text-muted-foreground">{t("footer.tagline")}</p>
+            <p className="max-w-xs text-sm leading-6 text-muted-foreground">
+              {t("footer.tagline")}
+            </p>
           </div>
 
           <nav aria-label={t("common.navigation")}>
@@ -101,7 +103,7 @@ export default function Footer() {
               className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl bg-primary px-4 text-sm font-semibold text-primary-foreground transition hover:brightness-110"
             >
               {t("common.arrangeConsultation")}
-              <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+              <ArrowUpRight className="h-4 w-4 rtl:-scale-x-100" aria-hidden="true" />
             </Link>
           </div>
 

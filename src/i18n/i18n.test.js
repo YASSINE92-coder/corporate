@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest"
 import { translate, createT } from "./index"
 import en from "./translations/en"
 import ar from "./translations/ar"
+import { siteImages } from "../lib/images"
 
 /** Flatten a nested dictionary to dotted key paths, descending into arrays too. */
 function keyPaths(value, prefix = "") {
@@ -60,5 +61,19 @@ describe("dictionary parity", () => {
       return typeof value === "string" && value.trim() === ""
     })
     expect(empty).toEqual([])
+  })
+})
+
+describe("image alt texts", () => {
+  // `images.<slot>` keys are what the components actually render; the `alt` in
+  // src/lib/images.js is the canonical description tied to each photo's
+  // provenance. This pins the two together so neither drifts silently.
+  it("mirrors the canonical alt from src/lib/images.js for every images.* key", () => {
+    for (const [slot, altText] of Object.entries(en.images)) {
+      expect(siteImages[slot], `en.images.${slot} has no matching siteImages slot`).toBeDefined()
+      expect(altText, `en.images.${slot} diverged from siteImages.${slot}.alt`).toBe(
+        siteImages[slot].alt
+      )
+    }
   })
 })
