@@ -8,7 +8,7 @@ function AnimatedStat({ value, suffix, display, label }) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-80px" })
   const prefersReducedMotion = useReducedMotion()
-  const [count, setCount] = useState(prefersReducedMotion || display ? (display || value) : 0)
+  const [count, setCount] = useState(prefersReducedMotion || display ? display || value : 0)
 
   useEffect(() => {
     if (!isInView || display || prefersReducedMotion) {
@@ -38,7 +38,16 @@ function AnimatedStat({ value, suffix, display, label }) {
       variants={scaleIn}
       className="rounded-3xl border border-border bg-card p-8 text-center shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
     >
-      <p className="font-display text-4xl font-semibold text-foreground md:text-5xl">
+      {/*
+        For numeric stats, dir="ltr" pins the bidi-neutral suffix ("35+") to
+        the digits' side in RTL — matches the site convention of Latin numerals
+        throughout. `display` stats render localized words and must keep the
+        document direction.
+      */}
+      <p
+        className="font-display text-4xl font-semibold text-foreground md:text-5xl"
+        dir={display ? undefined : "ltr"}
+      >
         {display ? count : `${count}${suffix}`}
       </p>
       <p className="mt-3 text-sm leading-7 text-muted-foreground">{label}</p>

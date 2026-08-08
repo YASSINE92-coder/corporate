@@ -30,11 +30,10 @@ export default function PageHero({
   eyebrow,
   title,
   description,
+  // A full `siteImages.<slot>` entry — src, real pixel width/height (so the
+  // browser reserves the right box and the hero does not shift on load), plus
+  // the generated srcSet/webp/avif responsive variants when available.
   image,
-  // Real pixel dimensions of `image`, so the browser reserves the right box and
-  // the hero does not shift on load. Pass them from `siteImages.<slot>`.
-  imageWidth = 1600,
-  imageHeight = 1067,
   primaryLabel,
   primaryHref = "/contact#contact-form",
   primaryIcon = true,
@@ -46,16 +45,23 @@ export default function PageHero({
   const resolvedPrimary = primaryLabel ?? t("pageHero.contactUs")
   const resolvedSecondary = secondaryLabel ?? t("pageHero.exploreServices")
 
+  // Vertical rhythm is deliberately tighter than the home hero: with a long
+  // title (Services) the whole block — eyebrow, H1, description AND both
+  // CTAs — must fit the first viewport on a laptop and a phone. Short-title
+  // pages (About/Contact) keep their look via the min-h centering below.
   return (
-    <header className="relative isolate overflow-hidden pt-24 md:pt-32" {...darkHeroProps}>
+    <header className="relative isolate overflow-hidden pt-20 md:pt-24" {...darkHeroProps}>
       <div className="absolute inset-0" aria-hidden="true">
         <div className="absolute inset-0 hero-gradient" />
         <OptimizedImage
-          src={image}
+          src={image.src}
+          webp={image.webp}
+          avif={image.avif}
+          srcSet={image.srcSet}
           alt=""
           priority
-          width={imageWidth}
-          height={imageHeight}
+          width={image.width}
+          height={image.height}
           sizes="100vw"
           className="absolute inset-0 h-full w-full object-cover opacity-35"
         />
@@ -63,7 +69,7 @@ export default function PageHero({
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
       </div>
 
-      <div className="relative mx-auto flex min-h-[480px] max-w-7xl items-center px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
+      <div className="relative mx-auto flex min-h-[440px] max-w-7xl items-center px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
         <motion.div
           className="max-w-3xl"
           initial="hidden"

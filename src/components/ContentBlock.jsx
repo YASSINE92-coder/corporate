@@ -9,12 +9,11 @@ export default function ContentBlock({
   eyebrow = "Professional delivery",
   title,
   description,
+  // A full `siteImages.<slot>` entry — src, alt, real pixel width/height (so
+  // the reserved box matches the file and the block does not shift on load),
+  // plus the generated srcSet/webp/avif responsive variants when available.
   image,
-  imageAlt = "FM Education Services education consultancy",
-  // Real pixel dimensions of `image`, so the reserved box matches the file and
-  // the block does not shift on load. Pass them from `siteImages.<slot>`.
-  imageWidth = 1000,
-  imageHeight = 667,
+  imageAlt,
   reverse = false,
 }) {
   const { isRtl } = useLanguage()
@@ -32,7 +31,9 @@ export default function ContentBlock({
   return (
     <Section>
       <Container>
-        <div className={`flex flex-col items-center gap-12 ${reverse ? "md:flex-row-reverse" : "md:flex-row"}`}>
+        <div
+          className={`flex flex-col items-center gap-12 ${reverse ? "md:flex-row-reverse" : "md:flex-row"}`}
+        >
           <motion.div
             className="w-full md:w-1/2"
             initial="hidden"
@@ -41,10 +42,13 @@ export default function ContentBlock({
             variants={mediaVariants}
           >
             <TiltedCard
-              imageSrc={image}
-              altText={imageAlt}
-              width={imageWidth}
-              height={imageHeight}
+              imageSrc={image.src}
+              webp={image.webp}
+              avif={image.avif}
+              srcSet={image.srcSet}
+              altText={imageAlt ?? image.alt}
+              width={image.width}
+              height={image.height}
               className="h-80 w-full"
               imageClassName="rounded-3xl border-0 shadow-lg transition-shadow duration-300 hover:shadow-2xl"
               rotateAmplitude={8}
@@ -58,7 +62,9 @@ export default function ContentBlock({
             viewport={{ once: true }}
             variants={copyVariants}
           >
-            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.28em] text-primary">{eyebrow}</p>
+            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.28em] text-primary">
+              {eyebrow}
+            </p>
             <h2 className="mb-6 font-display text-3xl font-semibold tracking-tight text-foreground md:text-4xl text-balance">
               {title}
             </h2>

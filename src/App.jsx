@@ -20,6 +20,7 @@ const About = lazy(() => import('./pages/About'))
 const Services = lazy(() => import('./pages/Services'))
 const Contact = lazy(() => import('./pages/Contact'))
 const Privacy = lazy(() => import('./pages/Privacy'))
+const NotFound = lazy(() => import('./pages/NotFound'))
 
 /** Locale-agnostic routes, rendered once at root and once under each locale prefix. */
 const ROUTES = [
@@ -73,6 +74,7 @@ function AnimatedRoutes() {
             {PREFIXED_LOCALES.map((code) => (
               <Fragment key={code}>{localeRoutes(`/${code}`)}</Fragment>
             ))}
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
       </motion.div>

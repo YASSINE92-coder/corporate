@@ -21,10 +21,8 @@ export default function ServicesSection() {
         id: "safeguarding",
         title: t("homeServices.items.safeguarding.title"),
         description: t("homeServices.items.safeguarding.description"),
-        image: siteImages.serviceSafeguarding.src,
-        imageAlt: siteImages.serviceSafeguarding.alt,
-        imageWidth: siteImages.serviceSafeguarding.width,
-        imageHeight: siteImages.serviceSafeguarding.height,
+        image: siteImages.serviceSafeguarding,
+        imageAlt: t("images.serviceSafeguarding"),
         icon: getServiceIcon("safeguarding"),
         span: "md:col-span-2 md:row-span-2",
         featured: true,
@@ -34,10 +32,8 @@ export default function ServicesSection() {
         id: "send",
         title: t("homeServices.items.send.title"),
         description: t("homeServices.items.send.description"),
-        image: siteImages.serviceSend.src,
-        imageAlt: siteImages.serviceSend.alt,
-        imageWidth: siteImages.serviceSend.width,
-        imageHeight: siteImages.serviceSend.height,
+        image: siteImages.serviceSend,
+        imageAlt: t("images.serviceSend"),
         icon: getServiceIcon("send"),
         span: "md:col-span-1",
         href: localizePath(contactPath("send")),
@@ -46,10 +42,8 @@ export default function ServicesSection() {
         id: "school-improvement",
         title: t("homeServices.items.schoolImprovement.title"),
         description: t("homeServices.items.schoolImprovement.description"),
-        image: siteImages.serviceSchoolImprovement.src,
-        imageAlt: siteImages.serviceSchoolImprovement.alt,
-        imageWidth: siteImages.serviceSchoolImprovement.width,
-        imageHeight: siteImages.serviceSchoolImprovement.height,
+        image: siteImages.serviceSchoolImprovement,
+        imageAlt: t("images.serviceSchoolImprovement"),
         icon: getServiceIcon("school-improvement"),
         span: "md:col-span-1",
         href: localizePath(contactPath("school-improvement")),
@@ -61,7 +55,12 @@ export default function ServicesSection() {
   return (
     <Section aria-labelledby="home-services-heading">
       <Container>
-        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeInUp}
+        >
           <SectionHeading
             id="home-services-heading"
             eyebrow={t("homeServices.eyebrow")}
@@ -90,17 +89,26 @@ export default function ServicesSection() {
                     aria-label={`${t("homeServices.requestConsultation")}: ${service.title}`}
                   >
                     <OptimizedImage
-                      src={service.image}
+                      src={service.image.src}
+                      webp={service.image.webp}
+                      avif={service.image.avif}
+                      srcSet={service.image.srcSet}
                       alt={service.imageAlt}
-                      width={service.imageWidth}
-                      height={service.imageHeight}
+                      width={service.image.width}
+                      height={service.image.height}
                       sizes="(max-width: 768px) 100vw, 50vw"
                       className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/50 to-slate-950/20" aria-hidden="true" />
+                    <div
+                      className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/50 to-slate-950/20"
+                      aria-hidden="true"
+                    />
 
                     <div className="relative z-10 flex h-full flex-col justify-end p-6 md:p-8">
-                      <div className="mb-4 inline-flex w-fit rounded-2xl bg-white/15 p-3 text-white backdrop-blur" aria-hidden="true">
+                      <div
+                        className="mb-4 inline-flex w-fit rounded-2xl bg-white/15 p-3 text-white backdrop-blur"
+                        aria-hidden="true"
+                      >
                         <Icon className="h-5 w-5" />
                       </div>
                       {service.featured ? (
@@ -111,7 +119,9 @@ export default function ServicesSection() {
                       <h3 className="mb-2 font-display text-2xl font-semibold text-white md:text-3xl">
                         {service.title}
                       </h3>
-                      <p className={`text-sm leading-7 text-white/80 md:text-base ${service.featured ? "max-w-md" : ""}`}>
+                      <p
+                        className={`text-sm leading-7 text-white/80 md:text-base ${service.featured ? "max-w-md" : ""}`}
+                      >
                         {service.description}
                       </p>
                       <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-white/90 opacity-0 transition-opacity duration-300 group-hover:opacity-100">

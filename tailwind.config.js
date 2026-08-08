@@ -1,15 +1,12 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  darkMode: ['class'],
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
+  darkMode: ["class"],
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
       fontFamily: {
-        sans: ['"Source Sans 3"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        display: ['Fraunces', 'ui-serif', 'Georgia', 'serif'],
+        sans: ['"Source Sans 3"', "ui-sans-serif", "system-ui", "sans-serif"],
+        display: ["Fraunces", "ui-serif", "Georgia", "serif"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -87,6 +84,12 @@ export default {
           from: { opacity: "1" },
           to: { opacity: "0" },
         },
+        // Typewriter caret (ui/text-type.jsx). One cycle = fade out and back,
+        // so the CSS duration is 2× the old GSAP yoyo tween's one-way duration.
+        "cursor-blink": {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -97,6 +100,7 @@ export default {
         "dialog-content-hide": "dialog-content-hide 0.15s ease-in",
         "fade-in": "fade-in 0.15s ease-out",
         "fade-out": "fade-out 0.1s ease-in",
+        "cursor-blink": "cursor-blink 1s ease-in-out infinite",
       },
     },
   },

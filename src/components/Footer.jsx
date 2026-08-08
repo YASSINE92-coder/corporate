@@ -7,6 +7,7 @@ import LanguageSwitcher from "./LanguageSwitcher"
 import { useTranslation } from "../context/LanguageContext"
 import {
   AUTHOR_LINKEDIN_URL,
+  HAS_AUTHOR_LINKEDIN,
   AUTHOR_NAME,
   CONTACT_EMAIL,
   CONTACT_PHONE_DISPLAY,
@@ -46,7 +47,9 @@ export default function Footer() {
               markClassName="bg-primary text-primary-foreground"
               textClassName="text-foreground text-base"
             />
-            <p className="max-w-xs text-sm leading-6 text-muted-foreground">{t("footer.tagline")}</p>
+            <p className="max-w-xs text-sm leading-6 text-muted-foreground">
+              {t("footer.tagline")}
+            </p>
           </div>
 
           <nav aria-label={t("common.navigation")}>
@@ -100,7 +103,7 @@ export default function Footer() {
               className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl bg-primary px-4 text-sm font-semibold text-primary-foreground transition hover:brightness-110"
             >
               {t("common.arrangeConsultation")}
-              <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+              <ArrowUpRight className="h-4 w-4 rtl:-scale-x-100" aria-hidden="true" />
             </Link>
           </div>
 
@@ -185,15 +188,19 @@ export default function Footer() {
           */}
           <p className="sm:pe-24">
             {t("common.builtBy")}{" "}
-            <a
-              href={AUTHOR_LINKEDIN_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={t("footer.builtByAria", { name: AUTHOR_NAME })}
-              className="rounded-sm font-medium text-foreground/80 underline decoration-transparent decoration-1 underline-offset-4 transition-colors duration-300 hover:text-primary hover:decoration-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-            >
-              {AUTHOR_NAME}
-            </a>
+            {HAS_AUTHOR_LINKEDIN ? (
+              <a
+                href={AUTHOR_LINKEDIN_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={t("footer.builtByAria", { name: AUTHOR_NAME })}
+                className="rounded-sm font-medium text-foreground/80 underline decoration-transparent decoration-1 underline-offset-4 transition-colors duration-300 hover:text-primary hover:decoration-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              >
+                {AUTHOR_NAME}
+              </a>
+            ) : (
+              <span className="font-medium text-foreground/80">{AUTHOR_NAME}</span>
+            )}
           </p>
         </div>
       </div>

@@ -40,6 +40,7 @@ function Services() {
         path={meta.path}
         keywords={t("seo.services.keywords")}
         image={siteImages.servicesHero.src}
+        preloadImages={[{ ...siteImages.servicesHero, sizes: "100vw" }]}
         schema={[
           getProfessionalServiceSchema(),
           getBreadcrumbSchema([
@@ -53,9 +54,7 @@ function Services() {
           eyebrow={t("servicesPage.heroEyebrow")}
           title={t("servicesPage.heroTitle")}
           description={t("servicesPage.heroDescription")}
-          image={siteImages.servicesHero.src}
-          imageWidth={siteImages.servicesHero.width}
-          imageHeight={siteImages.servicesHero.height}
+          image={siteImages.servicesHero}
           primaryHref={contactPath()}
         />
 
@@ -73,7 +72,12 @@ function Services() {
               </TabsList>
 
               <TabsContent value="safeguarding">
-                <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
+                <motion.div
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  variants={fadeInUp}
+                >
                   <SectionHeading
                     id="services-safeguarding"
                     eyebrow={t("servicesPage.safeguardingEyebrow")}
@@ -90,10 +94,18 @@ function Services() {
                   viewport={{ once: true }}
                   variants={staggerContainer}
                 >
-                  <motion.div className="space-y-5 text-lg leading-8 text-muted-foreground" variants={fadeInUp}>
+                  <motion.div
+                    className="space-y-5 text-lg leading-8 text-muted-foreground"
+                    variants={fadeInUp}
+                  >
                     <p>{t("servicesPage.safeguardingP1")}</p>
                     <p>{t("servicesPage.safeguardingP2")}</p>
-                    <Button as={Link} to={localizePath(contactPath("safeguarding"))} variant="primary" icon>
+                    <Button
+                      as={Link}
+                      to={localizePath(contactPath("safeguarding"))}
+                      variant="primary"
+                      icon
+                    >
                       {t("common.bookConsultation")}
                     </Button>
                   </motion.div>
@@ -115,7 +127,12 @@ function Services() {
               </TabsContent>
 
               <TabsContent value="send">
-                <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
+                <motion.div
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  variants={fadeInUp}
+                >
                   <SectionHeading
                     id="services-send"
                     eyebrow={t("servicesPage.sendEyebrow")}
@@ -132,7 +149,10 @@ function Services() {
                   viewport={{ once: true }}
                   variants={staggerContainer}
                 >
-                  <motion.p className="max-w-4xl text-lg leading-8 text-muted-foreground" variants={fadeInUp}>
+                  <motion.p
+                    className="max-w-4xl text-lg leading-8 text-muted-foreground"
+                    variants={fadeInUp}
+                  >
                     {t("servicesPage.sendBody")}
                   </motion.p>
 
@@ -157,7 +177,12 @@ function Services() {
                       ))}
                     </ul>
                     <div className="mt-8">
-                      <Button as={Link} to={localizePath(contactPath("send"))} variant="primary" icon>
+                      <Button
+                        as={Link}
+                        to={localizePath(contactPath("send"))}
+                        variant="primary"
+                        icon
+                      >
                         {t("common.enquireNow")}
                       </Button>
                     </div>

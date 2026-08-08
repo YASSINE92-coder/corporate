@@ -17,16 +17,18 @@ export default function LocaleFade({ children, className }) {
     <motion.div
       className={className}
       initial={false}
+      // Opacity + a slight lift only — no `filter: blur()`: blurring a layer
+      // the size of <main> + footer forces an expensive repaint on low-end
+      // devices, and a permanent `willChange` would pin that huge layer in the
+      // compositor for the life of the page. The fade reads the same without.
       animate={{
         opacity: isLocaleFading ? 0 : 1,
         y: isLocaleFading ? 6 : 0,
-        filter: isLocaleFading ? "blur(2px)" : "blur(0px)",
       }}
       transition={{
         duration: LOCALE_FADE_MS / 1000,
         ease: [0.22, 1, 0.36, 1],
       }}
-      style={{ willChange: "opacity, transform, filter" }}
     >
       {children}
     </motion.div>

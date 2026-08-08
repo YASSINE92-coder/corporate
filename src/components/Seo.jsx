@@ -1,12 +1,7 @@
 import { Helmet } from "react-helmet-async"
-import {
-  SITE_NAME,
-  DEFAULT_OG_IMAGE,
-  absoluteUrl,
-  getProfessionalServiceSchema,
-} from "../lib/seo"
+import { SITE_NAME, DEFAULT_OG_IMAGE, absoluteUrl, getProfessionalServiceSchema } from "../lib/seo"
 import { DEFAULT_LOCALE, LOCALES, withLocale } from "../i18n/locales"
-import { useLanguage } from "../context/LanguageContext"
+import { useLanguage, useTranslation } from "../context/LanguageContext"
 
 /** hreflang value + OpenGraph locale tag for each supported locale. */
 const HREFLANG = { en: "en-GB", ar: "ar" }
@@ -29,7 +24,9 @@ export default function Seo({
   preloadImages = [],
 }) {
   const { locale } = useLanguage()
+  const { t } = useTranslation()
   const canonical = absoluteUrl(withLocale(path, locale))
+  const ogImageAlt = t("seo.ogImageAlt")
   const ogImage = image.startsWith("http") ? image : absoluteUrl(image)
   const jsonLd = schema
     ? Array.isArray(schema)
@@ -81,7 +78,11 @@ export default function Seo({
           href={absoluteUrl(withLocale(path, l.code))}
         />
       ))}
-      <link rel="alternate" hrefLang="x-default" href={absoluteUrl(withLocale(path, DEFAULT_LOCALE))} />
+      <link
+        rel="alternate"
+        hrefLang="x-default"
+        href={absoluteUrl(withLocale(path, DEFAULT_LOCALE))}
+      />
 
       {/* Open Graph */}
       <meta property="og:site_name" content={SITE_NAME} />
@@ -90,7 +91,7 @@ export default function Seo({
       <meta property="og:description" content={description} />
       <meta property="og:url" content={canonical} />
       <meta property="og:image" content={ogImage} />
-      <meta property="og:image:alt" content={`${SITE_NAME} — education consultancy`} />
+      <meta property="og:image:alt" content={ogImageAlt} />
       {image === DEFAULT_OG_IMAGE ? <meta property="og:image:width" content="1200" /> : null}
       {image === DEFAULT_OG_IMAGE ? <meta property="og:image:height" content="630" /> : null}
       {image === DEFAULT_OG_IMAGE ? <meta property="og:image:type" content="image/png" /> : null}
@@ -104,7 +105,7 @@ export default function Seo({
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={ogImage} />
-      <meta name="twitter:image:alt" content={`${SITE_NAME} — education consultancy`} />
+      <meta name="twitter:image:alt" content={ogImageAlt} />
 
       {jsonLd.map((block, index) => (
         <script key={index} type="application/ld+json">

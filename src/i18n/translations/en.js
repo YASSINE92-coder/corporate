@@ -2,30 +2,30 @@
 export default {
   seo: {
     home: {
-      title: "FM Education Services | Safeguarding Consultant UK, SEND & School Improvement",
+      title: "Safeguarding & SEND Consultant UK | FM Education Services",
       description:
-        "UK safeguarding consultant offering SEND support services and school improvement consultancy. Led by Fatiha Maitland — specialist training, audits, and reviews for schools.",
+        "UK safeguarding consultant offering SEND support and school improvement services. Led by Fatiha Maitland — training, audits and reviews for schools.",
       keywords:
         "safeguarding consultant UK, SEND support services, school improvement consultancy, safeguarding training schools, inclusion reviews",
     },
     about: {
-      title: "About Fatiha Maitland | Education Consultant & Safeguarding Specialist",
+      title: "About Fatiha Maitland | Safeguarding & SEND Consultant UK",
       description:
-        "Meet Fatiha Maitland, Director of FM Education Services — 35+ years as a senior inspector and education consultant specialising in safeguarding, SEND, and school improvement across the UK.",
+        "Meet Fatiha Maitland, Director of FM Education Services — 35+ years as a senior inspector in safeguarding, SEND and school improvement.",
       keywords:
         "Fatiha Maitland, education consultant UK, safeguarding specialist, school improvement advisor, SEND consultant",
     },
     services: {
-      title: "Safeguarding, SEND Support & School Improvement Consultancy | FM Education",
+      title: "Safeguarding, SEND & School Improvement | FM Education",
       description:
-        "Bespoke safeguarding consultant UK services, SEND support services, and school improvement consultancy — training, audits, inclusion reviews, and Ofsted preparation.",
+        "Bespoke safeguarding, SEND support and school improvement services — training, audits, inclusion reviews and Ofsted preparation.",
       keywords:
         "safeguarding consultant UK, SEND support services, school improvement consultancy, safeguarding auditing, SEND inclusion reviews, Ofsted preparation",
     },
     contact: {
-      title: "Contact FM Education Services | Book a Safeguarding or SEND Consultation",
+      title: "Contact FM Education Services | Book a Consultation",
       description:
-        "Contact FM Education Services for safeguarding consultancy, SEND support services, or school improvement advice. Same-day responses for UK schools and academies.",
+        "Contact FM Education Services for safeguarding, SEND or school improvement advice. Same-day responses for UK schools and academies.",
       keywords:
         "contact safeguarding consultant, SEND consultancy enquiry, school improvement advisor UK",
     },
@@ -35,6 +35,30 @@ export default {
         "How FM Education Services collects, uses, and protects personal data from website enquiries, cookies, and analytics.",
       keywords: "privacy policy, data protection, FM Education Services",
     },
+    ogImageAlt: "FM Education Services — education consultancy",
+  },
+  /**
+   * Alt texts for the content-bearing site images (decorative hero backdrops
+   * use alt=""). Keys mirror `siteImages.<slot>` in src/lib/images.js, and the
+   * English values must stay identical to each slot's canonical `alt` there —
+   * enforced by src/i18n/i18n.test.js.
+   */
+  images: {
+    serviceSafeguarding: "Rows of empty desk chairs in a bright classroom",
+    serviceSend: "An apple and alphabet blocks resting on a stack of books",
+    serviceSchoolImprovement: "A person browsing between tall library shelves, seen from behind",
+    contentLeadership: "An empty classroom with desks facing a chalkboard",
+    contentImpact: "An open notebook with a pen and two pencils on a wooden desk",
+    overviewImage: "A calm office with white desks, framed prints and a large plant",
+    directorPortrait: "Fatiha Maitland, Director of FM Education Services",
+    missionImage: "Hands writing in a notebook at a meeting table",
+    visionImage: "A library aisle lined with shelves of books",
+  },
+  notFound: {
+    title: "Page not found | FM Education Services",
+    heading: "We couldn\u2019t find that page",
+    body: "The page you\u2019re looking for may have moved or no longer exists. Let\u2019s get you back on track.",
+    cta: "Back to home",
   },
   nav: {
     home: "Home",
@@ -52,8 +76,6 @@ export default {
   common: {
     brand: "Fatiha Maitland-FM Education Services",
     skipToContent: "Skip to main content",
-    learnMore: "Learn more",
-    contactUs: "Contact us",
     exploreServices: "Explore services",
     requestConsultation: "Request a consultation",
     bookConsultation: "Book a consultation",
@@ -83,22 +105,21 @@ export default {
   },
   hero: {
     badge: "Safeguarding consultant UK · SEND · School improvement",
-    title: "Fatiha Maitland-FM Education Services",
+    title: "Specialist safeguarding, SEND & school improvement consultancy",
     subtitle:
       "Specialist safeguarding inspector and consultant UK and international services, SEND and inclusion support services, school improvement consultancy and training — led by Fatiha Maitland for schools, academies, and Early Years settings.",
   },
   companyOverview: {
     eyebrow: "About the company",
-    title: "Education consultancy built around safeguarding, SEND, inclusion and school improvement",
-    body:
-      "FM Education Services is an education consultancy helping schools, academies, and Early Years settings to strengthen safeguarding culture, SEND and inclusion practice, and school improvement planning. Directed by Fatiha Maitland, we combine inspection expertise with practical coaching and training across the UK, UAE, GCC, and British Schools Overseas.",
+    title:
+      "Education consultancy built around safeguarding, SEND, inclusion and school improvement",
+    body: "FM Education Services is an education consultancy helping schools, academies, and Early Years settings to strengthen safeguarding culture, SEND and inclusion practice, and school improvement planning. Directed by Fatiha Maitland, we combine inspection expertise with practical coaching and training across the UK, UAE, GCC, and British Schools Overseas.",
     cta: "Learn more about us",
   },
   impact: {
     eyebrow: "Driven by impact",
     title: "A calm, expert approach that turns strategy into progress",
-    body:
-      "We help education leaders build stronger safeguarding culture, sharper SEND practice, and more confident improvement planning through practical partnership and clear insight.",
+    body: "We help education leaders build stronger safeguarding culture, sharper SEND practice, and more confident improvement planning through practical partnership and clear insight.",
     years: "Years of education leadership experience",
     regions: "Regions: UK · UAE · GCC · BSO",
     response: "Same-day response when you get in touch",
@@ -174,7 +195,8 @@ export default {
   faq: {
     eyebrow: "FAQ",
     title: "Answers before you reach out",
-    description: "Clear answers on safeguarding consultancy, SEND support services, and school improvement.",
+    description:
+      "Clear answers on safeguarding consultancy, SEND support services, and school improvement.",
     items: {
       safeguarding: {
         q: "What does a safeguarding engagement typically include?",
@@ -221,7 +243,8 @@ export default {
     ],
     purposeEyebrow: "Purpose",
     purposeTitle: "Mission & vision",
-    purposeDescription: "What drives FM Education Services — and where we aim to take every partnership.",
+    purposeDescription:
+      "What drives FM Education Services — and where we aim to take every partnership.",
     missionTitle: "Our mission",
     missionBody:
       "To help education leaders strengthen safeguarding, SEND and inclusion, and school improvement through expert, practical consultancy that is clear, supportive, and rooted in inspection excellence.",
@@ -231,27 +254,60 @@ export default {
     valuesEyebrow: "Core values",
     valuesTitle: "How we work with every setting",
     values: {
-      integrity: { title: "Integrity", description: "Honest, confidential advice rooted in statutory frameworks and professional standards." },
-      childCentred: { title: "Child-centred practice", description: "Every recommendation keeps children and young people’s safety, inclusion, and achievement first." },
-      clarity: { title: "Clarity", description: "Practical insight leaders can act on — without jargon or overwhelm." },
-      partnership: { title: "Partnership", description: "We coach alongside senior and middle leaders, teachers, and support staff to build lasting capacity." },
+      integrity: {
+        title: "Integrity",
+        description:
+          "Honest, confidential advice rooted in statutory frameworks and professional standards.",
+      },
+      childCentred: {
+        title: "Child-centred practice",
+        description:
+          "Every recommendation keeps children and young people’s safety, inclusion, and achievement first.",
+      },
+      clarity: {
+        title: "Clarity",
+        description: "Practical insight leaders can act on — without jargon or overwhelm.",
+      },
+      partnership: {
+        title: "Partnership",
+        description:
+          "We coach alongside senior and middle leaders, teachers, and support staff to build lasting capacity.",
+      },
     },
     strengthsEyebrow: "Our strengths",
     strengthsTitle: "Specialist support rooted in inspection expertise",
     strengths: {
-      safeguarding: { title: "Safeguarding specialist", description: "Expert advice, auditing, and training for schools, academies, and Early Years settings across the UK, UAE, and internationally." },
-      send: { title: "SEND and inclusion", description: "Bespoke SEND support services and inclusion reviews that reflect each school’s context and strengthen provision." },
-      inspection: { title: "Inspection-ready support", description: "Mock inspections/reviews using UK, UAE, and — globally — BSO inspection frameworks, plus guidance for Ofsted pre-registration." },
-      coaching: { title: "Coaching that accelerates progress", description: "A supportive coaching style that helps staff raise performance from any starting point." },
+      safeguarding: {
+        title: "Safeguarding specialist",
+        description:
+          "Expert advice, auditing, and training for schools, academies, and Early Years settings across the UK, UAE, and internationally.",
+      },
+      send: {
+        title: "SEND and inclusion",
+        description:
+          "Bespoke SEND support services and inclusion reviews that reflect each school’s context and strengthen provision.",
+      },
+      inspection: {
+        title: "Inspection-ready support",
+        description:
+          "Mock inspections/reviews using UK, UAE, and — globally — BSO inspection frameworks, plus guidance for Ofsted pre-registration.",
+      },
+      coaching: {
+        title: "Coaching that accelerates progress",
+        description:
+          "A supportive coaching style that helps staff raise performance from any starting point.",
+      },
     },
   },
   servicesPage: {
     heroEyebrow: "Our services",
-    heroTitle: "Safeguarding inspector and consultant UK, SEND and inclusion support & school improvement",
+    heroTitle:
+      "Safeguarding inspector and consultant UK, SEND and inclusion support & school improvement",
     heroDescription:
       "Bespoke advice, training, and mock inspections/reviews tailored to your setting — whether you need a safeguarding inspector and consultant in the UK, SEND support services, or school improvement consultancy ahead of inspection.",
     safeguardingEyebrow: "Safeguarding",
-    safeguardingTitle: "Safeguarding inspector and consultant UK and the globe — advice, training, and auditing you can trust",
+    safeguardingTitle:
+      "Safeguarding inspector and consultant UK and the globe — advice, training, and auditing you can trust",
     safeguardingDescription:
       "FM Education Services is highly experienced and successful in providing bespoke advice, support, guidance, and training to those responsible for safeguarding, including schools, academies, and Early Years settings in the United Kingdom, the United Arab Emirates, and globally.",
     safeguardingP1:
@@ -272,7 +328,8 @@ export default {
     sendBody:
       "Our SEND support services empower school leaders to evaluate the effectiveness of their provision and to ensure that all children and young people, in all educational settings, achieve the skills and qualifications they need to be successful in their future education.",
     packageEyebrow: "One to two-day package",
-    packageTitle: "Based on the needs of the organisation, our reviews provide a powerful opportunity for:",
+    packageTitle:
+      "Based on the needs of the organisation, our reviews provide a powerful opportunity for:",
     sendOutcomes: [
       "Improving the quality of provision of SEND",
       "Incorporating a whole-school approach to SEND",
@@ -299,7 +356,8 @@ export default {
       "Contact FM Education Services at any time for safeguarding consultant UK advice, SEND support services, or school improvement consultancy. If we are not immediately available, we aim to reply within the same day.",
     sendMessage: "Send a message",
     heading: "We are here to support your next step",
-    intro: "Reach out for safeguarding consultant UK support, SEND support services, or school improvement guidance.",
+    intro:
+      "Reach out for safeguarding consultant UK support, SEND support services, or school improvement guidance.",
     emailTitle: "Email",
     emailSubtitle: "For safeguarding, SEND, and school improvement enquiries",
     phoneTitle: "Telephone",
@@ -404,8 +462,6 @@ export default {
     emailUs: "Email us",
     callNow: "Call now",
     requestConsultation: "Talk to a specialist",
-    openMenu: "Open contact menu",
-    closeMenu: "Close contact menu",
     openQuickEnquiry: "Open quick enquiry form",
     chatOnWhatsApp: "Chat on WhatsApp",
   },

@@ -10,12 +10,7 @@ import TestimonialSection from "../components/TestimonialSection"
 import ContentBlock from "../components/ContentBlock"
 import FAQSection from "../components/FAQSection"
 import CTASection from "../components/CTASection"
-import {
-  pages,
-  getProfessionalServiceSchema,
-  getBreadcrumbSchema,
-  getFaqSchema,
-} from "../lib/seo"
+import { pages, getProfessionalServiceSchema, getBreadcrumbSchema, getFaqSchema } from "../lib/seo"
 import { siteImages } from "../lib/images"
 import { useTranslation } from "../context/LanguageContext"
 import { getFaqs } from "../data/faq"
@@ -51,19 +46,15 @@ function Home() {
           eyebrow={t("homeContent.leadershipEyebrow")}
           title={t("homeContent.leadershipTitle")}
           description={t("homeContent.leadershipBody")}
-          image={siteImages.contentLeadership.src}
-          imageAlt={siteImages.contentLeadership.alt}
-          imageWidth={siteImages.contentLeadership.width}
-          imageHeight={siteImages.contentLeadership.height}
+          image={siteImages.contentLeadership}
+          imageAlt={t("images.contentLeadership")}
         />
         <ContentBlock
           eyebrow={t("homeContent.impactEyebrow")}
           title={t("homeContent.impactTitle")}
           description={t("homeContent.impactBody")}
-          image={siteImages.contentImpact.src}
-          imageAlt={siteImages.contentImpact.alt}
-          imageWidth={siteImages.contentImpact.width}
-          imageHeight={siteImages.contentImpact.height}
+          image={siteImages.contentImpact}
+          imageAlt={t("images.contentImpact")}
           reverse
         />
         <FAQSection />

@@ -27,4 +27,16 @@ describe("BrandLogo", () => {
     expect(document.documentElement.dir).toBe("rtl")
     expect(document.documentElement.lang).toBe("ar")
   })
+
+  it("keeps the link inside the active locale", () => {
+    renderWithProviders(<BrandLogo />, { route: "/ar/services" })
+    // Regression: `to="/"` unwrapped would silently switch an Arabic reader
+    // back to the English homepage.
+    expect(screen.getByRole("link").getAttribute("href")).toBe("/ar")
+  })
+
+  it("links to the plain homepage on English routes", () => {
+    renderWithProviders(<BrandLogo />, { route: "/services" })
+    expect(screen.getByRole("link").getAttribute("href")).toBe("/")
+  })
 })

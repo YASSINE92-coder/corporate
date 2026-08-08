@@ -27,30 +27,32 @@ function About() {
   const { t } = useTranslation()
 
   const coreValues = useMemo(
-    () => [
-      { key: "integrity", icon: HeartHandshake },
-      { key: "childCentred", icon: Scale },
-      { key: "clarity", icon: Sparkles },
-      { key: "partnership", icon: Compass },
-    ].map((item) => ({
-      ...item,
-      title: t(`about.values.${item.key}.title`),
-      description: t(`about.values.${item.key}.description`),
-    })),
+    () =>
+      [
+        { key: "integrity", icon: HeartHandshake },
+        { key: "childCentred", icon: Scale },
+        { key: "clarity", icon: Sparkles },
+        { key: "partnership", icon: Compass },
+      ].map((item) => ({
+        ...item,
+        title: t(`about.values.${item.key}.title`),
+        description: t(`about.values.${item.key}.description`),
+      })),
     [t]
   )
 
   const strengths = useMemo(
-    () => [
-      { key: "safeguarding", icon: ShieldCheck },
-      { key: "send", icon: BookOpenCheck },
-      { key: "inspection", icon: Compass },
-      { key: "coaching", icon: Sparkles },
-    ].map((item) => ({
-      ...item,
-      title: t(`about.strengths.${item.key}.title`),
-      description: t(`about.strengths.${item.key}.description`),
-    })),
+    () =>
+      [
+        { key: "safeguarding", icon: ShieldCheck },
+        { key: "send", icon: BookOpenCheck },
+        { key: "inspection", icon: Compass },
+        { key: "coaching", icon: Sparkles },
+      ].map((item) => ({
+        ...item,
+        title: t(`about.strengths.${item.key}.title`),
+        description: t(`about.strengths.${item.key}.description`),
+      })),
     [t]
   )
 
@@ -64,6 +66,7 @@ function About() {
         path={meta.path}
         keywords={t("seo.about.keywords")}
         image={siteImages.aboutHero.src}
+        preloadImages={[{ ...siteImages.aboutHero, sizes: "100vw" }]}
         schema={[
           getProfessionalServiceSchema(),
           getBreadcrumbSchema([
@@ -77,9 +80,7 @@ function About() {
           eyebrow={t("about.heroEyebrow")}
           title={t("about.heroTitle")}
           description={t("about.heroDescription")}
-          image={siteImages.aboutHero.src}
-          imageWidth={siteImages.aboutHero.width}
-          imageHeight={siteImages.aboutHero.height}
+          image={siteImages.aboutHero}
         />
 
         <Section aria-labelledby="about-director" className="relative overflow-hidden">
@@ -108,7 +109,11 @@ function About() {
                   />
                   <TiltedCard
                     imageSrc={siteImages.directorPortrait.src}
-                    altText={siteImages.directorPortrait.alt}
+                    webp={siteImages.directorPortrait.webp}
+                    avif={siteImages.directorPortrait.avif}
+                    srcSet={siteImages.directorPortrait.srcSet}
+                    sizes="(max-width: 1024px) 90vw, 34vw"
+                    altText={t("images.directorPortrait")}
                     width={siteImages.directorPortrait.width}
                     height={siteImages.directorPortrait.height}
                     className="aspect-[4/5] w-full"
@@ -140,13 +145,22 @@ function About() {
                   >
                     {t("about.directorTitle")}
                   </motion.h2>
-                  <motion.p variants={fadeInUpStagger} className="mb-4 text-lg leading-8 text-muted-foreground">
+                  <motion.p
+                    variants={fadeInUpStagger}
+                    className="mb-4 text-lg leading-8 text-muted-foreground"
+                  >
                     {t("about.directorP1")}
                   </motion.p>
-                  <motion.p variants={fadeInUpStagger} className="mb-4 text-lg leading-8 text-muted-foreground">
+                  <motion.p
+                    variants={fadeInUpStagger}
+                    className="mb-4 text-lg leading-8 text-muted-foreground"
+                  >
                     {t("about.directorP2")}
                   </motion.p>
-                  <motion.p variants={fadeInUpStagger} className="mb-10 text-lg leading-8 text-muted-foreground">
+                  <motion.p
+                    variants={fadeInUpStagger}
+                    className="mb-10 text-lg leading-8 text-muted-foreground"
+                  >
                     {t("about.directorP3")}
                   </motion.p>
 
@@ -154,11 +168,16 @@ function About() {
                     variants={fadeInUpStagger}
                     className="rounded-[28px] border border-border bg-muted/50 p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
                   >
-                    <h3 className="mb-5 font-display text-2xl font-semibold">{t("about.positioningTitle")}</h3>
+                    <h3 className="mb-5 font-display text-2xl font-semibold">
+                      {t("about.positioningTitle")}
+                    </h3>
                     <ul className="space-y-4">
                       {(Array.isArray(positioning) ? positioning : []).map((item) => (
                         <li key={item} className="flex items-start gap-3 text-muted-foreground">
-                          <CheckCircle2 className="mt-0.5 h-5 w-5 flex-shrink-0 text-primary" aria-hidden="true" />
+                          <CheckCircle2
+                            className="mt-0.5 h-5 w-5 flex-shrink-0 text-primary"
+                            aria-hidden="true"
+                          />
                           <span className="leading-7">{item}</span>
                         </li>
                       ))}
@@ -172,7 +191,12 @@ function About() {
 
         <Section background="muted" aria-labelledby="mission-vision-heading">
           <Container>
-            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeInUp}
+            >
               <SectionHeading
                 id="mission-vision-heading"
                 eyebrow={t("about.purposeEyebrow")}
@@ -195,17 +219,28 @@ function About() {
               >
                 <OptimizedImage
                   src={siteImages.missionImage.src}
-                  alt={siteImages.missionImage.alt}
+                  webp={siteImages.missionImage.webp}
+                  avif={siteImages.missionImage.avif}
+                  srcSet={siteImages.missionImage.srcSet}
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  alt={t("images.missionImage")}
                   width={siteImages.missionImage.width}
                   height={siteImages.missionImage.height}
                   className="aspect-[3/2] w-full object-cover"
                 />
                 <div className="p-8">
-                  <div className="mb-4 inline-flex rounded-2xl bg-accent p-3 text-primary" aria-hidden="true">
+                  <div
+                    className="mb-4 inline-flex rounded-2xl bg-accent p-3 text-primary"
+                    aria-hidden="true"
+                  >
                     <Target className="h-6 w-6" />
                   </div>
-                  <h3 className="mb-3 font-display text-2xl font-semibold">{t("about.missionTitle")}</h3>
-                  <p className="text-lg leading-8 text-muted-foreground">{t("about.missionBody")}</p>
+                  <h3 className="mb-3 font-display text-2xl font-semibold">
+                    {t("about.missionTitle")}
+                  </h3>
+                  <p className="text-lg leading-8 text-muted-foreground">
+                    {t("about.missionBody")}
+                  </p>
                 </div>
               </motion.article>
 
@@ -215,16 +250,25 @@ function About() {
               >
                 <OptimizedImage
                   src={siteImages.visionImage.src}
-                  alt={siteImages.visionImage.alt}
+                  webp={siteImages.visionImage.webp}
+                  avif={siteImages.visionImage.avif}
+                  srcSet={siteImages.visionImage.srcSet}
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  alt={t("images.visionImage")}
                   width={siteImages.visionImage.width}
                   height={siteImages.visionImage.height}
                   className="aspect-[3/2] w-full object-cover"
                 />
                 <div className="p-8">
-                  <div className="mb-4 inline-flex rounded-2xl bg-accent p-3 text-primary" aria-hidden="true">
+                  <div
+                    className="mb-4 inline-flex rounded-2xl bg-accent p-3 text-primary"
+                    aria-hidden="true"
+                  >
                     <Eye className="h-6 w-6" />
                   </div>
-                  <h3 className="mb-3 font-display text-2xl font-semibold">{t("about.visionTitle")}</h3>
+                  <h3 className="mb-3 font-display text-2xl font-semibold">
+                    {t("about.visionTitle")}
+                  </h3>
                   <p className="text-lg leading-8 text-muted-foreground">{t("about.visionBody")}</p>
                 </div>
               </motion.article>
@@ -234,7 +278,12 @@ function About() {
 
         <Section aria-labelledby="core-values-heading">
           <Container>
-            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeInUp}
+            >
               <SectionHeading
                 id="core-values-heading"
                 eyebrow={t("about.valuesEyebrow")}
@@ -258,7 +307,10 @@ function About() {
                     className="rounded-[28px] border border-border bg-muted/50 p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
                     variants={scaleIn}
                   >
-                    <div className="mb-4 inline-flex rounded-2xl bg-accent p-3 text-primary" aria-hidden="true">
+                    <div
+                      className="mb-4 inline-flex rounded-2xl bg-accent p-3 text-primary"
+                      aria-hidden="true"
+                    >
                       <Icon className="h-6 w-6" />
                     </div>
                     <h3 className="mb-3 text-xl font-semibold">{value.title}</h3>
@@ -272,7 +324,12 @@ function About() {
 
         <Section background="muted" aria-labelledby="about-strengths">
           <Container>
-            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeInUp}
+            >
               <SectionHeading
                 id="about-strengths"
                 eyebrow={t("about.strengthsEyebrow")}
@@ -296,7 +353,10 @@ function About() {
                     className="rounded-[28px] border border-border bg-card p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
                     variants={scaleIn}
                   >
-                    <div className="mb-4 inline-flex rounded-2xl bg-accent p-3 text-accent-foreground" aria-hidden="true">
+                    <div
+                      className="mb-4 inline-flex rounded-2xl bg-accent p-3 text-accent-foreground"
+                      aria-hidden="true"
+                    >
                       <Icon className="h-6 w-6" />
                     </div>
                     <h3 className="mb-3 text-xl font-semibold">{item.title}</h3>

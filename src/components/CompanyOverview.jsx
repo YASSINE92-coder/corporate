@@ -27,7 +27,10 @@ export default function CompanyOverview() {
           <div className="w-full md:w-1/2">
             <TiltedCard
               imageSrc={image.src}
-              altText={image.alt}
+              webp={image.webp}
+              avif={image.avif}
+              srcSet={image.srcSet}
+              altText={t("images.overviewImage")}
               width={image.width}
               height={image.height}
               className="h-72 w-full sm:h-80"
@@ -47,7 +50,9 @@ export default function CompanyOverview() {
             >
               {t("companyOverview.title")}
             </h2>
-            <p className="mb-6 text-lg leading-8 text-muted-foreground">{t("companyOverview.body")}</p>
+            <p className="mb-6 text-lg leading-8 text-muted-foreground">
+              {t("companyOverview.body")}
+            </p>
             <Button as={Link} to={localizePath("/about")} variant="primary" icon>
               {t("companyOverview.cta")}
             </Button>

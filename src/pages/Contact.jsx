@@ -113,6 +113,7 @@ function Contact() {
         path={meta.path}
         keywords={t("seo.contact.keywords")}
         image={siteImages.contactHero.src}
+        preloadImages={[{ ...siteImages.contactHero, sizes: "100vw" }]}
         schema={[
           getProfessionalServiceSchema(),
           getBreadcrumbSchema([
@@ -126,9 +127,7 @@ function Contact() {
           eyebrow={t("contact.heroEyebrow")}
           title={t("contact.heroTitle")}
           description={t("contact.heroDescription")}
-          image={siteImages.contactHero.src}
-          imageWidth={siteImages.contactHero.width}
-          imageHeight={siteImages.contactHero.height}
+          image={siteImages.contactHero}
           primaryLabel={t("common.callNow")}
           primaryHref={`tel:${CONTACT_PHONE}`}
           primaryIcon={false}
@@ -139,11 +138,19 @@ function Contact() {
         <Section aria-labelledby="contact-heading">
           <Container>
             <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr]">
-              <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
+              <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={fadeInUp}
+              >
                 <p className="mb-4 text-sm font-semibold uppercase tracking-[0.28em] text-primary">
                   {t("common.getInTouch")}
                 </p>
-                <h2 id="contact-heading" className="mb-6 font-display text-3xl font-semibold tracking-tight md:text-4xl">
+                <h2
+                  id="contact-heading"
+                  className="mb-6 font-display text-3xl font-semibold tracking-tight md:text-4xl"
+                >
                   {t("contact.heading")}
                 </h2>
                 <p className="mb-8 text-lg leading-8 text-muted-foreground">{t("contact.intro")}</p>

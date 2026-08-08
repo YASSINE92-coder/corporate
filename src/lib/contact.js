@@ -31,8 +31,15 @@ export const whatsappHref = (message) =>
 export const AUTHOR_NAME = "Yassine Chaanoune"
 
 /**
- * PLACEHOLDER — replace with the real LinkedIn profile URL.
- * Not present anywhere in the codebase or client hand-off notes at time of
- * writing; swap the slug below and nothing else needs to change.
+ * Author LinkedIn profile for the footer build credit. Set
+ * VITE_AUTHOR_LINKEDIN_URL in your environment (e.g. Vercel project settings)
+ * to a full https://www.linkedin.com/in/... URL. When unset, the footer shows
+ * the name as plain text instead of a broken link.
  */
-export const AUTHOR_LINKEDIN_URL = "https://www.linkedin.com/in/REPLACE-WITH-REAL-PROFILE"
+export const AUTHOR_LINKEDIN_URL =
+  (typeof import.meta !== "undefined" && import.meta.env?.VITE_AUTHOR_LINKEDIN_URL) || ""
+
+/** True only when a usable LinkedIn profile URL is configured. */
+export const HAS_AUTHOR_LINKEDIN = /^https:\/\/(www\.)?linkedin\.com\/.+/i.test(
+  AUTHOR_LINKEDIN_URL
+)
